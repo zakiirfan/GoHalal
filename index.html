@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>GoHalal — Halal Readiness Check</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <style>
   :root{
     --hijau-tua: #12463b;
@@ -464,6 +465,63 @@
 (function halalQuiz(){
   // TODO: ganti dengan nomor WhatsApp konsultan yang sebenarnya (format: kode negara tanpa "+", contoh 62812xxxxxxx)
   var CONSULTANT_WA_NUMBER = '628123456789';
+
+  // TODO: isi dengan Project URL & anon public key dari Supabase Dashboard -> Settings -> API
+  // Jalankan supabase-schema.sql di SQL Editor Supabase dulu sebelum mengisi ini.
+  var SUPABASE_URL = 'https://YOUR-PROJECT-REF.supabase.co';
+  var SUPABASE_ANON_KEY = 'YOUR-ANON-PUBLIC-KEY';
+
+  var supabaseClient = null;
+  if(window.supabase && SUPABASE_URL.indexOf('YOUR-PROJECT-REF') === -1 && SUPABASE_ANON_KEY.indexOf('YOUR-ANON-PUBLIC-KEY') === -1){
+    supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  }
+
+  function getUtmParams(){
+    var params = new URLSearchParams(window.location.search);
+    return {
+      source: document.referrer || 'direct',
+      utm_source: params.get('utm_source'),
+      utm_medium: params.get('utm_medium'),
+      utm_campaign: params.get('utm_campaign')
+    };
+  }
+
+  // Menyimpan submission + lead ke Supabase. Gagal diam-diam (hanya console.warn)
+  // supaya pengalaman quiz tidak terganggu kalau database belum di-setup atau sedang down.
+  function saveToSupabase(result){
+    if(!supabaseClient) return;
+    var utm = getUtmParams();
+
+    supabaseClient.from('quiz_submissions').insert({
+      business_type: state.profile.businessType,
+      has_certificate: state.profile.hasCertificate === 'yes',
+      overall_score: result.overall,
+      readiness_category: result.category,
+      complexity: result.complexity,
+      dimension_scores: result.dimPercent,
+      critical_gaps: result.criticalGaps,
+      answers: state.answers,
+      source: utm.source,
+      utm_source: utm.utm_source,
+      utm_medium: utm.utm_medium,
+      utm_campaign: utm.utm_campaign
+    }).select('id').single().then(function(res){
+      if(res.error){ console.warn('Supabase quiz_submissions insert failed:', res.error.message); return; }
+      var submissionId = res.data && res.data.id;
+      supabaseClient.from('leads').insert({
+        submission_id: submissionId,
+        name: state.lead.name,
+        business_name: state.lead.businessName,
+        whatsapp: state.lead.whatsapp,
+        consent: state.lead.consent,
+        recommended_service: result.recommendedService
+      }).then(function(leadRes){
+        if(leadRes.error){ console.warn('Supabase leads insert failed:', leadRes.error.message); }
+      });
+    }).catch(function(err){
+      console.warn('Supabase save failed:', err && err.message ? err.message : err);
+    });
+  }
 
   var QUESTIONS = [
     { code:'Q1', dim:'BUSINESS_PRODUCT', weight:5, scored:true,
@@ -944,6 +1002,7 @@
       state.lead.businessName = biz.value.trim();
       state.lead.whatsapp = wa.value.trim();
       state.lead.consent = consent.checked;
+      saveToSupabase(computeResult());
       state.step = TOTAL_STEPS + 3;
       render();
     });
