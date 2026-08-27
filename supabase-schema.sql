@@ -3,7 +3,7 @@
 
 create extension if not exists "pgcrypto";
 
--- Setiap kali seseorang menyelesaikan 25 pertanyaan quiz
+-- Setiap kali seseorang menyelesaikan 26 pertanyaan quiz
 create table if not exists quiz_submissions (
   id uuid primary key default gen_random_uuid(),
   business_type text,
@@ -28,12 +28,17 @@ create table if not exists leads (
   name text not null,
   business_name text not null,
   whatsapp text not null,
+  email text,
   consent boolean not null default false,
   recommended_service text,
   lead_status text not null default 'New',
   notes text,
   created_at timestamptz not null default now()
 );
+
+-- Untuk database yang sudah ada dari sebelum kolom email ditambahkan
+-- (aman dijalankan ulang, tidak akan error kalau kolomnya sudah ada).
+alter table leads add column if not exists email text;
 
 alter table quiz_submissions enable row level security;
 alter table leads enable row level security;

@@ -347,16 +347,16 @@
     </div>
 
     <div class="hero-trust">
-      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2 3 6v6c0 5 4 8.5 9 10 5-1.5 9-5 9-10V6l-9-4Z"/></svg>25 pertanyaan · ± 5 menit</span>
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2 3 6v6c0 5 4 8.5 9 10 5-1.5 9-5 9-10V6l-9-4Z"/></svg>26 pertanyaan · ± 5 menit</span>
       <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>Hasil instan, skor 0–100</span>
       <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V8a5 5 0 0 1 10 0v3"/></svg>Data Anda aman &amp; privat</span>
     </div>
 
-    <div class="score-preview" role="img" aria-label="Contoh hasil: skor kesiapan halal 67 dari 100, status Developing">
+    <div class="score-preview" role="img" aria-label="Contoh hasil: skor kesiapan halal 67 dari 100, status Berkembang">
       <div class="num">67<small>/100</small></div>
       <div>
         <div class="label">Contoh Halal Readiness Score</div>
-        <div class="status">Developing — sudah ada fondasi, beberapa area perlu diperkuat</div>
+        <div class="status">Berkembang — sudah ada fondasi, beberapa area perlu diperkuat</div>
       </div>
     </div>
 
@@ -377,12 +377,12 @@
     <div class="steps-grid">
       <div class="step-card">
         <div class="step-num">1</div>
-        <h3>Jawab 25 Pertanyaan</h3>
+        <h3>Jawab 26 Pertanyaan</h3>
         <p>Seputar produk, bahan, supplier, produksi, dokumentasi, dan manajemen halal bisnis Anda.</p>
       </div>
       <div class="step-card">
         <div class="step-num">2</div>
-        <h3>Dapatkan Score 0–100</h3>
+        <h3>Dapatkan Skor 0–100</h3>
         <p>Skor kesiapan halal instan, lengkap dengan breakdown per dimensi.</p>
       </div>
       <div class="step-card">
@@ -398,7 +398,7 @@
     </div>
     <div class="center">
       <a href="#quiz" class="btn primary">Mulai Assessment Gratis</a>
-      <p class="note">25 Questions → Score 0–100 → Gap Profile → Recommended Next Step</p>
+      <p class="note">26 Pertanyaan → Skor 0–100 → Profil Gap → Rekomendasi Langkah Berikutnya</p>
     </div>
   </div>
 </section>
@@ -512,6 +512,7 @@
         name: state.lead.name,
         business_name: state.lead.businessName,
         whatsapp: state.lead.whatsapp,
+        email: state.lead.email,
         consent: state.lead.consent,
         recommended_service: result.recommendedService
       }).then(function(leadRes){
@@ -544,7 +545,14 @@
         {c:'B', t:'11–30 SKU'},
         {c:'C', t:'31–60 SKU'},
         {c:'D', t:'Lebih dari 60 SKU'} ] },
-    { code:'Q4', dim:'BUSINESS_PRODUCT', weight:5, scored:true,
+    { code:'Q4', dim:'BUSINESS_PRODUCT', weight:0, scored:false,
+      text:'Berapa jumlah cabang/outlet bisnis Anda saat ini?',
+      options:[
+        {c:'A', t:'1 lokasi (belum ada cabang)'},
+        {c:'B', t:'2–5 cabang/outlet'},
+        {c:'C', t:'6–15 cabang/outlet'},
+        {c:'D', t:'Lebih dari 15 cabang/outlet'} ] },
+    { code:'Q5', dim:'BUSINESS_PRODUCT', weight:5, scored:true,
       text:'Apakah terdapat prosedur tertulis saat menambah produk baru atau mengubah formula/resep?',
       options:[
         {c:'A', t:'Ya, ada prosedur baku dan selalu dijalankan'},
@@ -552,35 +560,35 @@
         {c:'C', t:'Belum ada prosedur tertulis, dilakukan informal'},
         {c:'D', t:'Tidak ada kontrol sama sekali'} ] },
 
-    { code:'Q5', dim:'INGREDIENT', weight:5, scored:true,
+    { code:'Q6', dim:'INGREDIENT', weight:5, scored:true,
       text:'Apakah seluruh bahan baku memiliki master list (daftar induk bahan) yang terdokumentasi?',
       options:[
         {c:'A', t:'Ya, master list lengkap dan selalu diperbarui'},
         {c:'B', t:'Ada, tapi belum lengkap / tidak rutin diperbarui'},
         {c:'C', t:'Baru sebagian bahan yang tercatat'},
         {c:'D', t:'Belum ada master list bahan'} ] },
-    { code:'Q6', dim:'INGREDIENT', weight:5, scored:true,
+    { code:'Q7', dim:'INGREDIENT', weight:5, scored:true,
       text:'Apakah status/dokumen halal setiap bahan telah diverifikasi (sertifikat, database BPJPH, dsb)?',
       options:[
         {c:'A', t:'Ya, seluruh bahan sudah diverifikasi'},
         {c:'B', t:'Sebagian besar sudah diverifikasi'},
         {c:'C', t:'Baru sebagian kecil yang diverifikasi'},
         {c:'D', t:'Belum pernah diverifikasi'} ] },
-    { code:'Q7', dim:'INGREDIENT', weight:5, scored:true,
+    { code:'Q8', dim:'INGREDIENT', weight:5, scored:true,
       text:'Apakah terdapat bahan dengan status halal yang masih belum jelas/meragukan?',
       options:[
         {c:'A', t:'Tidak ada, semua bahan berstatus jelas'},
         {c:'B', t:'Ada sedikit, tapi sudah dalam proses klarifikasi'},
         {c:'C', t:'Ada beberapa dan belum ditindaklanjuti'},
         {c:'D', t:'Banyak bahan yang status halalnya belum diketahui'} ] },
-    { code:'Q8', dim:'INGREDIENT', weight:5, scored:true,
+    { code:'Q9', dim:'INGREDIENT', weight:5, scored:true,
       text:'Apakah asal/produsen dari setiap bahan diketahui dengan jelas?',
       options:[
         {c:'A', t:'Ya, seluruh asal bahan diketahui dan tercatat'},
         {c:'B', t:'Sebagian besar diketahui'},
         {c:'C', t:'Hanya sebagian kecil yang diketahui'},
         {c:'D', t:'Umumnya tidak diketahui'} ] },
-    { code:'Q9', dim:'INGREDIENT', weight:5, scored:true,
+    { code:'Q10', dim:'INGREDIENT', weight:5, scored:true,
       text:'Apakah setiap perubahan bahan/formula dicatat dan diverifikasi ulang status halalnya?',
       options:[
         {c:'A', t:'Ya, selalu dicatat dan diverifikasi ulang'},
@@ -588,28 +596,28 @@
         {c:'C', t:'Jarang dicatat/diverifikasi'},
         {c:'D', t:'Tidak pernah dicatat atau diverifikasi'} ] },
 
-    { code:'Q10', dim:'SUPPLIER', weight:5, scored:true,
+    { code:'Q11', dim:'SUPPLIER', weight:5, scored:true,
       text:'Apakah terdapat master data supplier (daftar lengkap pemasok bahan)?',
       options:[
         {c:'A', t:'Ya, master supplier lengkap dan terkini'},
         {c:'B', t:'Ada, tapi belum lengkap/terkini'},
         {c:'C', t:'Baru sebagian supplier yang tercatat'},
         {c:'D', t:'Belum ada master data supplier'} ] },
-    { code:'Q11', dim:'SUPPLIER', weight:5, scored:true,
+    { code:'Q12', dim:'SUPPLIER', weight:5, scored:true,
       text:'Apakah dokumen supplier (sertifikat halal, spesifikasi bahan, dsb) tersimpan secara terstruktur?',
       options:[
         {c:'A', t:'Ya, tersimpan rapi dan mudah diakses'},
         {c:'B', t:'Tersimpan, tapi belum terorganisir dengan baik'},
         {c:'C', t:'Tersebar dan sulit ditemukan'},
         {c:'D', t:'Tidak ada penyimpanan dokumen supplier'} ] },
-    { code:'Q12', dim:'SUPPLIER', weight:5, scored:true,
+    { code:'Q13', dim:'SUPPLIER', weight:5, scored:true,
       text:'Apakah perusahaan dapat mengetahui bila supplier mengubah bahan/formula yang dipasok?',
       options:[
         {c:'A', t:'Ya, selalu mendapat notifikasi/konfirmasi dari supplier'},
         {c:'B', t:'Biasanya diketahui, meski tidak selalu formal'},
         {c:'C', t:'Jarang diketahui kecuali ditanya langsung'},
         {c:'D', t:'Tidak ada mekanisme untuk mengetahui hal ini'} ] },
-    { code:'Q13', dim:'SUPPLIER', weight:5, scored:true,
+    { code:'Q14', dim:'SUPPLIER', weight:5, scored:true,
       text:'Apakah proses pembelian dan penerimaan bahan dapat ditelusuri (ada catatan/bukti)?',
       options:[
         {c:'A', t:'Ya, seluruh transaksi tercatat dan dapat ditelusuri'},
@@ -617,28 +625,28 @@
         {c:'C', t:'Baru sebagian kecil yang tercatat'},
         {c:'D', t:'Tidak ada pencatatan/penelusuran'} ] },
 
-    { code:'Q14', dim:'PRODUCTION', weight:3.75, scored:true,
+    { code:'Q15', dim:'PRODUCTION', weight:3.75, scored:true,
       text:'Apakah proses produksi terdokumentasi (SOP produksi, alur proses, dsb)?',
       options:[
         {c:'A', t:'Ya, seluruh proses terdokumentasi dengan baik'},
         {c:'B', t:'Sebagian besar terdokumentasi'},
         {c:'C', t:'Baru sebagian kecil terdokumentasi'},
         {c:'D', t:'Belum ada dokumentasi proses produksi'} ] },
-    { code:'Q15', dim:'PRODUCTION', weight:3.75, scored:true,
+    { code:'Q16', dim:'PRODUCTION', weight:3.75, scored:true,
       text:'Apakah fasilitas dan peralatan produksi telah dipetakan dan dikontrol penggunaannya (termasuk risiko kontaminasi silang)?',
       options:[
         {c:'A', t:'Ya, seluruh fasilitas/peralatan dipetakan dan dikontrol'},
         {c:'B', t:'Sebagian besar sudah, ada beberapa yang belum'},
         {c:'C', t:'Baru sebagian kecil yang dipetakan'},
         {c:'D', t:'Belum ada pemetaan/kontrol sama sekali'} ] },
-    { code:'Q16', dim:'PRODUCTION', weight:3.75, scored:true,
+    { code:'Q17', dim:'PRODUCTION', weight:3.75, scored:true,
       text:'Apakah terdapat kontrol khusus untuk mencegah ketidaksesuaian proses halal (misalnya kontaminasi silang dengan bahan non-halal)?',
       options:[
         {c:'A', t:'Ya, ada kontrol yang berjalan konsisten'},
         {c:'B', t:'Ada kontrol, tapi belum konsisten dijalankan'},
         {c:'C', t:'Kontrol masih sangat terbatas'},
         {c:'D', t:'Belum ada kontrol sama sekali'} ] },
-    { code:'Q17', dim:'PRODUCTION', weight:3.75, scored:true,
+    { code:'Q18', dim:'PRODUCTION', weight:3.75, scored:true,
       text:'Apakah kegiatan cleaning, maintenance, atau perubahan peralatan dicatat?',
       options:[
         {c:'A', t:'Ya, selalu dicatat lengkap'},
@@ -646,28 +654,28 @@
         {c:'C', t:'Jarang dicatat'},
         {c:'D', t:'Tidak pernah dicatat'} ] },
 
-    { code:'Q18', dim:'DOCUMENTATION', weight:3.75, scored:true,
+    { code:'Q19', dim:'DOCUMENTATION', weight:3.75, scored:true,
       text:'Apakah dokumen halal (sertifikat, hasil verifikasi, dsb) disimpan dalam sistem yang terstruktur?',
       options:[
         {c:'A', t:'Ya, tersimpan rapi dalam sistem terstruktur'},
         {c:'B', t:'Tersimpan, tapi sistemnya belum rapi'},
         {c:'C', t:'Tersebar di beberapa tempat'},
         {c:'D', t:'Tidak ada sistem penyimpanan'} ] },
-    { code:'Q19', dim:'DOCUMENTATION', weight:3.75, scored:true,
+    { code:'Q20', dim:'DOCUMENTATION', weight:3.75, scored:true,
       text:'Apakah dokumen terkait bahan/produk dapat ditemukan dengan cepat saat dibutuhkan?',
       options:[
         {c:'A', t:'Ya, dapat ditemukan dalam hitungan menit'},
         {c:'B', t:'Bisa ditemukan, tapi butuh waktu cukup lama'},
         {c:'C', t:'Cukup sulit ditemukan'},
         {c:'D', t:'Sering tidak ditemukan/hilang'} ] },
-    { code:'Q20', dim:'DOCUMENTATION', weight:3.75, scored:true,
+    { code:'Q21', dim:'DOCUMENTATION', weight:3.75, scored:true,
       text:'Apakah dokumen/SOP memiliki version control (versi terbaru jelas, riwayat perubahan tercatat)?',
       options:[
         {c:'A', t:'Ya, version control berjalan konsisten'},
         {c:'B', t:'Ada, tapi belum konsisten diterapkan'},
         {c:'C', t:'Baru sebagian dokumen memilikinya'},
         {c:'D', t:'Tidak ada version control'} ] },
-    { code:'Q21', dim:'DOCUMENTATION', weight:3.75, scored:true,
+    { code:'Q22', dim:'DOCUMENTATION', weight:3.75, scored:true,
       text:'Apakah terdapat record/bukti bahwa prosedur yang ditetapkan benar-benar dijalankan (checklist, log, dsb)?',
       options:[
         {c:'A', t:'Ya, seluruh prosedur memiliki record pelaksanaan'},
@@ -675,28 +683,28 @@
         {c:'C', t:'Baru sebagian kecil yang tercatat'},
         {c:'D', t:'Tidak ada record pelaksanaan'} ] },
 
-    { code:'Q22', dim:'MANAGEMENT', weight:2.5, scored:true,
+    { code:'Q23', dim:'MANAGEMENT', weight:2.5, scored:true,
       text:'Apakah perusahaan memiliki Penyelia Halal sesuai ketentuan yang berlaku?',
       options:[
         {c:'A', t:'Ya, sudah ada dan aktif menjalankan tugas'},
         {c:'B', t:'Ada, tapi belum optimal menjalankan fungsinya'},
         {c:'C', t:'Sedang dalam proses penunjukan/sertifikasi'},
         {c:'D', t:'Belum memiliki Penyelia Halal'} ] },
-    { code:'Q23', dim:'MANAGEMENT', weight:2.5, scored:true,
+    { code:'Q24', dim:'MANAGEMENT', weight:2.5, scored:true,
       text:'Apakah perusahaan memiliki kebijakan/komitmen halal secara tertulis?',
       options:[
         {c:'A', t:'Ya, sudah ada dan dikomunikasikan ke seluruh tim'},
         {c:'B', t:'Ada, tapi belum dikomunikasikan secara luas'},
         {c:'C', t:'Baru sebatas komitmen lisan'},
         {c:'D', t:'Belum ada kebijakan/komitmen halal'} ] },
-    { code:'Q24', dim:'MANAGEMENT', weight:2.5, scored:true,
+    { code:'Q25', dim:'MANAGEMENT', weight:2.5, scored:true,
       text:'Apakah personel terkait (produksi, purchasing, QA) mendapat edukasi/pelatihan halal?',
       options:[
         {c:'A', t:'Ya, seluruh personel terkait sudah terlatih'},
         {c:'B', t:'Sebagian besar sudah terlatih'},
         {c:'C', t:'Baru sebagian kecil yang terlatih'},
         {c:'D', t:'Belum pernah ada pelatihan halal'} ] },
-    { code:'Q25', dim:'MANAGEMENT', weight:2.5, scored:true,
+    { code:'Q26', dim:'MANAGEMENT', weight:2.5, scored:true,
       text:'Apakah perusahaan melakukan internal review/monitoring terhadap sistem halal secara berkala?',
       options:[
         {c:'A', t:'Ya, dilakukan secara rutin dan terjadwal'},
@@ -708,7 +716,7 @@
   var DIMENSIONS = {
     BUSINESS_PRODUCT:  { label:'Bisnis & Produk',            max:15, focus:'Rapikan legalitas usaha dan identifikasi produk secara menyeluruh.' },
     INGREDIENT:         { label:'Bahan Baku',                 max:25, focus:'Bangun master list bahan dan verifikasi status halal setiap bahan.' },
-    SUPPLIER:           { label:'Supplier & Traceability',    max:20, focus:'Susun master data supplier dan rapikan dokumentasi pemasok.' },
+    SUPPLIER:           { label:'Supplier & Ketertelusuran',  max:20, focus:'Susun master data supplier dan rapikan dokumentasi pemasok.' },
     PRODUCTION:         { label:'Produksi & Fasilitas',       max:15, focus:'Dokumentasikan proses produksi dan perkuat kontrol kontaminasi silang.' },
     DOCUMENTATION:      { label:'Dokumentasi & Kontrol',      max:15, focus:'Bangun sistem dokumentasi dan record control yang terpusat.' },
     MANAGEMENT:         { label:'Manajemen Halal',            max:10, focus:'Perkuat kebijakan, edukasi, dan monitoring internal sistem halal.' }
@@ -716,15 +724,15 @@
   var DIM_ORDER = ['BUSINESS_PRODUCT','INGREDIENT','SUPPLIER','PRODUCTION','DOCUMENTATION','MANAGEMENT'];
   var MULTIPLIER = { A:1, B:0.75, C:0.5, D:0 };
   var SCORED_QUESTIONS = QUESTIONS.filter(function(q){ return q.scored; });
-  var TOTAL_STEPS = QUESTIONS.length; // 25
+  var TOTAL_STEPS = QUESTIONS.length; // 26
 
-  var BUSINESS_TYPES = ['Restoran / Cafe','Bakery / Pastry','Catering','Frozen Food','Central Kitchen','Manufaktur F&B','Distributor / Processor','Lainnya'];
+  var BUSINESS_TYPES = ['Restoran / Kafe','Toko Roti & Kue','Katering','Makanan Beku','Dapur Pusat','Manufaktur Makanan & Minuman','Distributor / Pengolah','Logistik & Pergudangan','Lainnya'];
 
   var state = {
-    step: 0, // 0 = profile, 1..25 = questions, 26 = result headline, 27 = lead form, 28 = full result
+    step: 0, // 0 = profil, 1..26 = pertanyaan, 27 = skor headline, 28 = form data diri, 29 = hasil lengkap
     profile: { businessType:'', hasCertificate:'' },
     answers: {},
-    lead: { name:'', businessName:'', whatsapp:'', consent:false }
+    lead: { name:'', businessName:'', whatsapp:'', email:'', consent:false }
   };
 
   var stage = document.getElementById('quizStage');
@@ -754,6 +762,13 @@
     progressText.textContent = label;
   }
 
+  function complexityTier(ans){
+    if(ans === 'D') return 2;
+    if(ans === 'C') return 1;
+    return 0;
+  }
+  var COMPLEXITY_LABELS_ID = { LOW:'RENDAH', MEDIUM:'SEDANG', HIGH:'TINGGI' };
+
   function computeResult(){
     var overall = 0;
     var dimScores = {};
@@ -774,51 +789,51 @@
 
     var category, categoryCopy, primaryCtaLabel;
     if(overall >= 80){
-      category = 'STRONG FOUNDATION';
+      category = 'FONDASI KUAT';
       categoryCopy = 'Jawaban Anda menunjukkan fondasi kesiapan halal yang relatif kuat. Namun hasil ini tetap merupakan self-assessment dan bukan audit atau jaminan sertifikasi.';
-      primaryCtaLabel = 'Book Readiness Review';
+      primaryCtaLabel = 'Jadwalkan Tinjauan Kesiapan Halal';
     } else if(overall >= 60){
-      category = 'DEVELOPING';
+      category = 'BERKEMBANG';
       categoryCopy = 'Bisnis Anda sudah memiliki beberapa fondasi, tetapi masih terdapat area yang perlu diperkuat sebelum melangkah lebih jauh.';
-      primaryCtaLabel = 'Get Detailed Gap Analysis';
+      primaryCtaLabel = 'Dapatkan Analisis Gap Mendalam';
     } else if(overall >= 40){
-      category = 'NEEDS IMPROVEMENT';
+      category = 'PERLU DITINGKATKAN';
       categoryCopy = 'Terdapat beberapa gap penting pada bahan, supplier, proses, dokumentasi, atau management system.';
-      primaryCtaLabel = 'Start Halal Readiness Assessment';
+      primaryCtaLabel = 'Mulai Halal Readiness Assessment';
     } else {
-      category = 'EARLY STAGE';
+      category = 'TAHAP AWAL';
       categoryCopy = 'Fondasi sistem halal bisnis Anda masih perlu dibangun secara bertahap.';
-      primaryCtaLabel = 'Discuss Your Halal Readiness';
+      primaryCtaLabel = 'Diskusikan Kesiapan Halal Anda';
     }
 
     var criticalGaps = [];
-    if(state.answers.Q6 === 'D' || state.answers.Q7 === 'D'){
-      criticalGaps.push({ title:'Critical Ingredient Verification Gap', desc:'Ada bahan yang status/dokumen halalnya belum terverifikasi atau belum jelas.' });
+    if(state.answers.Q7 === 'D' || state.answers.Q8 === 'D'){
+      criticalGaps.push({ title:'Gap Kritis: Verifikasi Bahan Baku', desc:'Ada bahan yang status/dokumen halalnya belum terverifikasi atau belum jelas.' });
     }
-    if(state.answers.Q11 === 'D'){
-      criticalGaps.push({ title:'Critical Supplier Documentation Gap', desc:'Dokumen supplier belum tersimpan/terstruktur sama sekali.' });
+    if(state.answers.Q12 === 'D'){
+      criticalGaps.push({ title:'Gap Kritis: Dokumentasi Supplier', desc:'Dokumen supplier belum tersimpan/terstruktur sama sekali.' });
     }
-    if(state.answers.Q9 === 'D' || state.answers.Q12 === 'D'){
-      criticalGaps.push({ title:'Critical Change Control Gap', desc:'Perubahan bahan/formula tidak tercatat atau tidak diketahui saat terjadi.' });
+    if(state.answers.Q10 === 'D' || state.answers.Q13 === 'D'){
+      criticalGaps.push({ title:'Gap Kritis: Kontrol Perubahan', desc:'Perubahan bahan/formula tidak tercatat atau tidak diketahui saat terjadi.' });
     }
-    if(state.answers.Q16 === 'D'){
-      criticalGaps.push({ title:'Critical Process/Facility Control Gap', desc:'Belum ada kontrol untuk mencegah ketidaksesuaian proses halal di fasilitas produksi.' });
+    if(state.answers.Q17 === 'D'){
+      criticalGaps.push({ title:'Gap Kritis: Kontrol Proses/Fasilitas', desc:'Belum ada kontrol untuk mencegah ketidaksesuaian proses halal di fasilitas produksi.' });
     }
-    if(state.answers.Q22 === 'D' && state.answers.Q25 === 'D'){
-      criticalGaps.push({ title:'Critical Halal Management Gap', desc:'Belum ada Penyelia Halal maupun internal review terhadap sistem halal.' });
+    if(state.answers.Q23 === 'D' && state.answers.Q26 === 'D'){
+      criticalGaps.push({ title:'Gap Kritis: Manajemen Halal', desc:'Belum ada Penyelia Halal maupun internal review terhadap sistem halal.' });
     }
 
-    var skuAns = state.answers.Q3;
-    var complexity = 'LOW';
-    if(skuAns === 'C') complexity = 'MEDIUM';
-    if(skuAns === 'D') complexity = 'HIGH';
+    var skuTier = complexityTier(state.answers.Q3);
+    var branchTier = complexityTier(state.answers.Q4);
+    var worstTier = Math.max(skuTier, branchTier);
+    var complexity = worstTier === 2 ? 'HIGH' : worstTier === 1 ? 'MEDIUM' : 'LOW';
 
     var sortedDims = DIM_ORDER.slice().sort(function(a,b){ return dimPercent[a] - dimPercent[b]; });
     var biggestGaps = sortedDims.slice(0, 3);
 
     var recommendedService = primaryCtaLabel;
-    if(state.profile.hasCertificate === 'yes'){ recommendedService = 'Compliance Review'; }
-    else if(complexity === 'HIGH'){ recommendedService = 'Detailed Assessment'; }
+    if(state.profile.hasCertificate === 'yes'){ recommendedService = 'Tinjauan Kepatuhan Halal'; }
+    else if(complexity === 'HIGH'){ recommendedService = 'Assessment Mendalam'; }
 
     return {
       overall: overall, category: category, categoryCopy: categoryCopy,
@@ -829,10 +844,10 @@
   }
 
   function dimStatusLabel(pct){
-    if(pct >= 80) return 'Strong';
-    if(pct >= 60) return 'Developing';
-    if(pct >= 40) return 'Needs Improvement';
-    return 'Early Stage';
+    if(pct >= 80) return 'Kuat';
+    if(pct >= 60) return 'Berkembang';
+    if(pct >= 40) return 'Perlu Ditingkatkan';
+    return 'Tahap Awal';
   }
   function dimBarColor(pct){
     if(pct >= 70) return 'var(--hijau)';
@@ -870,7 +885,7 @@
           '</div>' +
         '</div>' +
         '<div class="quiz-nav">' +
-          '<button type="button" class="btn primary block" id="btnStartQuiz" disabled>Mulai Assessment (25 Pertanyaan)</button>' +
+          '<button type="button" class="btn primary block" id="btnStartQuiz" disabled>Mulai Assessment (26 Pertanyaan)</button>' +
         '</div>' +
       '</div>';
 
@@ -969,6 +984,7 @@
         '<div class="field-row"><label for="fName">Nama Anda</label><input type="text" id="fName" value="' + esc(state.lead.name) + '" placeholder="Nama lengkap"></div>' +
         '<div class="field-row"><label for="fBiz">Nama Bisnis</label><input type="text" id="fBiz" value="' + esc(state.lead.businessName) + '" placeholder="Nama usaha/brand"></div>' +
         '<div class="field-row"><label for="fWa">Nomor WhatsApp</label><input type="tel" id="fWa" value="' + esc(state.lead.whatsapp) + '" placeholder="08xxxxxxxxxx"></div>' +
+        '<div class="field-row"><label for="fEmail">Email</label><input type="email" id="fEmail" value="' + esc(state.lead.email) + '" placeholder="nama@email.com"></div>' +
         '<div class="field-row"><label>Jenis usaha</label><input type="text" value="' + esc(state.profile.businessType) + '" disabled></div>' +
         '<div class="consent-row">' +
           '<input type="checkbox" id="fConsent"' + (state.lead.consent ? ' checked' : '') + '>' +
@@ -983,13 +999,17 @@
     var name = document.getElementById('fName');
     var biz = document.getElementById('fBiz');
     var wa = document.getElementById('fWa');
+    var email = document.getElementById('fEmail');
     var consent = document.getElementById('fConsent');
     var unlockBtn = document.getElementById('btnUnlock');
 
-    function checkReady(){
-      unlockBtn.disabled = !(name.value.trim() && biz.value.trim() && wa.value.trim() && consent.checked);
+    function isValidEmail(v){
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
     }
-    [name, biz, wa].forEach(function(el){ el.addEventListener('input', checkReady); });
+    function checkReady(){
+      unlockBtn.disabled = !(name.value.trim() && biz.value.trim() && wa.value.trim() && isValidEmail(email.value.trim()) && consent.checked);
+    }
+    [name, biz, wa, email].forEach(function(el){ el.addEventListener('input', checkReady); });
     consent.addEventListener('change', checkReady);
 
     document.getElementById('btnBackToHeadline').addEventListener('click', function(){
@@ -1000,6 +1020,7 @@
       state.lead.name = name.value.trim();
       state.lead.businessName = biz.value.trim();
       state.lead.whatsapp = wa.value.trim();
+      state.lead.email = email.value.trim();
       state.lead.consent = consent.checked;
       saveToSupabase(computeResult());
       state.step = TOTAL_STEPS + 3;
@@ -1024,20 +1045,28 @@
       ? r.criticalGaps.map(function(g){
           return '<div class="alert-box critical"><div class="alert-title">⚠ ' + esc(g.title) + '</div><p>' + esc(g.desc) + '</p></div>';
         }).join('')
-      : '<div class="alert-box ok"><div class="alert-title">✓ No critical flag detected from your responses.</div></div>';
+      : '<div class="alert-box ok"><div class="alert-title">✓ Tidak ditemukan gap kritis dari jawaban Anda.</div></div>';
 
     var roadmapHtml = r.biggestGaps.map(function(d, i){
       return '<div class="roadmap-item">' +
         '<div class="roadmap-num">' + (i+1) + '</div>' +
-        '<div><h4>Priority ' + (i+1) + ' — ' + esc(DIMENSIONS[d].label) + '</h4><p>' + esc(DIMENSIONS[d].focus) + '</p></div>' +
+        '<div><h4>Prioritas ' + (i+1) + ' — ' + esc(DIMENSIONS[d].label) + '</h4><p>' + esc(DIMENSIONS[d].focus) + '</p></div>' +
       '</div>';
     }).join('');
+
+    var complexityLabel = COMPLEXITY_LABELS_ID[r.complexity] || r.complexity;
+    var complexityDesc = r.complexity === 'HIGH'
+      ? 'Jumlah SKU dan/atau cabang tergolong tinggi — assessment lebih detail disarankan untuk memetakan risiko secara menyeluruh.'
+      : r.complexity === 'MEDIUM'
+        ? 'Kompleksitas operasional tergolong sedang, sesuai dengan jumlah SKU dan cabang yang dikelola.'
+        : 'Struktur bisnis tergolong sederhana berdasarkan jumlah SKU dan cabang saat ini.';
 
     var waMessage = 'Halo, saya baru saja menyelesaikan Halal Readiness Check di GoHalal.\n' +
       'Nama: ' + state.lead.name + '\n' +
       'Bisnis: ' + state.lead.businessName + ' (' + state.profile.businessType + ')\n' +
+      'Email: ' + state.lead.email + '\n' +
       'Skor: ' + r.overall + '/100 — ' + r.category + '\n' +
-      'Kompleksitas: ' + r.complexity + '\n' +
+      'Kompleksitas: ' + complexityLabel + '\n' +
       'Saya ingin diskusi lebih lanjut mengenai: ' + r.recommendedService;
     var waLink = 'https://wa.me/' + CONSULTANT_WA_NUMBER + '?text=' + encodeURIComponent(waMessage);
 
@@ -1063,16 +1092,11 @@
         criticalHtml +
 
         '<h4 class="result-section-title">Kompleksitas Bisnis</h4>' +
-        '<div class="alert-box ok"><div class="alert-title">Complexity: ' + esc(r.complexity) + '</div>' +
-          '<p>' + (r.complexity === 'HIGH'
-            ? 'Jumlah SKU tergolong tinggi — assessment lebih detail disarankan untuk memetakan risiko secara menyeluruh.'
-            : r.complexity === 'MEDIUM'
-              ? 'Kompleksitas operasional tergolong sedang, sesuai dengan jumlah SKU yang dikelola.'
-              : 'Struktur bisnis tergolong sederhana berdasarkan jumlah SKU saat ini.') +
-          '</p></div>' +
+        '<div class="alert-box ok"><div class="alert-title">Tingkat Kompleksitas: ' + esc(complexityLabel) + '</div>' +
+          '<p>' + complexityDesc + '</p></div>' +
 
         '<div class="cta-box">' +
-          '<div class="cta-label">Recommended Next Step</div>' +
+          '<div class="cta-label">Rekomendasi Langkah Berikutnya</div>' +
           '<h4>' + esc(r.recommendedService) + '</h4>' +
           '<a class="btn primary" href="' + waLink + '" target="_blank" rel="noopener">Diskusikan via WhatsApp</a>' +
         '</div>' +
