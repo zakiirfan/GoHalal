@@ -42,14 +42,21 @@ alter table leads enable row level security;
 -- tidak boleh membaca (select), mengubah (update), atau menghapus (delete)
 -- data siapa pun — termasuk datanya sendiri. Supaya leads competitor
 -- tidak bisa dibaca orang lain lewat browser console.
+drop policy if exists "public can insert quiz submissions" on quiz_submissions;
+drop policy if exists "public can insert leads" on leads;
+
 create policy "public can insert quiz submissions"
-  on quiz_submissions for insert
-  to anon
+  on quiz_submissions
+  as permissive
+  for insert
+  to anon, authenticated
   with check (true);
 
 create policy "public can insert leads"
-  on leads for insert
-  to anon
+  on leads
+  as permissive
+  for insert
+  to anon, authenticated
   with check (true);
 
 -- Untuk melihat data leads & submissions, gunakan Supabase Dashboard →
