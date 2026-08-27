@@ -3,7 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GoHalal — Halal Readiness Check</title>
+<title>GoHalal — Cek Kesiapan Sertifikasi Halal Gratis dalam 5 Menit</title>
+<meta name="description" content="Cek kesiapan sertifikasi halal bisnis Anda gratis dalam 5 menit. Dapatkan skor 0-100, temukan gap terbesar, dan rekomendasi langkah selanjutnya dari GoHalal.">
+<meta property="og:title" content="GoHalal — Cek Kesiapan Sertifikasi Halal Gratis">
+<meta property="og:description" content="26 pertanyaan, ±5 menit, hasil instan. Ketahui posisi kesiapan halal bisnis Anda sebelum mengambil langkah berikutnya.">
+<meta property="og:image" content="assets/og-image.png">
+<meta property="og:type" content="website">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <style>
   :root{
@@ -26,13 +31,55 @@
   }
   *{box-sizing:border-box;}
   html,body{margin:0;padding:0;}
+  html{ scroll-behavior: smooth; }
   body{
     font-family: -apple-system, "Segoe UI", Roboto, "Noto Sans", Arial, sans-serif;
     background: var(--krem);
     color: var(--teks);
   }
-  section{ padding: 72px 20px; }
+  section{ padding: 72px 20px; scroll-margin-top: 64px; }
   .wrap{ max-width: 880px; margin: 0 auto; }
+
+  /* ===== Sticky nav ===== */
+  .site-nav{
+    position: sticky; top: 0; z-index: 50;
+    background: var(--hijau-tua);
+    border-bottom: 1px solid rgba(212,175,106,0.25);
+  }
+  .site-nav .nav-wrap{
+    max-width: 1080px; margin: 0 auto;
+    display:flex; align-items:center; justify-content:space-between;
+    padding: 14px 20px;
+  }
+  .site-nav .brand{
+    color: var(--gading); font-weight:800; font-size:1.05rem; text-decoration:none;
+    display:flex; align-items:center; gap:8px;
+  }
+  .site-nav .brand .dot{ width:8px; height:8px; border-radius:50%; background:var(--emas-terang); flex-shrink:0; }
+  .site-nav .nav-links{
+    display:flex; gap:24px; list-style:none; margin:0; padding:0;
+  }
+  .site-nav .nav-links a{
+    color: var(--teks-lembut-terang); text-decoration:none; font-size:0.9rem; font-weight:600;
+    transition: color 0.15s ease;
+  }
+  .site-nav .nav-links a:hover{ color: var(--emas-terang); }
+  .site-nav .nav-toggle{
+    display:none; background:none; border:1.5px solid rgba(255,253,247,0.35); color:var(--gading);
+    border-radius:8px; width:38px; height:38px; font-size:1.1rem; cursor:pointer;
+    align-items:center; justify-content:center;
+  }
+  @media (max-width: 720px){
+    .site-nav .nav-toggle{ display:flex; }
+    .site-nav .nav-links{
+      display:none; position:absolute; left:0; right:0; top:100%;
+      background: var(--hijau-tua); flex-direction:column; gap:0;
+      border-bottom: 1px solid rgba(212,175,106,0.25);
+      padding: 6px 0;
+    }
+    .site-nav .nav-links.is-open{ display:flex; }
+    .site-nav .nav-links a{ padding: 13px 22px; display:block; }
+  }
   h2.section-title{
     font-size: clamp(1.5rem, 3.5vw, 2.1rem);
     color: var(--hijau-tua);
@@ -85,21 +132,21 @@
   /* ===== Hero Section ===== */
   .hero{
     position: relative;
-    min-height: 100vh;
-    min-height: 100svh;
+    min-height: calc(100vh - 60px);
+    min-height: calc(100svh - 60px);
     display: flex;
     align-items: center;
     overflow: hidden;
     background: linear-gradient(160deg, var(--hijau-tua), #0c3229 70%);
     isolation: isolate;
     padding: 0 20px;
+    scroll-margin-top: 0;
   }
   .hero-media{ position: absolute; inset: 0; z-index: 0; }
-  .hero-media video{
+  .hero-media img{
     position: absolute; inset: 0; width: 100%; height: 100%;
-    object-fit: cover; opacity: 0; transition: opacity 1.1s ease;
+    object-fit: cover;
   }
-  .hero-media video.is-active{ opacity: 1; }
   .hero-media::after{
     content:"";
     position:absolute; inset:0;
@@ -163,21 +210,11 @@
   .score-preview .num small{ font-size: 0.9rem; font-weight: 600; color: var(--teks-lembut-terang); }
   .score-preview .label{ font-size: 0.75rem; letter-spacing: 0.3px; text-transform: uppercase; color: var(--teks-lembut-terang); }
   .score-preview .status{ font-size: 0.92rem; font-weight: 700; color: var(--gading); }
+  .score-preview .weak-areas{ font-size: 0.78rem; color: rgba(255,253,247,0.65); margin-top: 3px; }
   .hero-disclaimer{
     margin-top: 26px; font-size: 0.72rem; line-height: 1.5;
     color: rgba(255,253,247,0.55); max-width: 560px; margin-left: auto; margin-right: auto;
   }
-  .scene-dots{
-    position: absolute; z-index: 2; bottom: 20px; left: 50%; transform: translateX(-50%);
-    display: flex; gap: 8px;
-  }
-  .scene-dots button{
-    width: 8px; height: 8px; border-radius: 50%; border: none;
-    background: rgba(255,253,247,0.35); cursor: pointer; padding: 0;
-    transition: background 0.2s ease, transform 0.2s ease;
-  }
-  .scene-dots button.is-active{ background: var(--emas-terang); transform: scale(1.25); }
-  @media (prefers-reduced-motion: reduce){ .hero-media video{ display:none; } }
   @media (max-width: 520px){
     .hero-content{ padding: 84px 2px 56px; }
     .score-preview{ flex-direction: column; align-items: flex-start; gap: 4px; }
@@ -204,6 +241,104 @@
   .how-it-works .note{ font-size:0.82rem; color:var(--teks-lembut); margin-top:8px; }
   @media (max-width: 760px){ .steps-grid{ grid-template-columns: repeat(2, 1fr); } }
   @media (max-width: 460px){ .steps-grid{ grid-template-columns: 1fr; } }
+
+  /* ===== Layanan ===== */
+  .layanan{ background: var(--gading); }
+  .service-list{ display:flex; flex-direction:column; gap:14px; margin-bottom: 24px; }
+  .service-card{
+    display:flex; align-items:center; gap:20px; flex-wrap:wrap;
+    background: var(--krem); border:1px solid var(--garis); border-radius: var(--radius);
+    padding: 20px 22px; box-shadow: var(--shadow);
+  }
+  .service-level{
+    flex-shrink:0; width:120px;
+    font-size:0.7rem; font-weight:800; letter-spacing:0.4px; text-transform:uppercase;
+    color: var(--emas-teks); background: var(--krem-tua); border-radius:999px;
+    padding: 5px 12px; text-align:center;
+  }
+  .service-main{ flex: 1 1 260px; min-width: 220px; }
+  .service-main h3{ margin:0 0 4px; font-size:1.05rem; color:var(--hijau-tua); }
+  .service-main p{ margin:0; font-size:0.86rem; color:var(--teks-lembut); }
+  .service-price{
+    flex-shrink:0; font-weight:800; color:var(--hijau-tua); font-size:0.95rem;
+    text-align:right; min-width:150px;
+  }
+  .service-cta{ flex-shrink:0; }
+  .service-cta a{
+    font-size:0.82rem; font-weight:700; color:var(--hijau-tua);
+    border:1.5px solid var(--hijau-tua); border-radius:10px; padding:9px 16px;
+    text-decoration:none; white-space:nowrap; display:inline-block;
+    transition: background 0.15s ease;
+  }
+  .service-cta a:hover{ background: rgba(18,70,59,0.06); }
+  .layanan-note{
+    font-size:0.82rem; color:var(--teks-lembut); text-align:center; max-width:640px; margin:0 auto;
+  }
+  @media (max-width: 620px){
+    .service-card{ flex-direction:column; align-items:flex-start; }
+    .service-main{ flex:none; width:100%; min-width:0; }
+    .service-price{ text-align:left; }
+  }
+
+  /* ===== Artikel ===== */
+  .artikel{ background: var(--krem); }
+  .article-grid{
+    display:grid; grid-template-columns: repeat(3, 1fr); gap:18px; margin-bottom: 8px;
+  }
+  .article-card{
+    background: var(--gading); border:1px solid var(--garis); border-radius: var(--radius);
+    padding: 22px 20px; box-shadow: var(--shadow); display:flex; flex-direction:column; gap:10px;
+  }
+  .article-card .article-badge{
+    align-self:flex-start; font-size:0.68rem; font-weight:800; letter-spacing:0.4px; text-transform:uppercase;
+    color: var(--emas-teks); background: var(--krem-tua); padding:4px 10px; border-radius:999px;
+  }
+  .article-card h3{ margin:0; font-size:1rem; color:var(--hijau-tua); line-height:1.4; }
+  .article-card p{ margin:0; font-size:0.86rem; color:var(--teks-lembut); line-height:1.5; }
+  @media (max-width: 760px){ .article-grid{ grid-template-columns: 1fr; } }
+
+  /* ===== Tentang & Kontak (footer) ===== */
+  .site-footer{
+    background: linear-gradient(160deg, var(--hijau-tua), #0c3229 70%);
+    color: var(--gading);
+    padding: 0;
+  }
+  .site-footer .footer-inner{ max-width: 880px; margin:0 auto; padding: 72px 20px; }
+  .trust-badge{
+    display:flex; gap:18px; align-items:flex-start;
+    background: rgba(255,253,247,0.06); border:1px solid rgba(255,253,247,0.16);
+    border-radius: var(--radius); padding: 24px; margin-bottom: 46px;
+  }
+  .trust-badge .icon{
+    flex-shrink:0; width:52px; height:52px; border-radius:50%;
+    background: rgba(212,175,106,0.14); border:1.5px solid rgba(212,175,106,0.4);
+    display:flex; align-items:center; justify-content:center; color: var(--emas-terang);
+  }
+  .trust-badge .icon svg{ width:24px; height:24px; }
+  .trust-badge h3{ margin:0 0 4px; font-size:1.05rem; color:var(--gading); }
+  .trust-badge .credential{ font-size:0.85rem; color: var(--emas-terang); font-weight:600; margin-bottom:8px; }
+  .trust-badge p{ margin:0; font-size:0.9rem; color: var(--teks-lembut-terang); line-height:1.6; }
+  .footer-grid{
+    display:grid; grid-template-columns: 1.2fr 1fr; gap: 40px; margin-bottom: 40px;
+  }
+  .footer-col h4{
+    margin:0 0 14px; font-size:0.78rem; letter-spacing:0.5px; text-transform:uppercase;
+    color: var(--emas-terang); font-weight:700;
+  }
+  .footer-col p, .footer-col a{
+    color: var(--teks-lembut-terang); font-size:0.92rem; line-height:1.8; text-decoration:none;
+  }
+  .footer-col a:hover{ color: var(--emas-terang); }
+  .footer-col .org-name{ color: var(--gading); font-weight:700; font-size:1rem; margin-bottom:2px; }
+  .footer-bottom{
+    border-top: 1px solid rgba(255,253,247,0.14); padding-top:22px;
+    display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px;
+    font-size:0.78rem; color: rgba(255,253,247,0.5);
+  }
+  @media (max-width: 640px){
+    .footer-grid{ grid-template-columns: 1fr; }
+    .trust-badge{ flex-direction:column; }
+  }
 
   /* ===== Quiz section ===== */
   .quiz-section{ background: var(--gading); border-top: 1px solid var(--garis); }
@@ -235,6 +370,7 @@
     font-size:0.95rem; font-family:inherit; color:var(--teks); background:var(--gading);
   }
   .field-row select:focus, .field-row input:focus{ outline:2px solid var(--hijau-muda); outline-offset:1px; }
+  .field-hint{ font-size:0.78rem; color:var(--teks-lembut); margin-top:6px; }
   .option-list{ display:flex; flex-direction:column; gap:10px; margin-bottom: 22px; }
   .option-card{
     display:flex; align-items:flex-start; gap:12px; padding:14px 16px;
@@ -313,28 +449,38 @@
 </head>
 <body>
 
-<section class="hero" aria-label="Hero — Halal Readiness Check">
+<nav class="site-nav" aria-label="Navigasi utama">
+  <div class="nav-wrap">
+    <a href="#top" class="brand"><span class="dot" aria-hidden="true"></span> GoHalal</a>
+    <button type="button" class="nav-toggle" id="navToggle" aria-label="Buka menu" aria-expanded="false">☰</button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#top">Beranda</a></li>
+      <li><a href="#cara-kerja">Cara Kerja</a></li>
+      <li><a href="#layanan">Layanan</a></li>
+      <li><a href="#tentang">Tentang</a></li>
+      <li><a href="#artikel">Artikel</a></li>
+      <li><a href="#kontak">Kontak</a></li>
+    </ul>
+  </div>
+</nav>
+
+<section class="hero" id="top" aria-label="Hero — Halal Readiness Check">
   <div class="islamic-border" aria-hidden="true"></div>
 
   <div class="hero-media" aria-hidden="true">
-    <video id="heroVideo0" class="is-active" muted playsinline preload="auto"
-      src="https://d8j0ntlcm91z4.cloudfront.net/user_3ISJUYUC5T8dEJsG2VKPgqHRDSH/hf_20260826_140728_b7aa1705-16e3-418e-947f-be3a5a370db7.mp4"></video>
-    <video id="heroVideo1" muted playsinline preload="auto"
-      src="https://d8j0ntlcm91z4.cloudfront.net/user_3ISJUYUC5T8dEJsG2VKPgqHRDSH/hf_20260826_140734_c55596af-9d3c-472b-8428-c2e55927a113.mp4"></video>
-    <video id="heroVideo2" muted playsinline preload="auto"
-      src="https://d8j0ntlcm91z4.cloudfront.net/user_3ISJUYUC5T8dEJsG2VKPgqHRDSH/hf_20260826_140847_adde9f55-545b-46a4-bfac-5158c05f7496.mp4"></video>
+    <img src="assets/hero-illustration.svg" alt="Ilustrasi dokumen checklist kepatuhan dan sertifikasi halal bertema hijau dan emas">
   </div>
   <div class="hero-overlay" aria-hidden="true"></div>
 
   <div class="hero-content">
-    <span class="hero-eyebrow">
+    <span class="hero-eyebrow" id="heroEyebrow">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg>
       Gratis · Tanpa Kewajiban Membeli Jasa
     </span>
 
-    <h1>Seberapa Siap Bisnis Anda untuk <span class="accent">Sertifikasi Halal?</span></h1>
+    <h1 id="heroHeadline">Seberapa Siap Bisnis Anda untuk <span class="accent">Sertifikasi Halal?</span></h1>
 
-    <p class="subhead">
+    <p class="subhead" id="heroSubhead">
       Lakukan Halal Readiness Check gratis dan dapatkan skor kesiapan bisnis Anda dalam beberapa menit — sebelum Anda memutuskan langkah berikutnya.
     </p>
 
@@ -352,20 +498,19 @@
       <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V8a5 5 0 0 1 10 0v3"/></svg>Data Anda aman &amp; privat</span>
     </div>
 
-    <div class="score-preview" role="img" aria-label="Contoh hasil: skor kesiapan halal 67 dari 100, status Berkembang">
-      <div class="num">67<small>/100</small></div>
+    <div class="score-preview" role="img" aria-label="Contoh hasil: skor kesiapan halal 54 dari 100, status Perlu Ditingkatkan, area terlemah Dokumentasi Bahan dan Manajemen Pemasok">
+      <div class="num">54<small>/100</small></div>
       <div>
         <div class="label">Contoh Halal Readiness Score</div>
-        <div class="status">Berkembang — sudah ada fondasi, beberapa area perlu diperkuat</div>
+        <div class="status">Perlu Ditingkatkan — ada gap di dua area</div>
+        <div class="weak-areas">Area terlemah: Dokumentasi Bahan &amp; Manajemen Pemasok</div>
       </div>
     </div>
 
     <p class="hero-disclaimer">
-      Halal Readiness Score merupakan hasil self-assessment berdasarkan informasi yang Anda berikan. Hasil ini bukan audit, pemeriksaan sertifikasi, penetapan kehalalan, maupun jaminan bahwa produk akan memperoleh sertifikat halal.
+      Halal Readiness Score adalah hasil self-assessment berdasarkan informasi yang Anda berikan — bukan audit, bukan penetapan status halal, bukan fatwa, dan bukan jaminan sertifikasi. Proses resmi tetap mengikuti ketentuan BPJPH/LPH yang berlaku.
     </p>
   </div>
-
-  <div class="scene-dots" id="sceneDots" aria-hidden="true"></div>
 </section>
 
 <section id="cara-kerja" class="how-it-works">
@@ -403,6 +548,99 @@
   </div>
 </section>
 
+<section id="layanan" class="layanan" aria-label="Layanan">
+  <div class="wrap">
+    <h2 class="section-title">Layanan</h2>
+    <p class="section-lead">
+      Setelah tahu skor dan gap Anda, pilih langkah lanjutan yang sesuai — dari sekadar second opinion sampai pendampingan penuh. Tidak ada keharusan naik level; mulai dari mana pun sesuai kebutuhan.
+    </p>
+    <div class="service-list">
+      <div class="service-card">
+        <span class="service-level">Free</span>
+        <div class="service-main">
+          <h3>Halal Readiness Check</h3>
+          <p>Semua calon klien, titik masuk</p>
+        </div>
+        <div class="service-price">Gratis</div>
+        <div class="service-cta"><a href="#quiz">Mulai Gratis</a></div>
+      </div>
+      <div class="service-card">
+        <span class="service-level">Entry</span>
+        <div class="service-main">
+          <h3>Halal Readiness Review</h3>
+          <p>Skor tinggi, ingin second opinion cepat</p>
+        </div>
+        <div class="service-price">~Rp1 juta</div>
+        <div class="service-cta"><a href="#kontak">Tanya lewat konsultasi</a></div>
+      </div>
+      <div class="service-card">
+        <span class="service-level">Diagnostic</span>
+        <div class="service-main">
+          <h3>Halal Gap Assessment</h3>
+          <p>Ada gap lintas dimensi, butuh peta masalah akurat</p>
+        </div>
+        <div class="service-price">Mulai Rp2,5 juta<br>(rekomendasi Rp3,5 juta)</div>
+        <div class="service-cta"><a href="#kontak">Tanya lewat konsultasi</a></div>
+      </div>
+      <div class="service-card">
+        <span class="service-level">Implementation</span>
+        <div class="service-main">
+          <h3>Halal Readiness Program</h3>
+          <p>Gap jelas, siap eksekusi dengan PIC</p>
+        </div>
+        <div class="service-price">Mulai Rp7,5 juta<br>(rekomendasi Rp10 juta)</div>
+        <div class="service-cta"><a href="#kontak">Tanya lewat konsultasi</a></div>
+      </div>
+      <div class="service-card">
+        <span class="service-level">Comprehensive</span>
+        <div class="service-main">
+          <h3>Halal Foundation / Certification Preparation</h3>
+          <p>Kompleksitas tinggi, multi-SKU/fasilitas/pemasok</p>
+        </div>
+        <div class="service-price">Rp15–30 juta+</div>
+        <div class="service-cta"><a href="#kontak">Tanya lewat konsultasi</a></div>
+      </div>
+      <div class="service-card">
+        <span class="service-level">Recurring</span>
+        <div class="service-main">
+          <h3>Compliance Monitoring</h3>
+          <p>Baseline sudah berjalan, butuh kontrol berkala</p>
+        </div>
+        <div class="service-price">Rp1,5–5 juta/bulan</div>
+        <div class="service-cta"><a href="#kontak">Tanya lewat konsultasi</a></div>
+      </div>
+    </div>
+    <p class="layanan-note">Harga adalah starting point/indikatif, bukan biaya resmi sertifikasi. Paket final ditentukan lewat discovery call sesuai kondisi bisnis Anda.</p>
+  </div>
+</section>
+
+<section id="artikel" class="artikel" aria-label="Artikel">
+  <div class="wrap">
+    <h2 class="section-title">Artikel</h2>
+    <p class="section-lead">
+      Bacaan singkat seputar kesiapan dan sertifikasi halal untuk bisnis F&amp;B dan consumer goods.
+    </p>
+    <!-- TODO: konten artikel di bawah ini masih placeholder — ganti judul/ringkasan/link begitu artikel asli tersedia -->
+    <div class="article-grid">
+      <div class="article-card">
+        <span class="article-badge">Segera Hadir</span>
+        <h3>Apa Itu Halal Readiness Check dan Mengapa Penting?</h3>
+        <p>Mengenal konsep self-assessment kesiapan halal sebelum memulai proses sertifikasi resmi.</p>
+      </div>
+      <div class="article-card">
+        <span class="article-badge">Segera Hadir</span>
+        <h3>5 Kesalahan Umum Sebelum Mengajukan Sertifikasi Halal</h3>
+        <p>Gap yang paling sering ditemukan pada bisnis F&amp;B dan consumer goods — dan cara menghindarinya.</p>
+      </div>
+      <div class="article-card">
+        <span class="article-badge">Segera Hadir</span>
+        <h3>Self-Assessment vs Audit vs Sertifikasi: Apa Bedanya?</h3>
+        <p>Memahami posisi Halal Readiness Score dalam keseluruhan proses menuju sertifikat halal resmi.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section id="quiz" class="quiz-section" aria-label="Halal Readiness Check">
   <div class="wrap quiz-shell">
     <div class="quiz-progress-wrap">
@@ -414,50 +652,95 @@
     </div>
     <div id="quizStage"></div>
     <p class="quiz-disclaimer">
-      Halal Readiness Score merupakan hasil self-assessment berdasarkan informasi yang Anda berikan. Hasil ini bukan audit, pemeriksaan sertifikasi, penetapan kehalalan, maupun jaminan bahwa produk akan memperoleh sertifikat halal.
+      Halal Readiness Score adalah hasil self-assessment berdasarkan informasi yang Anda berikan — bukan audit, bukan penetapan status halal, bukan fatwa, dan bukan jaminan sertifikasi. Proses resmi tetap mengikuti ketentuan BPJPH/LPH yang berlaku.
     </p>
   </div>
 </section>
 
+<footer class="site-footer" aria-label="Tentang dan Kontak">
+  <div class="footer-inner">
+
+    <div id="tentang" class="trust-badge">
+      <span class="icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2 3 6v6c0 5 4 8.5 9 10 5-1.5 9-5 9-10V6l-9-4Z"/><path d="M9 12l2 2 4-4"/></svg>
+      </span>
+      <div>
+        <h3>Amal Najib, ST., MM.</h3>
+        <div class="credential">Auditor Halal Bersertifikat BNSP</div>
+        <p>Berpengalaman menjadi tim halal di FMCG internasional dan UMKM.</p>
+      </div>
+    </div>
+
+    <div id="kontak" class="footer-grid">
+      <div class="footer-col">
+        <h4>Badan Usaha</h4>
+        <div class="org-name">PT Cita Mulia Madani</div>
+        <p>
+          Email: <a href="mailto:kontak@amalnajib.com">kontak@amalnajib.com</a>
+        </p>
+        <!-- TODO: tambahkan WA, alamat, link sosial media di sini setelah tersedia -->
+      </div>
+      <div class="footer-col">
+        <h4>Tautan</h4>
+        <p>
+          <a href="#quiz">Halal Readiness Check</a><br>
+          <a href="#layanan">Layanan</a><br>
+          <a href="#privacy-policy">Kebijakan Privasi</a>
+        </p>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <span>© <span id="footerYear"></span> PT Cita Mulia Madani — GoHalal</span>
+      <span>Halal Readiness Check bukan pengganti audit atau sertifikasi resmi BPJPH/LPH.</span>
+    </div>
+
+  </div>
+</footer>
+
 <script>
-(function heroVideoCycle(){
-  var videos = [
-    document.getElementById('heroVideo0'),
-    document.getElementById('heroVideo1'),
-    document.getElementById('heroVideo2')
-  ].filter(function(v){ return v && v.getAttribute('src'); });
-  if(!videos.length) return;
-
-  var dotsWrap = document.getElementById('sceneDots');
-  var dots = videos.map(function(_, i){
-    var b = document.createElement('button');
-    b.type = 'button';
-    b.setAttribute('aria-label', 'Tampilkan scene ' + (i + 1));
-    b.addEventListener('click', function(){ showScene(i); });
-    dotsWrap.appendChild(b);
-    return b;
-  });
-
-  var current = 0;
-  var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  function showScene(i){
-    videos[current].classList.remove('is-active');
-    dots[current].classList.remove('is-active');
-    current = i;
-    videos[current].classList.add('is-active');
-    dots[current].classList.add('is-active');
-    if(!reduceMotion){
-      videos[current].currentTime = 0;
-      var p = videos[current].play();
-      if(p && p.catch) p.catch(function(){});
-    }
+(function navAndMisc(){
+  // Mobile nav toggle
+  var toggle = document.getElementById('navToggle');
+  var links = document.getElementById('navLinks');
+  if(toggle && links){
+    toggle.addEventListener('click', function(){
+      var isOpen = links.classList.toggle('is-open');
+      toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    });
+    links.querySelectorAll('a').forEach(function(a){
+      a.addEventListener('click', function(){
+        links.classList.remove('is-open');
+        toggle.setAttribute('aria-expanded', 'false');
+      });
+    });
   }
 
-  function goNext(){ showScene((current + 1) % videos.length); }
-  videos.forEach(function(v){ v.addEventListener('ended', goNext); });
-  showScene(0);
-  if(reduceMotion){ videos.forEach(function(v){ v.pause(); }); }
+  // Footer year
+  var yearEl = document.getElementById('footerYear');
+  if(yearEl) yearEl.textContent = new Date().getFullYear();
+
+  // Dynamic hero headline per segment (?segment=fnb|brand|manufaktur), default fnb
+  var HEADLINES = {
+    fnb: {
+      html: 'Seberapa Siap Bisnis Anda untuk <span class="accent">Sertifikasi Halal?</span>',
+      sub: 'Lakukan Halal Readiness Check gratis dan dapatkan skor kesiapan bisnis Anda dalam beberapa menit — sebelum Anda memutuskan langkah berikutnya.'
+    },
+    brand: {
+      html: 'Ekspansi SKU atau Supplier Baru? Pastikan <span class="accent">Kesiapan Halal Anda</span> Lebih Dulu',
+      sub: 'Cek gratis kesiapan halal brand Anda sebelum meluncurkan produk atau pemasok baru — dapatkan skor dan gap terbesar dalam beberapa menit.'
+    },
+    manufaktur: {
+      html: 'Governance Halal untuk Fasilitas dan SKU Skala Besar — <span class="accent">Mulai dari Diagnostic Gratis</span>',
+      sub: 'Petakan kesiapan halal di seluruh fasilitas dan lini produk Anda, mulai dari Halal Readiness Check gratis dalam beberapa menit.'
+    }
+  };
+  var segment = new URLSearchParams(window.location.search).get('segment');
+  var chosen = HEADLINES[segment] || HEADLINES.fnb;
+  var headlineEl = document.getElementById('heroHeadline');
+  var subheadEl = document.getElementById('heroSubhead');
+  if(headlineEl) headlineEl.innerHTML = chosen.html;
+  if(subheadEl) subheadEl.textContent = chosen.sub;
 })();
 </script>
 
@@ -485,28 +768,65 @@
     };
   }
 
-  // Menyimpan submission + lead ke Supabase. Gagal diam-diam (hanya console.warn)
-  // supaya pengalaman quiz tidak terganggu kalau database belum di-setup atau sedang down.
+  // Progressive lead capture: begitu email (opsional) diisi & valid di step "Sebelum Mulai",
+  // simpan record partial (completed:false) supaya lead tetap tercatat walau quiz belum selesai.
+  // Insert sekali (simpan id-nya di state.submissionId), lalu update baris yang sama untuk
+  // perubahan berikutnya (bukan insert baru tiap kali). Gagal diam-diam (console.warn saja).
+  function saveProgressiveEmail(){
+    if(!supabaseClient) return;
+    var email = state.profile.progressiveEmail.trim();
+    if(!isValidEmailGlobal(email)) return;
+
+    var payload = {
+      business_type: effectiveBusinessType() || null,
+      has_certificate: state.profile.hasCertificate ? state.profile.hasCertificate === 'yes' : null,
+      email: email,
+      completed: false
+    };
+
+    if(state.submissionId){
+      supabaseClient.from('quiz_submissions').update(payload).eq('id', state.submissionId).then(function(res){
+        if(res.error){ console.warn('Supabase progressive update failed:', res.error.message); }
+      }).catch(function(err){
+        console.warn('Supabase progressive save failed:', err && err.message ? err.message : err);
+      });
+    } else {
+      supabaseClient.from('quiz_submissions').insert(payload).select('id').single().then(function(res){
+        if(res.error){ console.warn('Supabase progressive insert failed:', res.error.message); return; }
+        state.submissionId = res.data && res.data.id;
+      }).catch(function(err){
+        console.warn('Supabase progressive save failed:', err && err.message ? err.message : err);
+      });
+    }
+  }
+
+  // Menyimpan submission final + lead ke Supabase. Kalau sebelumnya sudah ada record partial
+  // (state.submissionId terisi dari saveProgressiveEmail), baris yang sama di-UPDATE jadi
+  // completed:true — bukan insert baru — supaya tidak ada duplikat data untuk satu orang yang sama.
+  // Gagal diam-diam (hanya console.warn) supaya pengalaman quiz tidak terganggu kalau database
+  // belum di-setup atau sedang down.
   function saveToSupabase(result){
     if(!supabaseClient) return;
     var utm = getUtmParams();
 
-    supabaseClient.from('quiz_submissions').insert({
-      business_type: state.profile.businessType,
+    var fullPayload = {
+      business_type: effectiveBusinessType(),
       has_certificate: state.profile.hasCertificate === 'yes',
+      email: state.profile.progressiveEmail.trim() || null,
       overall_score: result.overall,
       readiness_category: result.category,
       complexity: result.complexity,
       dimension_scores: result.dimPercent,
       critical_gaps: result.criticalGaps,
       answers: state.answers,
+      completed: true,
       source: utm.source,
       utm_source: utm.utm_source,
       utm_medium: utm.utm_medium,
       utm_campaign: utm.utm_campaign
-    }).select('id').single().then(function(res){
-      if(res.error){ console.warn('Supabase quiz_submissions insert failed:', res.error.message); return; }
-      var submissionId = res.data && res.data.id;
+    };
+
+    function saveLead(submissionId){
       supabaseClient.from('leads').insert({
         submission_id: submissionId,
         name: state.lead.name,
@@ -518,9 +838,25 @@
       }).then(function(leadRes){
         if(leadRes.error){ console.warn('Supabase leads insert failed:', leadRes.error.message); }
       });
-    }).catch(function(err){
-      console.warn('Supabase save failed:', err && err.message ? err.message : err);
-    });
+    }
+
+    if(state.submissionId){
+      supabaseClient.from('quiz_submissions').update(fullPayload).eq('id', state.submissionId).then(function(res){
+        if(res.error){ console.warn('Supabase quiz_submissions update failed:', res.error.message); return; }
+        saveLead(state.submissionId);
+      }).catch(function(err){
+        console.warn('Supabase save failed:', err && err.message ? err.message : err);
+      });
+    } else {
+      supabaseClient.from('quiz_submissions').insert(fullPayload).select('id').single().then(function(res){
+        if(res.error){ console.warn('Supabase quiz_submissions insert failed:', res.error.message); return; }
+        var submissionId = res.data && res.data.id;
+        state.submissionId = submissionId;
+        saveLead(submissionId);
+      }).catch(function(err){
+        console.warn('Supabase save failed:', err && err.message ? err.message : err);
+      });
+    }
   }
 
   var QUESTIONS = [
@@ -726,14 +1062,27 @@
   var SCORED_QUESTIONS = QUESTIONS.filter(function(q){ return q.scored; });
   var TOTAL_STEPS = QUESTIONS.length; // 26
 
-  var BUSINESS_TYPES = ['Restoran / Kafe','Toko Roti & Kue','Katering','Makanan Beku','Dapur Pusat','Manufaktur Makanan & Minuman','Distributor / Pengolah','Logistik & Pergudangan','Lainnya'];
+  var BUSINESS_TYPE_GROUPS = [
+    { group:'F&B', options:['Restoran / Kafe','Toko Roti & Kue','Katering','Makanan Beku','Dapur Pusat','Manufaktur Makanan & Minuman','Distributor / Pengolah','Logistik & Pergudangan'] },
+    { group:'Brand Consumer Goods', options:['Skincare / Kosmetik','Minuman Kemasan','Snack & Makanan Kemasan'] },
+    { group:'Industri Lain', options:['Manufaktur / Pabrik Skala Menengah','Distributor / Importir Bahan'] }
+  ];
+  var BUSINESS_TYPE_OTHER = 'Lainnya';
 
   var state = {
     step: 0, // 0 = profil, 1..26 = pertanyaan, 27 = skor headline, 28 = form data diri, 29 = hasil lengkap
-    profile: { businessType:'', hasCertificate:'' },
+    submissionId: null, // id baris quiz_submissions di Supabase, terisi begitu progressive email tersimpan
+    profile: { businessType:'', businessTypeOther:'', hasCertificate:'', progressiveEmail:'' },
     answers: {},
     lead: { name:'', businessName:'', whatsapp:'', email:'', consent:false }
   };
+
+  function effectiveBusinessType(){
+    if(state.profile.businessType === BUSINESS_TYPE_OTHER){
+      return state.profile.businessTypeOther.trim() || BUSINESS_TYPE_OTHER;
+    }
+    return state.profile.businessType;
+  }
 
   var stage = document.getElementById('quizStage');
   var progressFill = document.getElementById('quizProgressFill');
@@ -744,6 +1093,10 @@
     return String(s).replace(/[&<>"']/g, function(c){
       return { '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c];
     });
+  }
+
+  function isValidEmailGlobal(v){
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
   }
 
   function updateProgress(){
@@ -855,6 +1208,7 @@
     return 'var(--merah-lembut)';
   }
 
+  var hasRenderedOnce = false;
   function render(){
     updateProgress();
     if(state.step === 0) renderProfile();
@@ -862,20 +1216,38 @@
     else if(state.step === TOTAL_STEPS + 1) renderResultHeadline();
     else if(state.step === TOTAL_STEPS + 2) renderLeadForm();
     else renderFullResult();
-    window.scrollTo({ top: document.getElementById('quiz').offsetTop - 10, behavior: 'smooth' });
+    // Jangan auto-scroll ke quiz saat halaman baru dimuat — biarkan pengunjung
+    // melihat hero & section lain dulu. Hanya scroll saat user aktif menavigasi quiz.
+    if(hasRenderedOnce){
+      window.scrollTo({ top: document.getElementById('quiz').offsetTop - 74, behavior: 'smooth' });
+    }
+    hasRenderedOnce = true;
   }
 
   function renderProfile(){
-    var opts = BUSINESS_TYPES.map(function(t){
-      return '<option value="' + esc(t) + '"' + (state.profile.businessType === t ? ' selected' : '') + '>' + esc(t) + '</option>';
-    }).join('');
+    var optsHtml = '<option value="">Pilih jenis usaha…</option>';
+    BUSINESS_TYPE_GROUPS.forEach(function(g){
+      optsHtml += '<optgroup label="' + esc(g.group) + '">';
+      g.options.forEach(function(t){
+        optsHtml += '<option value="' + esc(t) + '"' + (state.profile.businessType === t ? ' selected' : '') + '>' + esc(t) + '</option>';
+      });
+      optsHtml += '</optgroup>';
+    });
+    optsHtml += '<option value="' + esc(BUSINESS_TYPE_OTHER) + '"' + (state.profile.businessType === BUSINESS_TYPE_OTHER ? ' selected' : '') + '>' + esc(BUSINESS_TYPE_OTHER) + '</option>';
+
+    var isOther = state.profile.businessType === BUSINESS_TYPE_OTHER;
+
     stage.innerHTML =
       '<div class="quiz-card">' +
         '<span class="quiz-dim-chip">Sebelum Mulai</span>' +
         '<h3>Ceritakan sedikit tentang bisnis Anda</h3>' +
         '<div class="field-row">' +
           '<label for="fBusinessType">Jenis usaha</label>' +
-          '<select id="fBusinessType"><option value="">Pilih jenis usaha…</option>' + opts + '</select>' +
+          '<select id="fBusinessType">' + optsHtml + '</select>' +
+        '</div>' +
+        '<div class="field-row" id="fBusinessTypeOtherRow" style="' + (isOther ? '' : 'display:none;') + '">' +
+          '<label for="fBusinessTypeOther">Sebutkan jenis usaha Anda</label>' +
+          '<input type="text" id="fBusinessTypeOther" value="' + esc(state.profile.businessTypeOther) + '" placeholder="Tulis jenis usaha Anda">' +
         '</div>' +
         '<div class="field-row">' +
           '<label>Apakah bisnis Anda sudah memiliki sertifikat halal?</label>' +
@@ -884,13 +1256,33 @@
             optionCardHtml('hasCert', 'no', 'Belum punya sertifikat halal', state.profile.hasCertificate === 'no') +
           '</div>' +
         '</div>' +
+        '<div class="field-row">' +
+          '<label for="fProgressiveEmail">Email (opsional)</label>' +
+          '<input type="email" id="fProgressiveEmail" value="' + esc(state.profile.progressiveEmail) + '" placeholder="nama@email.com">' +
+          '<div class="field-hint">Masukkan email Anda supaya hasil skor tetap tersimpan meski assessment belum selesai (opsional).</div>' +
+        '</div>' +
         '<div class="quiz-nav">' +
           '<button type="button" class="btn primary block" id="btnStartQuiz" disabled>Mulai Assessment (26 Pertanyaan)</button>' +
         '</div>' +
       '</div>';
 
     var sel = document.getElementById('fBusinessType');
-    sel.addEventListener('change', function(){ state.profile.businessType = sel.value; checkProfileReady(); });
+    var otherRow = document.getElementById('fBusinessTypeOtherRow');
+    var otherInput = document.getElementById('fBusinessTypeOther');
+    var progEmail = document.getElementById('fProgressiveEmail');
+
+    sel.addEventListener('change', function(){
+      state.profile.businessType = sel.value;
+      var showOther = sel.value === BUSINESS_TYPE_OTHER;
+      otherRow.style.display = showOther ? '' : 'none';
+      checkProfileReady();
+      maybeSaveProgressive();
+    });
+    otherInput.addEventListener('input', function(){
+      state.profile.businessTypeOther = otherInput.value;
+      checkProfileReady();
+    });
+    otherInput.addEventListener('blur', maybeSaveProgressive);
 
     stage.querySelectorAll('input[name="hasCert"]').forEach(function(r){
       r.addEventListener('change', function(){
@@ -898,16 +1290,26 @@
         stage.querySelectorAll('.option-card').forEach(function(c){ c.classList.remove('is-checked'); });
         r.closest('.option-card').classList.add('is-checked');
         checkProfileReady();
+        maybeSaveProgressive();
       });
     });
 
+    progEmail.addEventListener('input', function(){ state.profile.progressiveEmail = progEmail.value; });
+    progEmail.addEventListener('blur', maybeSaveProgressive);
+
+    function maybeSaveProgressive(){
+      if(isValidEmailGlobal(state.profile.progressiveEmail.trim())) saveProgressiveEmail();
+    }
+
     function checkProfileReady(){
-      var ready = state.profile.businessType && state.profile.hasCertificate;
+      var typeReady = state.profile.businessType && (state.profile.businessType !== BUSINESS_TYPE_OTHER || state.profile.businessTypeOther.trim());
+      var ready = typeReady && state.profile.hasCertificate;
       document.getElementById('btnStartQuiz').disabled = !ready;
     }
     checkProfileReady();
 
     document.getElementById('btnStartQuiz').addEventListener('click', function(){
+      maybeSaveProgressive();
       state.step = 1;
       render();
     });
@@ -985,7 +1387,7 @@
         '<div class="field-row"><label for="fBiz">Nama Bisnis</label><input type="text" id="fBiz" value="' + esc(state.lead.businessName) + '" placeholder="Nama usaha/brand"></div>' +
         '<div class="field-row"><label for="fWa">Nomor WhatsApp</label><input type="tel" id="fWa" value="' + esc(state.lead.whatsapp) + '" placeholder="08xxxxxxxxxx"></div>' +
         '<div class="field-row"><label for="fEmail">Email</label><input type="email" id="fEmail" value="' + esc(state.lead.email) + '" placeholder="nama@email.com"></div>' +
-        '<div class="field-row"><label>Jenis usaha</label><input type="text" value="' + esc(state.profile.businessType) + '" disabled></div>' +
+        '<div class="field-row"><label>Jenis usaha</label><input type="text" value="' + esc(effectiveBusinessType()) + '" disabled></div>' +
         '<div class="consent-row">' +
           '<input type="checkbox" id="fConsent"' + (state.lead.consent ? ' checked' : '') + '>' +
           '<label for="fConsent">Saya setuju data ini digunakan untuk menampilkan hasil assessment dan dihubungi terkait Halal Readiness Check saya, sesuai kebijakan privasi.</label>' +
@@ -1003,11 +1405,8 @@
     var consent = document.getElementById('fConsent');
     var unlockBtn = document.getElementById('btnUnlock');
 
-    function isValidEmail(v){
-      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
-    }
     function checkReady(){
-      unlockBtn.disabled = !(name.value.trim() && biz.value.trim() && wa.value.trim() && isValidEmail(email.value.trim()) && consent.checked);
+      unlockBtn.disabled = !(name.value.trim() && biz.value.trim() && wa.value.trim() && isValidEmailGlobal(email.value.trim()) && consent.checked);
     }
     [name, biz, wa, email].forEach(function(el){ el.addEventListener('input', checkReady); });
     consent.addEventListener('change', checkReady);
@@ -1063,7 +1462,7 @@
 
     var waMessage = 'Halo, saya baru saja menyelesaikan Halal Readiness Check di GoHalal.\n' +
       'Nama: ' + state.lead.name + '\n' +
-      'Bisnis: ' + state.lead.businessName + ' (' + state.profile.businessType + ')\n' +
+      'Bisnis: ' + state.lead.businessName + ' (' + effectiveBusinessType() + ')\n' +
       'Email: ' + state.lead.email + '\n' +
       'Skor: ' + r.overall + '/100 — ' + r.category + '\n' +
       'Kompleksitas: ' + complexityLabel + '\n' +
@@ -1073,7 +1472,7 @@
     stage.innerHTML =
       '<div class="quiz-card">' +
         '<span class="quiz-dim-chip">Ringkasan Hasil</span>' +
-        '<h3>' + esc(state.lead.businessName || state.profile.businessType) + ' · ' + esc(today) + '</h3>' +
+        '<h3>' + esc(state.lead.businessName || effectiveBusinessType()) + ' · ' + esc(today) + '</h3>' +
         '<div class="result-headline result-block">' +
           '<div class="result-score-circle" style="--pct:' + r.overall + '">' +
             '<div class="inner"><span class="num">' + r.overall + '</span><span class="max">/ 100</span></div>' +
