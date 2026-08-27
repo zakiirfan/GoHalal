@@ -9,6 +9,7 @@ create extension if not exists "pgcrypto";
 -- orang = satu baris.
 create table if not exists quiz_submissions (
   id uuid primary key default gen_random_uuid(),
+  business_name text,
   business_type text,
   has_certificate boolean,
   email text,
@@ -28,6 +29,7 @@ create table if not exists quiz_submissions (
 
 -- Untuk database yang sudah live dari sebelum kolom ini ditambahkan
 -- (aman dijalankan ulang, tidak error kalau kolomnya sudah ada).
+alter table quiz_submissions add column if not exists business_name text;
 alter table quiz_submissions add column if not exists email text;
 alter table quiz_submissions add column if not exists completed boolean not null default false;
 

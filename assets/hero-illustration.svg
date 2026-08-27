@@ -1,12 +1,12 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" role="img" aria-labelledby="heroIllTitle">
-  <title id="heroIllTitle">Ilustrasi dokumen checklist dan sertifikasi halal</title>
+  <title id="heroIllTitle">Latar hijau tua bertekstur dokumen checklist dan sertifikasi halal</title>
   <defs>
-    <radialGradient id="glow1" cx="18%" cy="22%" r="55%">
-      <stop offset="0%" stop-color="#d4af6a" stop-opacity="0.22"/>
+    <radialGradient id="glow1" cx="12%" cy="18%" r="50%">
+      <stop offset="0%" stop-color="#d4af6a" stop-opacity="0.16"/>
       <stop offset="100%" stop-color="#d4af6a" stop-opacity="0"/>
     </radialGradient>
-    <radialGradient id="glow2" cx="85%" cy="78%" r="55%">
-      <stop offset="0%" stop-color="#d4af6a" stop-opacity="0.16"/>
+    <radialGradient id="glow2" cx="90%" cy="85%" r="50%">
+      <stop offset="0%" stop-color="#d4af6a" stop-opacity="0.12"/>
       <stop offset="100%" stop-color="#d4af6a" stop-opacity="0"/>
     </radialGradient>
     <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -19,68 +19,38 @@
   <rect width="1600" height="1000" fill="url(#glow1)"/>
   <rect width="1600" height="1000" fill="url(#glow2)"/>
 
-  <!-- scattered small document/checklist icons, low opacity -->
-  <g fill="none" stroke="#d4af6a" stroke-width="3" opacity="0.16">
-    <g transform="translate(120,120) rotate(-8)">
-      <rect x="0" y="0" width="90" height="120" rx="8"/>
-      <line x1="18" y1="34" x2="72" y2="34"/>
-      <line x1="18" y1="54" x2="72" y2="54"/>
-      <line x1="18" y1="74" x2="50" y2="74"/>
+  <!-- Dokumen/checklist samar di pojok-pojok saja, jauh dari zona teks di tengah -->
+  <g fill="none" stroke="#d4af6a" stroke-width="3" opacity="0.09">
+    <g transform="translate(60,60) rotate(-8)">
+      <rect x="0" y="0" width="100" height="132" rx="8"/>
+      <line x1="20" y1="38" x2="80" y2="38"/>
+      <line x1="20" y1="60" x2="80" y2="60"/>
+      <line x1="20" y1="82" x2="56" y2="82"/>
     </g>
-    <g transform="translate(1360,700) rotate(10)">
-      <rect x="0" y="0" width="90" height="120" rx="8"/>
-      <line x1="18" y1="34" x2="72" y2="34"/>
-      <line x1="18" y1="54" x2="72" y2="54"/>
-      <line x1="18" y1="74" x2="50" y2="74"/>
+    <g transform="translate(1440,808) rotate(9)">
+      <rect x="0" y="0" width="100" height="132" rx="8"/>
+      <line x1="20" y1="38" x2="80" y2="38"/>
+      <line x1="20" y1="60" x2="80" y2="60"/>
+      <line x1="20" y1="82" x2="56" y2="82"/>
     </g>
-    <g transform="translate(1240,140) rotate(6)">
-      <rect x="0" y="0" width="70" height="94" rx="6"/>
-      <line x1="14" y1="26" x2="56" y2="26"/>
-      <line x1="14" y1="42" x2="56" y2="42"/>
-      <line x1="14" y1="58" x2="40" y2="58"/>
+  </g>
+  <g fill="none" stroke="#d4af6a" stroke-width="2.5" opacity="0.07">
+    <g transform="translate(1470,90) rotate(7)">
+      <rect x="0" y="0" width="76" height="100" rx="6"/>
+      <line x1="15" y1="28" x2="60" y2="28"/>
+      <line x1="15" y1="46" x2="60" y2="46"/>
     </g>
-    <g transform="translate(90,760) rotate(-6)">
-      <rect x="0" y="0" width="70" height="94" rx="6"/>
-      <line x1="14" y1="26" x2="56" y2="26"/>
-      <line x1="14" y1="42" x2="56" y2="42"/>
-      <line x1="14" y1="58" x2="40" y2="58"/>
+    <g transform="translate(40,860) rotate(-7)">
+      <rect x="0" y="0" width="76" height="100" rx="6"/>
+      <line x1="15" y1="28" x2="60" y2="28"/>
+      <line x1="15" y1="46" x2="60" y2="46"/>
     </g>
   </g>
 
-  <!-- large central seal / certification badge motif -->
-  <g transform="translate(1080,470)" opacity="0.5">
-    <circle r="230" fill="none" stroke="#d4af6a" stroke-width="3" stroke-dasharray="6 10" opacity="0.55"/>
-    <circle r="185" fill="none" stroke="#d4af6a" stroke-width="2" opacity="0.35"/>
-    <circle r="150" fill="#0c3229" fill-opacity="0.4" stroke="#d4af6a" stroke-width="3"/>
-    <path d="M -55 5 L -18 42 L 60 -45" fill="none" stroke="#d4af6a" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
-  </g>
-
-  <!-- large document with checklist, left-of-center -->
-  <g transform="translate(430,300)">
-    <rect x="0" y="0" width="360" height="460" rx="18" fill="#0c3229" fill-opacity="0.55" stroke="#d4af6a" stroke-width="3" opacity="0.85"/>
-    <rect x="34" y="44" width="180" height="20" rx="6" fill="#d4af6a" opacity="0.6"/>
-    <rect x="34" y="90" width="292" height="10" rx="5" fill="#faf6ec" opacity="0.25"/>
-    <rect x="34" y="112" width="292" height="10" rx="5" fill="#faf6ec" opacity="0.25"/>
-    <rect x="34" y="134" width="200" height="10" rx="5" fill="#faf6ec" opacity="0.25"/>
-
-    <g transform="translate(34,180)">
-      <rect width="30" height="30" rx="7" fill="none" stroke="#d4af6a" stroke-width="3"/>
-      <path d="M6 15 L13 22 L25 8" fill="none" stroke="#d4af6a" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-      <rect x="46" y="7" width="220" height="16" rx="4" fill="#faf6ec" opacity="0.3"/>
-    </g>
-    <g transform="translate(34,228)">
-      <rect width="30" height="30" rx="7" fill="none" stroke="#d4af6a" stroke-width="3"/>
-      <path d="M6 15 L13 22 L25 8" fill="none" stroke="#d4af6a" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-      <rect x="46" y="7" width="180" height="16" rx="4" fill="#faf6ec" opacity="0.3"/>
-    </g>
-    <g transform="translate(34,276)">
-      <rect width="30" height="30" rx="7" fill="none" stroke="#d4af6a" stroke-width="3"/>
-      <path d="M6 15 L13 22 L25 8" fill="none" stroke="#d4af6a" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-      <rect x="46" y="7" width="240" height="16" rx="4" fill="#faf6ec" opacity="0.3"/>
-    </g>
-    <g transform="translate(34,324)">
-      <rect width="30" height="30" rx="7" fill="none" stroke="#d4af6a" stroke-width="3" opacity="0.5"/>
-      <rect x="46" y="7" width="150" height="16" rx="4" fill="#faf6ec" opacity="0.18"/>
-    </g>
+  <!-- Motif segel/sertifikasi samar di kanan bawah, di luar kolom teks -->
+  <g transform="translate(1280,860)" opacity="0.14">
+    <circle r="150" fill="none" stroke="#d4af6a" stroke-width="3" stroke-dasharray="6 10"/>
+    <circle r="112" fill="none" stroke="#d4af6a" stroke-width="2"/>
+    <path d="M -38 4 L -12 28 L 42 -30" fill="none" stroke="#d4af6a" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
   </g>
 </svg>
