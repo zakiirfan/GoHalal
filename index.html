@@ -466,10 +466,9 @@
   // TODO: ganti dengan nomor WhatsApp konsultan yang sebenarnya (format: kode negara tanpa "+", contoh 62812xxxxxxx)
   var CONSULTANT_WA_NUMBER = '628123456789';
 
-  // TODO: isi dengan Project URL & anon public key dari Supabase Dashboard -> Settings -> API
-  // Jalankan supabase-schema.sql di SQL Editor Supabase dulu sebelum mengisi ini.
-  var SUPABASE_URL = 'https://YOUR-PROJECT-REF.supabase.co';
-  var SUPABASE_ANON_KEY = 'YOUR-ANON-PUBLIC-KEY';
+  // Jalankan supabase-schema.sql di SQL Editor Supabase dulu sebelum ini bisa nyimpen data.
+  var SUPABASE_URL = 'https://qqbqrlrfvbrynvdtrrhc.supabase.co';
+  var SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFxYnFybHJmdmJyeW52ZHRycmhjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODc3ODA3ODksImV4cCI6MjEwMzM1Njc4OX0.HPV5y-FkfOwC3iCNOzhDcz6e9HFPyF0SKq2FUHUCU3s';
 
   var supabaseClient = null;
   if(window.supabase && SUPABASE_URL.indexOf('YOUR-PROJECT-REF') === -1 && SUPABASE_ANON_KEY.indexOf('YOUR-ANON-PUBLIC-KEY') === -1){
