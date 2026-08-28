@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>GoHalal — Cek Kesiapan Sertifikasi Halal Gratis dalam 5 Menit</title>
-<meta name="description" content="Cek kesiapan sertifikasi halal bisnis Anda gratis dalam 5 menit. Dapatkan skor 0-100, temukan gap terbesar, dan rekomendasi langkah selanjutnya dari GoHalal.">
+<meta name="description" content="Cek kesiapan sertifikasi halal bisnis Anda, gratis, 5 menit. Anda dapat skor 0-100, tahu bagian mana yang masih bolong, dan rekomendasi langkah berikutnya dari GoHalal.">
 <meta property="og:title" content="GoHalal — Cek Kesiapan Sertifikasi Halal Gratis">
-<meta property="og:description" content="26 pertanyaan, ±5 menit, hasil instan. Ketahui posisi kesiapan halal bisnis Anda sebelum mengambil langkah berikutnya.">
+<meta property="og:description" content="26 pertanyaan, 5 menit, hasilnya langsung keluar. Tahu posisi bisnis Anda dulu, sebelum keluar biaya sertifikasi.">
 <meta property="og:image" content="assets/og-image.png">
 <meta property="og:type" content="website">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
@@ -482,7 +482,44 @@
     border-radius: var(--radius); padding:26px 24px; text-align:center; margin-top: 8px;
   }
   .cta-box .cta-label{ font-size:0.78rem; letter-spacing:0.4px; text-transform:uppercase; color:var(--emas-terang); font-weight:700; margin-bottom:8px; }
-  .cta-box h4{ margin:0 0 16px; color:var(--gading); font-size:1.15rem; }
+  .cta-box h4{ margin:0 0 14px; color:var(--gading); font-size:1.2rem; line-height:1.35; }
+  .cta-hook{
+    margin:0 0 14px; color:rgba(255,253,247,0.78); font-size:0.92rem; line-height:1.65;
+    text-align:left; max-width:520px; margin-left:auto; margin-right:auto;
+  }
+  .cta-urgensi{
+    margin:0 0 18px; text-align:left; max-width:520px; margin-left:auto; margin-right:auto;
+    background:rgba(212,175,106,0.12); border-left:3px solid var(--emas);
+    padding:11px 14px; border-radius:0 8px 8px 0;
+    font-size:0.87rem; line-height:1.6; color:var(--emas-terang);
+  }
+  .cta-service{
+    display:inline-flex; align-items:center; gap:10px; flex-wrap:wrap; justify-content:center;
+    background:rgba(255,253,247,0.08); border:1px solid rgba(212,175,106,0.4);
+    border-radius:999px; padding:8px 18px; margin-bottom:16px;
+  }
+  .cta-service-tier{
+    font-size:0.66rem; font-weight:800; letter-spacing:0.5px; text-transform:uppercase;
+    color:#2a1f08; background:linear-gradient(180deg, var(--emas-terang), var(--emas));
+    padding:3px 9px; border-radius:999px;
+  }
+  .cta-service-name{ font-size:0.95rem; font-weight:700; color:var(--gading); }
+  .cta-bullets{
+    list-style:none; padding:0; margin:0 auto 22px; max-width:520px; text-align:left;
+    display:flex; flex-direction:column; gap:9px;
+  }
+  .cta-bullets li{
+    position:relative; padding-left:26px; font-size:0.88rem; line-height:1.55;
+    color:rgba(255,253,247,0.8);
+  }
+  .cta-bullets li::before{
+    content:"✓"; position:absolute; left:0; top:0;
+    color:var(--emas-terang); font-weight:800; font-size:0.9rem;
+  }
+  .cta-note{
+    margin:14px 0 0; font-size:0.78rem; line-height:1.55;
+    color:rgba(255,253,247,0.5); max-width:400px; margin-left:auto; margin-right:auto;
+  }
   .result-section-title{ font-size:1.05rem; color:var(--hijau-tua); margin: 30px 0 14px; }
   .result-block + .result-block{ margin-top:8px; }
   .quiz-disclaimer{ font-size:0.75rem; color:var(--teks-lembut); line-height:1.55; margin-top:26px; text-align:center; }
@@ -518,18 +555,18 @@
     <div class="hero-copy">
       <span class="hero-eyebrow" id="heroEyebrow">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg>
-        Gratis · Tanpa Kewajiban Membeli Jasa
+        Gratis · Tanpa Wajib Beli Apa Pun
       </span>
 
-      <h1 id="heroHeadline">Seberapa Siap Bisnis Anda untuk <span class="accent">Sertifikasi Halal?</span></h1>
+      <h1 id="heroHeadline">Sebelum Keluar Biaya, Cek Dulu <span class="accent">Kesiapan Halal Bisnis Anda</span></h1>
 
       <p class="subhead" id="heroSubhead">
-        Cek gratis dalam 5 menit. Dapatkan skor kesiapan halal Anda sebelum memutuskan langkah berikutnya.
+        Isi 26 pertanyaan, 5 menit, gratis. Anda langsung tahu bagian mana yang sudah aman dan mana yang masih bolong.
       </p>
 
       <div class="hero-ctas">
         <a href="#quiz" class="btn primary">
-          Cek Kesiapan Gratis
+          Cek Skor Saya, Gratis
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" width="18" height="18"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
         </a>
         <a href="#cara-kerja" class="btn on-dark secondary">Lihat Cara Kerjanya</a>
@@ -541,13 +578,13 @@
     </div>
 
     <div class="hero-visual">
-      <div class="score-card-hero" id="scoreCardHero" role="img" aria-label="Contoh hasil: skor kesiapan halal 54 dari 100, status Perlu Ditingkatkan, gap terbesar di Manajemen Halal, Supplier, dan Dokumentasi">
+      <div class="score-card-hero" id="scoreCardHero" role="img" aria-label="Contoh hasil: skor kesiapan halal 54 dari 100, status Perlu Ditingkatkan, bagian paling bolong di Manajemen Halal, Supplier, dan Dokumentasi">
         <span class="score-card-tag">Contoh Hasil</span>
         <div class="score-ring" style="--pct:54">
           <div class="score-ring-inner"><span class="num">54</span><span class="max">/100</span></div>
         </div>
         <div class="score-card-status">Perlu Ditingkatkan</div>
-        <p class="score-card-desc">Gap terbesar di Dokumentasi Bahan dan Manajemen Pemasok.</p>
+        <p class="score-card-desc">Paling bolong di dokumentasi bahan dan data pemasok.</p>
         <div class="score-card-dims">
           <div class="dim-mini"><span>Bahan Baku</span><div class="mini-bar"><div style="width:54%"></div></div></div>
           <div class="dim-mini"><span>Dokumentasi &amp; Kontrol</span><div class="mini-bar"><div style="width:38%"></div></div></div>
@@ -560,9 +597,9 @@
 
 <section class="trust-strip" aria-label="Kepercayaan">
   <div class="wrap trust-strip-inner">
-    <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2 3 6v6c0 5 4 8.5 9 10 5-1.5 9-5 9-10V6l-9-4Z"/></svg>26 pertanyaan, ± 5 menit</span>
-    <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>Hasil instan, skor 0-100</span>
-    <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V8a5 5 0 0 1 10 0v3"/></svg>Data Anda aman dan privat</span>
+    <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2 3 6v6c0 5 4 8.5 9 10 5-1.5 9-5 9-10V6l-9-4Z"/></svg>26 pertanyaan, cuma 5 menit</span>
+    <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>Skor 0-100 langsung keluar</span>
+    <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V8a5 5 0 0 1 10 0v3"/></svg>Data Anda aman, tidak dibagi</span>
   </div>
 </section>
 
@@ -570,31 +607,31 @@
   <div class="wrap how-grid">
     <div class="how-intro">
       <span class="how-eyebrow">Cara Kerja</span>
-      <h2>Mulai dari Diagnosis, Bukan Penjualan</h2>
-      <p>Kami menyediakan Halal Readiness Check gratis untuk membantu Anda melihat area yang sudah kuat dan area yang masih perlu diperbaiki, sebelum mengambil keputusan berikutnya. Tidak ada kewajiban membeli jasa.</p>
-      <a href="#quiz" class="btn primary">Mulai Assessment Gratis</a>
-      <p class="note">26 Pertanyaan → Skor 0–100 → Profil Gap → Rekomendasi Langkah Berikutnya</p>
+      <h2>Kami Mulai dari Cek Kondisi, Bukan Jualan</h2>
+      <p>Banyak yang keburu daftar sertifikasi tanpa tahu kondisi bisnisnya sendiri, lalu kaget waktu ditolak. Cek ini gratis, buat lihat mana yang sudah aman dan mana yang masih bolong. Setelahnya tidak ada kewajiban beli jasa apa pun.</p>
+      <a href="#quiz" class="btn primary">Mulai Cek Gratis Sekarang</a>
+      <p class="note">26 Pertanyaan → Skor 0–100 → Bagian yang Bolong → Rekomendasi Langkah</p>
     </div>
     <div class="how-timeline">
       <div class="how-step">
         <span class="step-num">1</span>
         <h3>Jawab 26 Pertanyaan</h3>
-        <p>Seputar produk, bahan, supplier, produksi, dokumentasi, dan manajemen halal bisnis Anda.</p>
+        <p>Soal produk, bahan, supplier, produksi, dan dokumentasi. Pilihan ganda semua, tinggal klik.</p>
       </div>
       <div class="how-step">
         <span class="step-num">2</span>
-        <h3>Dapatkan Skor 0–100</h3>
-        <p>Skor kesiapan halal instan, lengkap dengan breakdown per dimensi.</p>
+        <h3>Skor Anda Langsung Keluar</h3>
+        <p>Tidak pakai nunggu, lengkap dengan rincian nilai per bagian.</p>
       </div>
       <div class="how-step">
         <span class="step-num">3</span>
-        <h3>Lihat Gap Terbesar</h3>
-        <p>Sistem otomatis menyoroti area dengan gap paling signifikan.</p>
+        <h3>Lihat Bagian yang Paling Bolong</h3>
+        <p>Sistem otomatis menunjukkan bagian mana yang paling perlu dibereskan duluan.</p>
       </div>
       <div class="how-step">
         <span class="step-num">4</span>
-        <h3>Tentukan Langkah Anda</h3>
-        <p>Baca rekomendasi, hubungi konsultan, atau selesai di sini. Pilihan di tangan Anda.</p>
+        <h3>Anda yang Putuskan Lanjutnya</h3>
+        <p>Mau baca rekomendasinya, ngobrol sama konsultan, atau cukup sampai di sini. Terserah Anda.</p>
       </div>
     </div>
   </div>
@@ -603,8 +640,8 @@
 <section id="layanan" class="layanan" aria-label="Layanan">
   <div class="wrap">
     <div class="layanan-head">
-      <h2>Layanan</h2>
-      <p>Setelah tahu skor dan gap Anda, pilih langkah lanjutan yang sesuai, dari sekadar second opinion sampai pendampingan penuh. Tidak ada keharusan naik level, mulai dari mana pun sesuai kebutuhan.</p>
+      <h2>Kalau Mau Lanjut, Ini Pilihannya</h2>
+      <p>Setelah tahu skor dan bagian yang bolong, Anda tinggal pilih mau dibantu sampai mana. Tidak harus ambil yang paling besar. Mulai dari mana pun yang pas sama kebutuhan dan kantong Anda.</p>
     </div>
     <div class="service-ladder">
       <div class="service-row" style="--fill:20%">
@@ -612,7 +649,7 @@
         <div class="service-body">
           <span class="service-level">Free</span>
           <h3>Halal Readiness Check</h3>
-          <p>Langkah pertama yang gratis: ketahui skor kesiapan halal bisnis Anda sebelum memutuskan apa pun.</p>
+          <p>Gratis. Anda tahu posisi bisnis Anda sekarang, sebelum keluar duit sepeser pun.</p>
         </div>
       </div>
       <div class="service-row" style="--fill:34%">
@@ -620,7 +657,7 @@
         <div class="service-body">
           <span class="service-level">Entry</span>
           <h3>Halal Readiness Review</h3>
-          <p>Sudah yakin skor Anda tinggi? Dapatkan validasi cepat dari auditor bersertifikat sebelum melangkah lebih jauh.</p>
+          <p>Skor Anda sudah tinggi? Auditor bersertifikat cek ulang sebentar, biar Anda tidak tersandung hal kecil pas pengajuan.</p>
         </div>
       </div>
       <div class="service-row" style="--fill:48%">
@@ -628,7 +665,7 @@
         <div class="service-body">
           <span class="service-level">Diagnostic</span>
           <h3>Halal Gap Assessment</h3>
-          <p>Ketika gap Anda menyebar di banyak dimensi, kami bantu petakan akar masalahnya secara menyeluruh.</p>
+          <p>Bolongnya kepencar dan bingung mulai dari mana? Kami petakan akar masalahnya, lalu urutkan mana yang paling mendesak.</p>
         </div>
       </div>
       <div class="service-row" style="--fill:64%">
@@ -636,7 +673,7 @@
         <div class="service-body">
           <span class="service-level">Implementation</span>
           <h3>Halal Readiness Program</h3>
-          <p>Dari peta masalah menjadi rencana aksi nyata, didampingi langsung sampai tim Anda siap eksekusi.</p>
+          <p>Sudah tahu masalahnya tapi tim belum jalan? Kami ubah jadi rencana kerja dan dampingi sampai tim Anda bisa sendiri.</p>
         </div>
       </div>
       <div class="service-row" style="--fill:82%">
@@ -644,7 +681,7 @@
         <div class="service-body">
           <span class="service-level">Comprehensive</span>
           <h3>Halal Foundation / Certification Preparation</h3>
-          <p>Untuk bisnis dengan banyak SKU, fasilitas, dan pemasok, kami bangun fondasi halal Anda dari nol hingga siap sertifikasi.</p>
+          <p>Produk banyak, cabang banyak, dan mulai dari nol? Kami bangun sistem halal Anda dari dasar sampai layak diajukan.</p>
         </div>
       </div>
       <div class="service-row" style="--fill:100%">
@@ -652,7 +689,7 @@
         <div class="service-body">
           <span class="service-level">Recurring</span>
           <h3>Compliance Monitoring</h3>
-          <p>Kesiapan halal bukan sekali jadi. Kami jaga sistem Anda tetap konsisten lewat kontrol berkala.</p>
+          <p>Sudah bersertifikat? Kami bantu jaga supaya tetap sah, bukan cuma rapi pas mau perpanjang.</p>
         </div>
       </div>
     </div>
@@ -663,15 +700,15 @@
   <div class="wrap">
     <div class="artikel-head">
       <h2>Artikel</h2>
-      <p>Bacaan singkat seputar kesiapan dan sertifikasi halal untuk bisnis F&amp;B dan consumer goods.</p>
+      <p>Bacaan singkat soal sertifikasi halal, ditulis buat pemilik usaha, bukan buat auditor.</p>
     </div>
     <!-- TODO: konten artikel di bawah ini masih placeholder — ganti judul/ringkasan/link begitu artikel asli tersedia -->
     <div class="article-list">
       <div class="article-row">
         <span class="article-num">01</span>
         <div class="article-body">
-          <h3>Apa Itu Halal Readiness Check dan Mengapa Penting?</h3>
-          <p>Mengenal konsep self-assessment kesiapan halal sebelum memulai proses sertifikasi resmi.</p>
+          <h3>Apa Itu Halal Readiness Check dan Kenapa Perlu?</h3>
+          <p>Kenapa sebaiknya cek kondisi sendiri dulu sebelum mulai urus sertifikasi resmi.</p>
         </div>
         <span class="article-badge">Segera Hadir</span>
       </div>
@@ -679,7 +716,7 @@
         <span class="article-num">02</span>
         <div class="article-body">
           <h3>5 Kesalahan Umum Sebelum Mengajukan Sertifikasi Halal</h3>
-          <p>Gap yang paling sering ditemukan pada bisnis F&amp;B dan consumer goods, dan cara menghindarinya.</p>
+          <p>Hal-hal yang paling sering bikin pengajuan mentok, dan cara menghindarinya sejak awal.</p>
         </div>
         <span class="article-badge">Segera Hadir</span>
       </div>
@@ -687,7 +724,7 @@
         <span class="article-num">03</span>
         <div class="article-body">
           <h3>Self-Assessment vs Audit vs Sertifikasi: Apa Bedanya?</h3>
-          <p>Memahami posisi Halal Readiness Score dalam keseluruhan proses menuju sertifikat halal resmi.</p>
+          <p>Biar tidak salah paham soal posisi skor ini dalam proses menuju sertifikat resmi.</p>
         </div>
         <span class="article-badge">Segera Hadir</span>
       </div>
@@ -720,9 +757,9 @@
       </span>
       <div>
         <h3>Tentang GoHalal</h3>
-        <p>GoHalal hadir sebagai layanan konsultasi halal untuk bisnis F&amp;B, brand consumer goods, hingga manufaktur skala menengah yang ingin membangun kesiapan sertifikasi halal, bukan lewat coba-coba, tapi lewat diagnosis yang terukur.</p>
-        <p>Kami percaya proses menuju halal yang benar dimulai dari pemahaman, bukan formulir. Setiap rekomendasi yang kami berikan dikelola langsung oleh ahli bersertifikat BNSP yang memahami detail teknis di balik setiap ketentuan, dari traceability bahan baku hingga tata kelola dokumentasi produksi.</p>
-        <p>Dari self-assessment gratis sampai pendampingan penuh menuju sertifikasi, GoHalal adalah partner yang bicara bahasa bisnis Anda, bukan sekadar bahasa regulasi.</p>
+        <p>GoHalal itu jasa konsultasi halal buat pemilik usaha yang pengin sertifikasi tapi bingung mulai dari mana. Kami kerja bareng UMKM F&amp;B, brand consumer goods, sampai pabrik skala menengah.</p>
+        <p>Menurut kami urusan halal itu harusnya dimulai dari paham dulu, bukan dari isi formulir. Semua rekomendasi di sini dipegang langsung oleh ahli bersertifikat BNSP, jadi yang Anda dapat bukan tebakan, tapi arahan dari orang yang memang ngerti detail teknisnya.</p>
+        <p>Dari cek gratis sampai pendampingan penuh, kami berusaha ngomong pakai bahasa bisnis Anda, bukan bahasa peraturan.</p>
       </div>
     </div>
 
@@ -779,16 +816,16 @@
   // Dynamic hero headline per segment (?segment=fnb|brand|manufaktur), default fnb
   var HEADLINES = {
     fnb: {
-      html: 'Seberapa Siap Bisnis Anda untuk <span class="accent">Sertifikasi Halal?</span>',
-      sub: 'Cek gratis dalam 5 menit. Dapatkan skor kesiapan halal Anda sebelum memutuskan langkah berikutnya.'
+      html: 'Sebelum Keluar Biaya, Cek Dulu <span class="accent">Kesiapan Halal Bisnis Anda</span>',
+      sub: 'Isi 26 pertanyaan, 5 menit, gratis. Anda langsung tahu bagian mana yang sudah aman dan mana yang masih bolong.'
     },
     brand: {
-      html: 'Ekspansi SKU atau Supplier Baru? <span class="accent">Pastikan Kesiapan Halal Anda</span>',
-      sub: 'Cek gratis kesiapan halal brand Anda sebelum meluncurkan produk atau pemasok baru. Dapatkan skor dan gap terbesar dalam hitungan menit.'
+      html: 'Mau Nambah Produk atau Ganti Supplier? <span class="accent">Cek Dulu Dampaknya</span>',
+      sub: 'Gratis, 5 menit. Lihat bagian mana yang sudah aman dan mana yang bisa bikin repot pas pengajuan nanti.'
     },
     manufaktur: {
-      html: 'Governance Halal untuk Fasilitas dan SKU Skala Besar. <span class="accent">Mulai dari Diagnostic Gratis</span>',
-      sub: 'Petakan kesiapan halal di seluruh fasilitas dan lini produk Anda, mulai dari Halal Readiness Check gratis dalam beberapa menit.'
+      html: 'Produk dan Fasilitas Anda Banyak? <span class="accent">Petakan Kesiapan Halalnya Dulu</span>',
+      sub: 'Gratis, 5 menit. Lihat kondisi kesiapan halal di seluruh operasional Anda sebelum mulai keluar biaya.'
     }
   };
   var segment = new URLSearchParams(window.location.search).get('segment');
@@ -1079,12 +1116,12 @@
   ];
 
   var DIMENSIONS = {
-    BUSINESS_PRODUCT:  { label:'Bisnis & Produk',            max:15, focus:'Rapikan legalitas usaha dan identifikasi produk secara menyeluruh.' },
-    INGREDIENT:         { label:'Bahan Baku',                 max:25, focus:'Bangun master list bahan dan verifikasi status halal setiap bahan.' },
-    SUPPLIER:           { label:'Supplier & Ketertelusuran',  max:20, focus:'Susun master data supplier dan rapikan dokumentasi pemasok.' },
-    PRODUCTION:         { label:'Produksi & Fasilitas',       max:15, focus:'Dokumentasikan proses produksi dan perkuat kontrol kontaminasi silang.' },
-    DOCUMENTATION:      { label:'Dokumentasi & Kontrol',      max:15, focus:'Bangun sistem dokumentasi dan record control yang terpusat.' },
-    MANAGEMENT:         { label:'Manajemen Halal',            max:10, focus:'Perkuat kebijakan, edukasi, dan monitoring internal sistem halal.' }
+    BUSINESS_PRODUCT:  { label:'Bisnis & Produk',            max:15, focus:'Rapikan legalitas usaha dan pastikan semua produk Anda terdata jelas.' },
+    INGREDIENT:         { label:'Bahan Baku',                 max:25, focus:'Bikin daftar induk bahan, lalu cek status halal tiap bahannya satu per satu.' },
+    SUPPLIER:           { label:'Supplier & Ketertelusuran',  max:20, focus:'Rapikan data pemasok dan simpan dokumen mereka di satu tempat.' },
+    PRODUCTION:         { label:'Produksi & Fasilitas',       max:15, focus:'Catat alur produksi Anda dan perkuat pencegahan kontaminasi silang.' },
+    DOCUMENTATION:      { label:'Dokumentasi & Kontrol',      max:15, focus:'Kumpulkan dokumen di satu sistem, jangan tersebar di banyak tempat.' },
+    MANAGEMENT:         { label:'Manajemen Halal',            max:10, focus:'Perkuat kebijakan halal, pelatihan tim, dan pengecekan internal rutin.' }
   };
   var DIM_ORDER = ['BUSINESS_PRODUCT','INGREDIENT','SUPPLIER','PRODUCTION','DOCUMENTATION','MANAGEMENT'];
   var MULTIPLIER = { A:1, B:0.75, C:0.5, D:0 };
@@ -1172,37 +1209,37 @@
     var category, categoryCopy, primaryCtaLabel;
     if(overall >= 80){
       category = 'FONDASI KUAT';
-      categoryCopy = 'Jawaban Anda menunjukkan fondasi kesiapan halal yang relatif kuat. Namun hasil ini tetap merupakan self-assessment dan bukan audit atau jaminan sertifikasi.';
-      primaryCtaLabel = 'Jadwalkan Tinjauan Kesiapan Halal';
+      categoryCopy = 'Fondasi Anda sudah rapi, lebih siap dibanding kebanyakan bisnis yang baru mulai. Tapi ingat, ini hasil cek mandiri, bukan audit dan bukan jaminan sertifikasi.';
+      primaryCtaLabel = 'Cek Ulang Sebelum Ajukan';
     } else if(overall >= 60){
       category = 'BERKEMBANG';
-      categoryCopy = 'Bisnis Anda sudah memiliki beberapa fondasi, tetapi masih terdapat area yang perlu diperkuat sebelum melangkah lebih jauh.';
-      primaryCtaLabel = 'Dapatkan Analisis Gap Mendalam';
+      categoryCopy = 'Beberapa bagian sudah jalan, tapi masih ada yang perlu dikuatkan sebelum Anda maju ke pengajuan.';
+      primaryCtaLabel = 'Petakan Bolongnya Dulu';
     } else if(overall >= 40){
       category = 'PERLU DITINGKATKAN';
-      categoryCopy = 'Terdapat beberapa gap penting pada bahan, supplier, proses, dokumentasi, atau management system.';
-      primaryCtaLabel = 'Mulai Halal Readiness Assessment';
+      categoryCopy = 'Ada beberapa bagian penting yang masih bolong, entah di bahan, supplier, proses, atau dokumentasi.';
+      primaryCtaLabel = 'Susun Rencana Bereskannya';
     } else {
       category = 'TAHAP AWAL';
-      categoryCopy = 'Fondasi sistem halal bisnis Anda masih perlu dibangun secara bertahap.';
-      primaryCtaLabel = 'Diskusikan Kesiapan Halal Anda';
+      categoryCopy = 'Sistem halal bisnis Anda memang belum terbangun. Itu wajar, dan bisa dibereskan bertahap.';
+      primaryCtaLabel = 'Ngobrol Dulu Soal Kondisi Anda';
     }
 
     var criticalGaps = [];
     if(state.answers.Q7 === 'D' || state.answers.Q8 === 'D'){
-      criticalGaps.push({ title:'Gap Kritis: Verifikasi Bahan Baku', desc:'Ada bahan yang status/dokumen halalnya belum terverifikasi atau belum jelas.' });
+      criticalGaps.push({ title:'Gap Kritis: Verifikasi Bahan Baku', desc:'Ada bahan yang status halalnya belum jelas atau dokumennya belum pernah dicek.' });
     }
     if(state.answers.Q12 === 'D'){
-      criticalGaps.push({ title:'Gap Kritis: Dokumentasi Supplier', desc:'Dokumen supplier belum tersimpan/terstruktur sama sekali.' });
+      criticalGaps.push({ title:'Gap Kritis: Dokumentasi Supplier', desc:'Dokumen dari pemasok belum tersimpan rapi sama sekali.' });
     }
     if(state.answers.Q10 === 'D' || state.answers.Q13 === 'D'){
-      criticalGaps.push({ title:'Gap Kritis: Kontrol Perubahan', desc:'Perubahan bahan/formula tidak tercatat atau tidak diketahui saat terjadi.' });
+      criticalGaps.push({ title:'Gap Kritis: Kontrol Perubahan', desc:'Perubahan bahan atau resep tidak tercatat, jadi tidak ketahuan waktu terjadi.' });
     }
     if(state.answers.Q17 === 'D'){
-      criticalGaps.push({ title:'Gap Kritis: Kontrol Proses/Fasilitas', desc:'Belum ada kontrol untuk mencegah ketidaksesuaian proses halal di fasilitas produksi.' });
+      criticalGaps.push({ title:'Gap Kritis: Kontrol Proses/Fasilitas', desc:'Belum ada pengaman di produksi untuk mencegah proses yang menyalahi ketentuan halal.' });
     }
     if(state.answers.Q23 === 'D' && state.answers.Q26 === 'D'){
-      criticalGaps.push({ title:'Gap Kritis: Manajemen Halal', desc:'Belum ada Penyelia Halal maupun internal review terhadap sistem halal.' });
+      criticalGaps.push({ title:'Gap Kritis: Manajemen Halal', desc:'Belum ada Penyelia Halal, dan belum ada pengecekan internal sama sekali.' });
     }
 
     var skuTier = complexityTier(state.answers.Q3);
@@ -1213,16 +1250,109 @@
     var sortedDims = DIM_ORDER.slice().sort(function(a,b){ return dimPercent[a] - dimPercent[b]; });
     var biggestGaps = sortedDims.slice(0, 3);
 
-    var recommendedService = primaryCtaLabel;
-    if(state.profile.hasCertificate === 'yes'){ recommendedService = 'Tinjauan Kepatuhan Halal'; }
-    else if(complexity === 'HIGH'){ recommendedService = 'Assessment Mendalam'; }
+    var rec = buildRecommendation(overall, complexity, criticalGaps, biggestGaps);
 
     return {
       overall: overall, category: category, categoryCopy: categoryCopy,
       primaryCtaLabel: primaryCtaLabel, dimPercent: dimPercent,
       criticalGaps: criticalGaps, complexity: complexity,
-      biggestGaps: biggestGaps, recommendedService: recommendedService
+      biggestGaps: biggestGaps, recommendedService: rec.service, rec: rec
     };
+  }
+
+  // Rekomendasi layanan yang nyambung sama hasil skor orangnya, bukan template
+  // generik. Dipilih dari tangga layanan di section Layanan.
+  function buildRecommendation(overall, complexity, criticalGaps, biggestGaps){
+    var punyaSertifikat = state.profile.hasCertificate === 'yes';
+    var gapUtama = biggestGaps.length ? DIMENSIONS[biggestGaps[0]].label : 'sistem halal Anda';
+    var rec;
+
+    if(punyaSertifikat && overall >= 60){
+      rec = {
+        service: 'Compliance Monitoring',
+        tier: 'Recurring',
+        headline: 'Sertifikat sudah di tangan. Sekarang tugasnya menjaga supaya tetap sah.',
+        hook: 'Sertifikat halal itu bukan pajangan yang aman selamanya. Sekali supplier ganti bahan, resep digeser, atau proses berubah tanpa tercatat, status halal Anda bisa gugur diam-diam. Dan biasanya baru ketahuan pas audit ulang, waktu semuanya sudah telanjur jalan berbulan-bulan.',
+        bullets: [
+          'Kontrol berkala supaya perubahan bahan atau supplier ketahuan sejak awal, bukan pas audit',
+          'Dokumen Anda selalu siap kapan pun auditor datang, tanpa lembur dadakan',
+          'Satu orang yang paham sistem Anda, tempat bertanya sebelum ambil keputusan berisiko'
+        ]
+      };
+    } else if(punyaSertifikat){
+      rec = {
+        service: 'Halal Gap Assessment',
+        tier: 'Diagnostic',
+        headline: 'Anda punya sertifikatnya, tapi sistem di belakangnya bocor.',
+        hook: 'Ini kombinasi yang paling berisiko: di atas kertas Anda bersertifikat, tapi praktik hariannya sudah tidak nyambung lagi sama yang dulu diajukan. Kalau dibiarkan, risikonya bukan cuma gagal perpanjang, tapi status halal yang Anda pakai jualan sekarang jadi dipertanyakan.',
+        bullets: [
+          'Kami cek di mana praktik Anda hari ini melenceng dari komitmen halal yang sudah didaftarkan',
+          'Anda dapat daftar temuan yang jelas, diurutkan dari yang paling berisiko',
+          'Ketahuan sekarang jauh lebih murah daripada ketahuan pas audit ulang'
+        ]
+      };
+    } else if(overall >= 80){
+      rec = {
+        service: 'Halal Readiness Review',
+        tier: 'Entry',
+        headline: 'Fondasi Anda sudah rapi. Tinggal satu mata lagi sebelum benar-benar aman.',
+        hook: 'Skor ' + overall + ' artinya Anda sudah jauh lebih siap dibanding kebanyakan bisnis yang baru mulai. Tapi yang bikin pengajuan mental itu jarang hal besar. Biasanya satu dokumen yang formatnya keliru, atau satu bahan yang lupa diverifikasi ulang setelah ganti supplier. Sayang banget kalau kerja keras Anda tersandung di situ.',
+        bullets: [
+          'Auditor bersertifikat BNSP mengecek ulang titik-titik yang paling sering jadi temuan',
+          'Cepat dan fokus, karena yang perlu dibenahi memang tinggal sedikit',
+          'Anda maju ke pengajuan dengan tenang, bukan sambil berharap-harap cemas'
+        ]
+      };
+    } else if(overall >= 60){
+      rec = {
+        service: 'Halal Gap Assessment',
+        tier: 'Diagnostic',
+        headline: 'Arahnya sudah benar. Masalahnya, gap-nya kepencar di mana-mana.',
+        hook: 'Skor ' + overall + ' biasanya berarti Anda sudah jalan, cuma belum tahu persis mana yang harus dibereskan duluan. Godaannya adalah membenahi semuanya sekaligus, dan itu mahal, lama, dan sering salah sasaran. Yang Anda butuhkan bukan kerja lebih banyak, tapi tahu mana yang benar-benar menahan Anda.',
+        bullets: [
+          'Kami telusuri akar masalahnya, bukan cuma gejalanya di permukaan',
+          'Temuan diurutkan dari yang paling berisiko, jadi jelas mana yang dikerjakan minggu ini',
+          'Budget dan tenaga tim Anda jatuh di tempat yang benar, bukan disebar merata'
+        ]
+      };
+    } else if(overall >= 40){
+      rec = {
+        service: 'Halal Readiness Program',
+        tier: 'Implementation',
+        headline: 'Anda sudah tahu bolongnya. Yang belum ada itu rencana dan yang mendampingi.',
+        hook: 'Skor ' + overall + ' sebetulnya kabar bagus, karena Anda tahu kondisi sebenarnya sekarang, bukan nanti pas pengajuan ditolak dan uang sudah telanjur keluar. Yang berat justru langkah setelah ini: menerjemahkan daftar gap jadi kerjaan nyata yang tim Anda sanggup jalankan sambil tetap produksi tiap hari.',
+        bullets: [
+          'Daftar gap di atas kami ubah jadi rencana kerja bertahap, bukan wacana',
+          'Tim Anda didampingi langsung sampai bisa jalan sendiri, bukan cuma dikasih dokumen',
+          'Perbaikan ' + gapUtama + ' dikerjakan duluan, karena itu yang paling menahan skor Anda'
+        ]
+      };
+    } else {
+      rec = {
+        service: 'Halal Foundation / Certification Preparation',
+        tier: 'Comprehensive',
+        headline: 'Mulai dari nol itu wajar. Yang bahaya kalau nekat maju sekarang.',
+        hook: 'Skor ' + overall + ' artinya sistem halal Anda memang belum terbangun, dan itu normal untuk bisnis yang selama ini fokus jualan dulu. Yang berisiko adalah mengajukan sertifikasi dalam kondisi ini: biaya keluar, waktu habis berbulan-bulan, hasilnya ditolak, dan Anda kembali ke titik nol dengan kas yang sudah berkurang.',
+        bullets: [
+          'Kami bangun dari dasar, dengan urutan yang benar, tanpa Anda harus paham regulasinya dulu',
+          'Dikerjakan bertahap menyesuaikan kapasitas tim dan kas Anda, bukan sekaligus',
+          'Anda baru maju ke pengajuan waktu memang sudah layak, bukan waktu sedang berharap'
+        ]
+      };
+    }
+
+    // Kondisi yang menaikkan urgensi, ditempel di bawah hook utama.
+    var urgensi = '';
+    if(criticalGaps.length >= 2){
+      urgensi = 'Catatan: ada ' + criticalGaps.length + ' gap kritis di hasil Anda. Ini bagian yang paling sering bikin pengajuan langsung mentok, jadi sebaiknya jangan ditunda.';
+    } else if(criticalGaps.length === 1){
+      urgensi = 'Catatan: ada 1 gap kritis di hasil Anda. Satu titik ini saja sudah cukup untuk menahan pengajuan Anda, jadi perlu dibereskan lebih dulu.';
+    } else if(complexity === 'HIGH'){
+      urgensi = 'Catatan: jumlah SKU dan cabang Anda tergolong banyak. Makin besar operasionalnya, makin mahal biaya membenahi belakangan, jadi lebih murah dirapikan sekarang.';
+    }
+    rec.urgensi = urgensi;
+
+    return rec;
   }
 
   function dimStatusLabel(pct){
@@ -1286,9 +1416,9 @@
           '</div>' +
         '</div>' +
         '<div class="quiz-nav">' +
-          '<button type="button" class="btn primary block" id="btnStartQuiz" disabled>Mulai Assessment (26 Pertanyaan)</button>' +
+          '<button type="button" class="btn primary block" id="btnStartQuiz" disabled>Mulai, 26 Pertanyaan</button>' +
         '</div>' +
-        '<p class="field-hint" style="text-align:center;margin-top:14px;">Belum perlu nama atau kontak. Itu baru ditanyakan sekali, di akhir, kalau Anda mau buka hasil lengkapnya.</p>' +
+        '<p class="field-hint" style="text-align:center;margin-top:14px;">Belum perlu isi nama atau kontak. Itu baru ditanya sekali di akhir, kalau Anda memang mau buka hasil lengkapnya.</p>' +
       '</div>';
 
     var sel = document.getElementById('fBusinessType');
@@ -1382,7 +1512,7 @@
         '</div>' +
         '<div class="result-category">' + esc(r.category) + '</div>' +
         '<p class="result-copy">' + esc(r.categoryCopy) + '</p>' +
-        '<button type="button" class="btn primary block" id="btnSeeDetail">Lihat Breakdown Lengkap &amp; Rekomendasi</button>' +
+        '<button type="button" class="btn primary block" id="btnSeeDetail">Buka Hasil Lengkap &amp; Rekomendasi</button>' +
       '</div>';
     document.getElementById('btnSeeDetail').addEventListener('click', function(){
       state.step = TOTAL_STEPS + 2;
@@ -1394,7 +1524,7 @@
     stage.innerHTML =
       '<div class="quiz-card">' +
         '<span class="quiz-dim-chip">Satu Langkah Lagi</span>' +
-        '<h3>Satu form saja untuk buka breakdown lengkap hasil Anda</h3>' +
+        '<h3>Isi sekali, langsung buka hasil lengkap Anda</h3>' +
         '<div class="field-row"><label for="fName">Nama Anda</label><input type="text" id="fName" value="' + esc(state.lead.name) + '" placeholder="Nama lengkap"></div>' +
         '<div class="field-row"><label for="fBiz">Nama Usaha</label><input type="text" id="fBiz" value="' + esc(state.lead.businessName) + '" placeholder="Nama usaha atau badan usaha Anda"></div>' +
         '<div class="field-row"><label for="fWa">Nomor WhatsApp</label><input type="tel" id="fWa" value="' + esc(state.lead.whatsapp) + '" placeholder="08xxxxxxxxxx"></div>' +
@@ -1456,7 +1586,7 @@
       ? r.criticalGaps.map(function(g){
           return '<div class="alert-box critical"><div class="alert-title">⚠ ' + esc(g.title) + '</div><p>' + esc(g.desc) + '</p></div>';
         }).join('')
-      : '<div class="alert-box ok"><div class="alert-title">✓ Tidak ditemukan gap kritis dari jawaban Anda.</div></div>';
+      : '<div class="alert-box ok"><div class="alert-title">✓ Tidak ada masalah kritis dari jawaban Anda. Bagus.</div></div>';
 
     var roadmapHtml = r.biggestGaps.map(function(d, i){
       return '<div class="roadmap-item">' +
@@ -1467,18 +1597,18 @@
 
     var complexityLabel = COMPLEXITY_LABELS_ID[r.complexity] || r.complexity;
     var complexityDesc = r.complexity === 'HIGH'
-      ? 'Jumlah SKU dan/atau cabang tergolong tinggi, assessment lebih detail disarankan untuk memetakan risiko secara menyeluruh.'
+      ? 'Produk dan cabang Anda tergolong banyak. Makin besar operasionalnya, makin banyak titik yang perlu dicek satu-satu.'
       : r.complexity === 'MEDIUM'
-        ? 'Kompleksitas operasional tergolong sedang, sesuai dengan jumlah SKU dan cabang yang dikelola.'
-        : 'Struktur bisnis tergolong sederhana berdasarkan jumlah SKU dan cabang saat ini.';
+        ? 'Skala operasional Anda menengah, sesuai jumlah produk dan cabang yang dikelola sekarang.'
+        : 'Struktur bisnis Anda masih sederhana. Ini justru enak, karena membereskannya lebih cepat dan murah.';
 
-    var waMessage = 'Halo, saya baru saja menyelesaikan Halal Readiness Check di GoHalal.\n' +
+    var waMessage = 'Halo, saya baru selesai cek Halal Readiness Check di GoHalal.\n' +
       'Nama: ' + state.lead.name + '\n' +
       'Bisnis: ' + state.lead.businessName + ' (' + effectiveBusinessType() + ')\n' +
       'Email: ' + state.lead.email + '\n' +
       'Skor: ' + r.overall + '/100 (' + r.category + ')\n' +
       'Kompleksitas: ' + complexityLabel + '\n' +
-      'Saya ingin diskusi lebih lanjut mengenai: ' + r.recommendedService;
+      'Saya mau ngobrol soal: ' + r.recommendedService;
     var waLink = 'https://wa.me/' + CONSULTANT_WA_NUMBER + '?text=' + encodeURIComponent(waMessage);
 
     stage.innerHTML =
@@ -1493,26 +1623,36 @@
           '<p class="result-copy">' + esc(r.categoryCopy) + '</p>' +
         '</div>' +
 
-        '<h4 class="result-section-title">Profil Skor per Dimensi</h4>' +
+        '<h4 class="result-section-title">Skor Anda per Bagian</h4>' +
         dimRows +
 
-        '<h4 class="result-section-title">3 Gap Terbesar &amp; Roadmap Prioritas</h4>' +
+        '<h4 class="result-section-title">3 Bagian Paling Bolong, Urut dari yang Utama</h4>' +
         roadmapHtml +
 
-        '<h4 class="result-section-title">Peringatan Kritis</h4>' +
+        '<h4 class="result-section-title">Yang Perlu Diwaspadai</h4>' +
         criticalHtml +
 
-        '<h4 class="result-section-title">Kompleksitas Bisnis</h4>' +
-        '<div class="alert-box ok"><div class="alert-title">Tingkat Kompleksitas: ' + esc(complexityLabel) + '</div>' +
+        '<h4 class="result-section-title">Skala Bisnis Anda</h4>' +
+        '<div class="alert-box ok"><div class="alert-title">Skala Operasional: ' + esc(complexityLabel) + '</div>' +
           '<p>' + complexityDesc + '</p></div>' +
 
         '<div class="cta-box">' +
-          '<div class="cta-label">Rekomendasi Langkah Berikutnya</div>' +
-          '<h4>' + esc(r.recommendedService) + '</h4>' +
-          '<a class="btn primary" href="' + waLink + '" target="_blank" rel="noopener">Diskusikan via WhatsApp</a>' +
+          '<div class="cta-label">Langkah paling masuk akal buat Anda sekarang</div>' +
+          '<h4>' + esc(r.rec.headline) + '</h4>' +
+          '<p class="cta-hook">' + esc(r.rec.hook) + '</p>' +
+          (r.rec.urgensi ? '<p class="cta-urgensi">' + esc(r.rec.urgensi) + '</p>' : '') +
+          '<div class="cta-service">' +
+            '<span class="cta-service-tier">' + esc(r.rec.tier) + '</span>' +
+            '<span class="cta-service-name">' + esc(r.rec.service) + '</span>' +
+          '</div>' +
+          '<ul class="cta-bullets">' +
+            r.rec.bullets.map(function(b){ return '<li>' + esc(b) + '</li>'; }).join('') +
+          '</ul>' +
+          '<a class="btn primary" href="' + waLink + '" target="_blank" rel="noopener">Ngobrol Dulu via WhatsApp, Gratis</a>' +
+          '<p class="cta-note">Ngobrol dulu, bukan langsung ditawari. Kalau ternyata belum butuh, kami bilang belum butuh.</p>' +
         '</div>' +
       '</div>' +
-      '<div class="restart-row"><button type="button" class="btn secondary" id="btnRestart">Ulangi Assessment</button></div>';
+      '<div class="restart-row"><button type="button" class="btn secondary" id="btnRestart">Ulangi Cek dari Awal</button></div>';
 
     document.getElementById('btnRestart').addEventListener('click', function(){
       state.step = 0;
