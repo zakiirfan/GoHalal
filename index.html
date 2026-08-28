@@ -776,6 +776,91 @@
     .tujuan{ grid-template-columns: 1fr; gap: 20px; justify-items: start; padding: 26px 22px; }
   }
 
+  /* ===== Sanksi: pita gelap sebagai jeda keras di tengah halaman =====
+     Merah dipakai setipis mungkin (garis, angka, satu kata) supaya terbaca
+     sebagai maklumat hukum, bukan kotak alarm. Keras lewat tipografi dan
+     ruang kosong, bukan lewat warna menyala. */
+  .sanksi{
+    background: #0b241d; color: var(--gading);
+    position: relative; overflow: hidden;
+    border-top: 1px solid rgba(169,80,63,0.4);
+  }
+  .sanksi::before{
+    content:""; position:absolute; inset:0; pointer-events:none;
+    background: radial-gradient(circle at 78% 12%, rgba(169,80,63,0.16) 0, transparent 46%);
+  }
+  .sanksi .wrap{ position: relative; }
+  .sanksi-head{ max-width: 660px; margin-bottom: 46px; }
+  .sanksi-eyebrow{
+    display:inline-flex; align-items:center; gap:9px;
+    font-size:0.73rem; font-weight:800; letter-spacing:0.16em; text-transform:uppercase;
+    color:#e0937f; margin-bottom:16px;
+  }
+  .sanksi-eyebrow::before{
+    content:""; width:22px; height:1px; background:#c2705c; flex-shrink:0;
+  }
+  .sanksi h2{
+    font-size: var(--t-h2); line-height:1.22; margin:0 0 16px;
+    color: var(--gading); text-wrap:balance; letter-spacing:-0.4px;
+  }
+  .sanksi-lead{ margin:0; font-size:1.02rem; line-height:1.65; color:rgba(255,253,247,0.74); }
+
+  /* Tiga tingkat, makin ke bawah makin berat: bobot garis dan angkanya ikut naik. */
+  .tingkat-list{ display:flex; flex-direction:column; }
+  .tingkat{
+    display:grid; grid-template-columns: 62px 1fr; gap:24px; align-items:start;
+    padding:26px 0; border-top:1px solid rgba(255,253,247,0.12);
+  }
+  .tingkat:last-of-type{ border-bottom:1px solid rgba(255,253,247,0.12); }
+  .tingkat .angka{
+    font-size:0.78rem; font-weight:800; letter-spacing:0.1em;
+    color:rgba(255,253,247,0.35); font-variant-numeric:tabular-nums; padding-top:4px;
+  }
+  .tingkat h3{
+    margin:0 0 8px; font-size:1.16rem; line-height:1.3; color:var(--gading);
+    display:flex; align-items:center; gap:11px; flex-wrap:wrap;
+  }
+  .tingkat h3 .garis{ height:2px; width:26px; background:rgba(169,80,63,0.45); border-radius:2px; }
+  .tingkat p{ margin:0; font-size:0.94rem; line-height:1.65; color:rgba(255,253,247,0.7); max-width:60ch; }
+  .tingkat:nth-of-type(2) .angka{ color:rgba(224,147,127,0.6); }
+  .tingkat:nth-of-type(2) h3 .garis{ width:38px; background:rgba(169,80,63,0.7); }
+  .tingkat:nth-of-type(3) .angka{ color:#e0937f; }
+  .tingkat:nth-of-type(3) h3 .garis{ width:52px; background:#c2705c; }
+  .tingkat:nth-of-type(3) h3{ font-size:1.24rem; }
+
+  /* Blok terpisah: ancaman pidana khusus pemegang sertifikat. */
+  .pidana{
+    margin-top:38px; padding:26px 28px;
+    border:1px solid rgba(169,80,63,0.42); border-radius:14px;
+    background:rgba(169,80,63,0.08);
+  }
+  .pidana h3{ margin:0 0 10px; font-size:1.05rem; color:#f0b8a6; line-height:1.35; }
+  .pidana p{ margin:0; font-size:0.94rem; line-height:1.68; color:rgba(255,253,247,0.78); max-width:64ch; }
+  .pidana strong{ color:var(--gading); }
+
+  .sanksi-tutup{
+    margin-top:40px; display:flex; align-items:center; justify-content:space-between;
+    gap:28px; flex-wrap:wrap;
+  }
+  .sanksi-tutup p{ margin:0; max-width:54ch; font-size:1rem; line-height:1.65; color:rgba(255,253,247,0.8); }
+  .sanksi-tutup strong{ color:var(--gading); }
+  .sanksi-rujukan{
+    margin-top:26px; font-size:0.76rem; line-height:1.6; color:rgba(255,253,247,0.42); max-width:70ch;
+  }
+  @media (max-width: 620px){
+    .sanksi-head{ margin-bottom:32px; }
+    .sanksi-lead{ font-size:var(--t-body); }
+    .tingkat{ grid-template-columns:1fr; gap:8px; padding:22px 0; }
+    .tingkat .angka{ padding-top:0; }
+    .tingkat h3, .tingkat:nth-of-type(3) h3{ font-size:var(--t-h3); }
+    .tingkat p{ font-size:var(--t-kecil); }
+    .pidana{ padding:22px 20px; margin-top:30px; }
+    .pidana p{ font-size:var(--t-kecil); }
+    .sanksi-tutup{ margin-top:32px; }
+    .sanksi-tutup p{ font-size:var(--t-body); }
+    .sanksi-tutup .btn{ width:100%; justify-content:center; }
+  }
+
   /* ===== FAQ (accordion, satu kolom lebar baca) ===== */
   .faq{ background: var(--gading); }
   .faq-head{ max-width: 640px; margin-bottom: 34px; }
@@ -936,6 +1021,7 @@
     <ul class="nav-links" id="navLinks">
       <li><a href="#top">Beranda</a></li>
       <li><a href="#kenapa">Kenapa Halal</a></li>
+      <li><a href="#sanksi">Sanksi</a></li>
       <li><a href="#cara-kerja">Cara Kerja</a></li>
       <li><a href="#layanan">Layanan</a></li>
       <li><a href="#faq">FAQ</a></li>
@@ -1132,6 +1218,88 @@
       </p>
       <a href="#quiz" class="btn primary">Cek Posisi Saya, Gratis</a>
     </div>
+  </div>
+</section>
+
+<section id="sanksi" class="sanksi" aria-label="Sanksi bila tidak bersertifikat halal">
+  <div class="wrap">
+    <div class="sanksi-head reveal">
+      <span class="sanksi-eyebrow">Risiko Kalau Diabaikan</span>
+      <h2>Yang menunggu di ujung bukan teguran ramah.</h2>
+      <p class="sanksi-lead">
+        Undang-Undang Jaminan Produk Halal tidak berhenti pada kata &ldquo;wajib&rdquo;.
+        Ada rangkaian sanksi yang menyertainya, dan urutannya menaik. Berikut yang
+        menanti pelaku usaha yang produknya wajib bersertifikat tetapi tidak
+        mengurusnya.
+      </p>
+    </div>
+
+    <div class="tingkat-list">
+      <div class="tingkat reveal">
+        <span class="angka">TAHAP 01</span>
+        <div>
+          <h3><span class="garis" aria-hidden="true"></span>Peringatan tertulis</h3>
+          <p>
+            Terasa ringan, dan justru itu bahayanya. Banyak yang menganggapnya
+            formalitas, padahal surat ini artinya satu hal: produk Anda sudah masuk
+            radar pengawasan, dan jam sudah mulai berjalan.
+          </p>
+        </div>
+      </div>
+
+      <div class="tingkat reveal">
+        <span class="angka">TAHAP 02</span>
+        <div>
+          <h3><span class="garis" aria-hidden="true"></span>Denda administratif</h3>
+          <p>
+            Di titik ini uang tetap keluar, bedanya tidak menghasilkan apa-apa.
+            Bukan investasi ke sistem Anda, bukan pula membuat produk jadi
+            bersertifikat. Murni biaya karena terlambat.
+          </p>
+        </div>
+      </div>
+
+      <div class="tingkat reveal">
+        <span class="angka">TAHAP 03</span>
+        <div>
+          <h3><span class="garis" aria-hidden="true"></span>Penarikan barang dari peredaran</h3>
+          <p>
+            Yang paling mahal, dan yang paling sulit dipulihkan. Produk ditarik dari
+            rak, stok tertahan di gudang, order berhenti, dan buyer yang susah payah
+            Anda dapatkan mencari pemasok lain. Reputasi yang dibangun bertahun-tahun
+            bisa habis dalam satu siklus distribusi.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="pidana reveal">
+      <h3>Sudah bersertifikat pun belum aman</h3>
+      <p>
+        Pelaku usaha yang tidak menjaga kehalalan produk yang telah memperoleh
+        sertifikat halal diancam <strong>pidana penjara paling lama 5 tahun atau denda
+        paling banyak Rp2 miliar</strong> (Pasal 56 UU No. 33 Tahun 2014). Sertifikat
+        bukan garis akhir. Sekali bahan diganti atau proses digeser tanpa kendali,
+        yang Anda pegang tinggal selembar kertas.
+      </p>
+    </div>
+
+    <div class="sanksi-tutup reveal">
+      <p>
+        <strong>Kami tidak sedang menakut-nakuti.</strong> Ini bunyi aturannya, dan
+        Anda berhak tahu sebelum memutuskan menunda lagi. Kabar baiknya, seluruh
+        rangkaian di atas bisa dihindari dan langkah pertamanya gratis: cari tahu
+        posisi bisnis Anda hari ini.
+      </p>
+      <a href="#quiz" class="btn primary">Cek Posisi Saya Sekarang</a>
+    </div>
+
+    <p class="sanksi-rujukan reveal">
+      Rujukan: Undang-Undang Nomor 33 Tahun 2014 tentang Jaminan Produk Halal beserta
+      peraturan pelaksanaannya. Jenis dan besaran sanksi administratif ditetapkan dalam
+      peraturan tersendiri dan dapat berubah. Untuk kondisi terkini yang berlaku bagi
+      kategori produk Anda, pastikan langsung ke BPJPH.
+    </p>
   </div>
 </section>
 
