@@ -3,10 +3,9 @@
 
 create extension if not exists "pgcrypto";
 
--- Setiap kali seseorang mengisi email di step "Sebelum Mulai" (progressive capture,
--- completed:false) atau menyelesaikan seluruh 26 pertanyaan quiz (completed:true).
--- Baris yang sama di-UPDATE dari partial -> final, bukan insert baru, supaya satu
--- orang = satu baris.
+-- Satu baris per orang yang menyelesaikan quiz DAN submit form kontak (satu-satunya
+-- gerbang kontak di seluruh alur, muncul sekali setelah skor headline). Tidak ada
+-- partial/progressive save lagi -- satu insert, sekali jadi.
 create table if not exists quiz_submissions (
   id uuid primary key default gen_random_uuid(),
   business_name text,
@@ -68,21 +67,6 @@ create policy "public can insert quiz submissions"
   as permissive
   for insert
   to anon, authenticated
-  with check (true);
-
--- Dibutuhkan untuk progressive lead capture: baris yang sama (partial -> final)
--- di-UPDATE, bukan insert baru. Trade-off yang disadari: karena tidak ada login
--- untuk pengunjung publik, RLS tidak bisa membatasi "hanya boleh update baris
--- miliknya sendiri" -- siapa pun dengan anon key bisa update baris manapun di
--- tabel ini kalau tahu/menebak id-nya (UUID, jadi sulit ditebak). Tabel `leads`
--- (data kontak) TIDAK diberi izin update/select sama sekali, jadi data kontak
--- klien tetap tidak bisa dibaca publik.
-create policy "public can update quiz submissions"
-  on quiz_submissions
-  as permissive
-  for update
-  to anon, authenticated
-  using (true)
   with check (true);
 
 create policy "public can insert leads"
