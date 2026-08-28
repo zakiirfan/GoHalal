@@ -278,7 +278,7 @@
     display: flex; align-items: center; flex-wrap: wrap; gap: 14px;
   }
   .hero-disclaimer{
-    margin: 22px 0 0; font-size: 0.72rem; line-height: 1.5;
+    margin: 22px 0 0; font-size: 0.8rem; line-height: 1.6;
     color: rgba(255,253,247,0.5); max-width: 480px;
   }
 
@@ -377,7 +377,7 @@
        hierarkinya lebih jelas ketimbang dua tombol berdempetan. */
     .hero-ctas{ flex-direction: column; align-items: stretch; gap: 10px; }
     .hero-ctas .btn{ width: 100%; justify-content: center; }
-    .hero-disclaimer{ margin-top: 18px; font-size: 0.69rem; }
+    .hero-disclaimer{ margin-top: 18px; font-size: 0.8rem; }
     .rantai-judul{ text-align: left; }
   }
 
@@ -421,6 +421,45 @@
     .option-card{ padding: 13px 14px; }
     .quiz-nav{ flex-direction: column-reverse; }
     .restart-row .btn{ width: 100%; margin: 0; }
+  }
+
+  /* Badge kredensial. Ditaruh di dua titik intensi tinggi: bawah CTA hero dan
+     awal kuis, karena di footer saja praktis tidak pernah terbaca sebelum
+     pengunjung memutuskan. */
+  .kredensial{
+    display:inline-flex; align-items:center; gap:9px;
+    font-size:0.78rem; font-weight:600; line-height:1.4;
+    padding:7px 14px; border-radius:999px;
+  }
+  .kredensial svg{ width:15px; height:15px; flex-shrink:0; stroke-width:1.9; fill:none; }
+  .kredensial.on-dark{
+    background:rgba(255,253,247,0.08); border:1px solid rgba(212,175,106,0.34);
+    color:rgba(255,253,247,0.86);
+  }
+  .kredensial.on-dark svg{ stroke:var(--emas-terang); }
+  .kredensial.on-light{
+    background:var(--krem-tua); border:1px solid var(--garis);
+    color:var(--emas-teks);
+  }
+  .kredensial.on-light svg{ stroke:var(--emas-teks); }
+  .hero-kredensial{ margin-top:20px; }
+  .quiz-kredensial{ display:flex; justify-content:center; margin-bottom:18px; }
+
+  /* Jaminan privasi tepat di sebelah kotak persetujuan, bukan cuma diklaim
+     di strip atas halaman. */
+  .privasi-baris{
+    display:flex; align-items:flex-start; gap:9px;
+    margin:-6px 0 20px; padding:11px 13px;
+    background:var(--krem); border:1px solid var(--garis-halus); border-radius:10px;
+    font-size:0.78rem; line-height:1.5; color:var(--teks-lembut);
+  }
+  .privasi-baris svg{
+    width:15px; height:15px; flex-shrink:0; margin-top:1px;
+    stroke:var(--hijau); fill:none; stroke-width:1.9;
+  }
+  @media (max-width: 620px){
+    .kredensial{ font-size:0.74rem; padding:7px 12px; }
+    .hero-kredensial{ margin-top:16px; }
   }
 
   /* ===== Trust strip (moved out of hero per hero-stack discipline) ===== */
@@ -582,7 +621,7 @@
   }
   .quiz-card h3{ margin: 0 0 20px; font-size:1.15rem; color:var(--hijau-tua); line-height:1.4; }
   .field-row{ margin-bottom:18px; }
-  .field-row label{ display:block; font-size:0.85rem; font-weight:600; color:var(--teks); margin-bottom:6px; }
+  .field-row label{ display:block; font-size:0.9rem; font-weight:600; color:var(--teks); margin-bottom:7px; }
   .field-row select, .field-row input[type=text], .field-row input[type=tel], .field-row input[type=email]{
     width:100%; padding:12px 14px; border-radius:10px; border:1.5px solid var(--garis);
     font-size:0.95rem; font-family:inherit; color:var(--teks); background:var(--gading);
@@ -603,7 +642,7 @@
   .quiz-nav .btn{ flex:1; }
   .consent-row{ display:flex; align-items:flex-start; gap:10px; margin: 18px 0 22px; }
   .consent-row input{ margin-top:4px; accent-color: var(--hijau-tua); width:17px; height:17px; flex-shrink:0; }
-  .consent-row label{ font-size:0.82rem; color:var(--teks-lembut); line-height:1.5; }
+  .consent-row label{ font-size:0.85rem; color:var(--teks-lembut); line-height:1.6; }
 
   /* result headline */
   .result-headline{ text-align:center; }
@@ -698,7 +737,7 @@
     color:var(--emas-terang); font-weight:800; font-size:0.9rem;
   }
   .cta-note{
-    margin:14px 0 0; font-size:0.78rem; line-height:1.55;
+    margin:14px 0 0; font-size:0.82rem; line-height:1.55;
     color:rgba(255,253,247,0.5); max-width:400px; margin-left:auto; margin-right:auto;
   }
   /* ===== Kenapa Sertifikasi Halal (hijau tua, jadi jeda gelap di tengah halaman) ===== */
@@ -851,7 +890,7 @@
   .sanksi-tutup p{ margin:0; max-width:54ch; font-size:1rem; line-height:1.65; color:rgba(255,253,247,0.8); }
   .sanksi-tutup strong{ color:var(--gading); }
   .sanksi-rujukan{
-    margin-top:26px; font-size:0.76rem; line-height:1.6; color:rgba(255,253,247,0.42); max-width:70ch;
+    margin-top:26px; font-size:0.82rem; line-height:1.6; color:rgba(255,253,247,0.42); max-width:70ch;
   }
   @media (max-width: 620px){
     .sanksi-head{ margin-bottom:32px; }
@@ -915,7 +954,7 @@
 
   .result-section-title{ font-size:1.05rem; color:var(--hijau-tua); margin: 30px 0 14px; }
   .result-block + .result-block{ margin-top:8px; }
-  .quiz-disclaimer{ font-size:0.75rem; color:var(--teks-lembut); line-height:1.55; margin-top:26px; text-align:center; }
+  .quiz-disclaimer{ font-size:0.82rem; color:var(--teks-lembut); line-height:1.65; margin-top:26px; text-align:center; }
   .restart-row{ text-align:center; margin-top:18px; display:flex; flex-direction:column; align-items:center; gap:12px; }
   .restart-row .btn{ margin:0 4px; }
   .kirim-status{
@@ -941,7 +980,7 @@
   "@context": "https://schema.org",
   "@type": "ProfessionalService",
   "name": "GoHalal",
-  "description": "Jasa konsultasi kesiapan sertifikasi halal untuk UMKM F&B, brand consumer goods, dan manufaktur skala menengah di Indonesia. Dikelola auditor halal bersertifikat BNSP.",
+  "description": "Jasa konsultasi kesiapan sertifikasi halal untuk UMKM makanan dan minuman, brand consumer goods, farmasi, dan manufaktur skala menengah di Indonesia. Dikawal tenaga ahli bersertifikat BNSP.",
   "areaServed": {
     "@type": "Country",
     "name": "Indonesia"
@@ -1059,15 +1098,15 @@
 
   <div class="hero-media" aria-hidden="true">
     <img src="assets/hero-illustration.svg" alt="">
-    <video id="heroVideo0" muted playsinline preload="auto" disablepictureinpicture
+    <video id="heroVideo0" muted playsinline preload="auto" poster="assets/hero-poster.jpg" disablepictureinpicture
       src="https://d8j0ntlcm91z4.cloudfront.net/user_3ISJUYUC5T8dEJsG2VKPgqHRDSH/hf_20260828_115551_3bc525dc-93e6-4add-9302-8142c111f013.mp4"></video>
-    <video id="heroVideo1" muted playsinline preload="none" disablepictureinpicture
+    <video id="heroVideo1" muted playsinline preload="none" poster="assets/hero-poster.jpg" disablepictureinpicture
       src="https://d8j0ntlcm91z4.cloudfront.net/user_3ISJUYUC5T8dEJsG2VKPgqHRDSH/hf_20260828_034527_652943d7-42ce-4e19-9666-123acecdf11c.mp4"></video>
-    <video id="heroVideo2" muted playsinline preload="none" disablepictureinpicture
+    <video id="heroVideo2" muted playsinline preload="none" poster="assets/hero-poster.jpg" disablepictureinpicture
       src="https://d8j0ntlcm91z4.cloudfront.net/user_3ISJUYUC5T8dEJsG2VKPgqHRDSH/hf_20260828_034636_0ce97f7d-597f-4da2-bab7-0a54e64e0309.mp4"></video>
-    <video id="heroVideo3" muted playsinline preload="none" disablepictureinpicture
+    <video id="heroVideo3" muted playsinline preload="none" poster="assets/hero-poster.jpg" disablepictureinpicture
       src="https://d8j0ntlcm91z4.cloudfront.net/user_3ISJUYUC5T8dEJsG2VKPgqHRDSH/hf_20260828_034534_8f240d02-3582-4f20-9f63-56c8cbe90349.mp4"></video>
-    <video id="heroVideo4" muted playsinline preload="none" disablepictureinpicture
+    <video id="heroVideo4" muted playsinline preload="none" poster="assets/hero-poster.jpg" disablepictureinpicture
       src="https://d8j0ntlcm91z4.cloudfront.net/user_3ISJUYUC5T8dEJsG2VKPgqHRDSH/hf_20260828_034703_44ea3111-a254-44c7-bca3-43fea8b7a338.mp4"></video>
   </div>
   <div class="hero-overlay" aria-hidden="true"></div>
@@ -1082,7 +1121,7 @@
       <h1 id="heroHeadline">Sebelum Keluar Biaya, Cek Dulu <span class="accent">Kesiapan Halal Bisnis Anda</span></h1>
 
       <p class="subhead" id="heroSubhead">
-        26 pertanyaan singkat menelusuri bahan baku, pemasok, produksi, sampai dokumentasi Anda. Lima menit, gratis, hasilnya keluar saat itu juga.
+        Dibuat untuk UMKM makanan, minuman, kosmetik, dan farmasi. Semuanya pilihan ganda, tinggal klik, rata-rata lima menit. Gratis, hasilnya keluar saat itu juga.
       </p>
 
       <div class="hero-ctas">
@@ -1091,6 +1130,10 @@
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" width="18" height="18"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
         </a>
         <a href="#cara-kerja" class="btn on-dark secondary">Lihat Cara Kerjanya</a>
+      </div>
+
+      <div class="hero-kredensial">
+        <span class="kredensial on-dark"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6 4.2 6v6c0 4.6 3.3 7.8 7.8 9 4.5-1.2 7.8-4.4 7.8-9V6L12 2.6Z"/><path d="M9 11.8l2 2 4-4"/></svg>Dikawal tenaga ahli bersertifikat BNSP</span>
       </div>
 
       <p class="hero-disclaimer">
@@ -1238,7 +1281,7 @@
         kelihatannya rumit. <strong>Makanya kami tidak minta Anda membeli apa pun dulu.</strong>
         Cek gratis 5 menit, lihat posisi bisnis Anda hari ini, baru putuskan mau lanjut atau tidak.
       </p>
-      <a href="#quiz" class="btn primary">Cek Posisi Saya, Gratis</a>
+      <a href="#quiz" class="btn primary">Cek Skor Saya, Gratis</a>
     </div>
   </div>
 </section>
@@ -1313,7 +1356,7 @@
         rangkaian di atas bisa dihindari dan langkah pertamanya gratis: cari tahu
         posisi bisnis Anda hari ini.
       </p>
-      <a href="#quiz" class="btn primary">Cek Posisi Saya Sekarang</a>
+      <a href="#quiz" class="btn primary">Cek Skor Saya, Gratis</a>
     </div>
 
     <p class="sanksi-rujukan reveal">
@@ -1331,7 +1374,7 @@
       <span class="how-eyebrow">Cara Kerja</span>
       <h2>Kami Mulai dari Cek Kondisi, Bukan Jualan</h2>
       <p>Banyak yang keburu mendaftar tanpa tahu kondisi bisnisnya sendiri, lalu kaget waktu berkasnya dikembalikan. Cek ini gratis, untuk melihat bagian mana yang sudah kuat dan bagian mana yang masih perlu dibenahi. Setelahnya tidak ada kewajiban membeli jasa apa pun.</p>
-      <a href="#quiz" class="btn primary">Mulai Cek Gratis Sekarang</a>
+      <a href="#quiz" class="btn primary">Cek Skor Saya, Gratis</a>
       <p class="note">26 Pertanyaan → Skor 0–100 → Peta Titik Lemah → Rekomendasi Langkah</p>
     </div>
     <div class="how-timeline">
@@ -1379,7 +1422,7 @@
         <div class="service-body">
           <span class="service-level">Entry</span>
           <h3>Halal Readiness Review</h3>
-          <p>Skor Anda sudah tinggi? Auditor bersertifikat cek ulang sebentar, biar Anda tidak tersandung hal kecil pas pengajuan.</p>
+          <p>Skor Anda sudah tinggi? Tenaga ahli bersertifikat cek ulang sebentar, biar Anda tidak tersandung hal kecil pas pengajuan.</p>
         </div>
       </div>
       <div class="service-row reveal" style="--fill:48%; --d:0.1s">
@@ -1422,7 +1465,7 @@
   <div class="wrap">
     <div class="artikel-head reveal">
       <h2>Artikel</h2>
-      <p>Bacaan singkat soal sertifikasi halal, ditulis buat pemilik usaha, bukan buat auditor.</p>
+      <p>Bacaan singkat soal sertifikasi halal, ditulis buat pemilik usaha, bukan buat orang regulasi.</p>
     </div>
     <!-- TODO: konten artikel di bawah ini masih placeholder — ganti judul/ringkasan/link begitu artikel asli tersedia -->
     <div class="article-list">
@@ -1580,7 +1623,7 @@
         <h3>Tentang GoHalal</h3>
         <p>GoHalal adalah mitra konsultasi yang menyiapkan pelaku usaha menuju sertifikasi halal, mulai dari UMKM makanan dan minuman, brand consumer goods, hingga manufaktur skala menengah.</p>
         <p>Kami berangkat dari satu keyakinan sederhana: kepatuhan halal yang benar tidak lahir dari mengisi formulir, melainkan dari sistem yang dipahami dan dijalankan setiap hari. Karena itu pendampingan kami selalu dimulai dari diagnosis, bukan dari penawaran jasa.</p>
-        <p>Seluruh prosesnya dikawal auditor halal bersertifikat BNSP, sehingga yang Anda terima bukan tafsiran umum, melainkan arahan teknis yang bisa langsung dikerjakan tim Anda: dari penelusuran bahan baku, tata kelola dokumen pemasok, sampai kesiapan Sistem Jaminan Produk Halal.</p>
+        <p>Seluruh prosesnya dikawal tenaga ahli bersertifikat BNSP, sehingga yang Anda terima bukan tafsiran umum, melainkan arahan teknis yang bisa langsung dikerjakan tim Anda: dari penelusuran bahan baku, tata kelola dokumen pemasok, sampai kesiapan Sistem Jaminan Produk Halal.</p>
         <p>Ukuran keberhasilan kami bukan berapa banyak jasa yang terjual, melainkan berapa banyak usaha yang akhirnya benar-benar siap. Itu sebabnya Halal Readiness Check kami buka gratis untuk siapa saja. Kalau setelah melihat hasilnya Anda ternyata belum membutuhkan kami, kami akan mengatakannya.</p>
       </div>
     </div>
@@ -1638,15 +1681,15 @@
   var HEADLINES = {
     fnb: {
       html: 'Sebelum Keluar Biaya, Cek Dulu <span class="accent">Kesiapan Halal Bisnis Anda</span>',
-      sub: '26 pertanyaan singkat menelusuri bahan baku, pemasok, produksi, sampai dokumentasi Anda. Lima menit, gratis, hasilnya keluar saat itu juga.'
+      sub: 'Dibuat untuk UMKM makanan, minuman, kosmetik, dan farmasi. Semuanya pilihan ganda, tinggal klik, rata-rata lima menit. Gratis, hasilnya keluar saat itu juga.'
     },
     brand: {
       html: 'Mau Nambah Produk atau Ganti Supplier? <span class="accent">Cek Dulu Dampaknya</span>',
-      sub: '26 pertanyaan singkat, lima menit, gratis. Lihat bagian mana yang sudah kuat dan mana yang berisiko menahan pengajuan Anda.'
+      sub: 'Dibuat untuk brand UMKM. Semuanya pilihan ganda, rata-rata lima menit, gratis. Lihat bagian mana yang sudah kuat dan mana yang berisiko menahan pengajuan Anda.'
     },
     manufaktur: {
       html: 'Produk dan Fasilitas Anda Banyak? <span class="accent">Petakan Kesiapan Halalnya Dulu</span>',
-      sub: '26 pertanyaan singkat, lima menit, gratis. Petakan kesiapan halal seluruh operasional Anda sebelum biaya mulai keluar.'
+      sub: 'Semuanya pilihan ganda, rata-rata lima menit, gratis. Petakan kesiapan halal seluruh operasional Anda sebelum biaya mulai keluar.'
     }
   };
   var segment = new URLSearchParams(window.location.search).get('segment');
@@ -2448,6 +2491,7 @@
   var BUSINESS_TYPE_GROUPS = [
     { group:'F&B', options:['Restoran / Kafe','Toko Roti & Kue','Katering','Makanan Beku','Dapur Pusat','Manufaktur Makanan & Minuman','Distributor / Pengolah','Logistik & Pergudangan'] },
     { group:'Brand Consumer Goods', options:['Skincare / Kosmetik','Minuman Kemasan','Snack & Makanan Kemasan'] },
+    { group:'Obat-obatan & Farmasi', options:['Industri Farmasi','Obat Tradisional / Jamu','Suplemen & Vitamin','Alat Kesehatan','Distributor / Importir Bahan Farmasi'] },
     { group:'Industri Lain', options:['Manufaktur / Pabrik Skala Menengah','Distributor / Importir Bahan'] }
   ];
   var BUSINESS_TYPE_OTHER = 'Lainnya';
@@ -2592,7 +2636,7 @@
         hook: 'Sertifikat halal itu bukan pajangan yang aman selamanya. Sekali supplier ganti bahan, resep digeser, atau proses berubah tanpa tercatat, status halal Anda bisa gugur diam-diam. Dan biasanya baru ketahuan pas audit ulang, waktu semuanya sudah telanjur jalan berbulan-bulan.',
         bullets: [
           'Kontrol berkala supaya perubahan bahan atau supplier ketahuan sejak awal, bukan pas audit',
-          'Dokumen Anda selalu siap kapan pun auditor datang, tanpa lembur dadakan',
+          'Dokumen Anda selalu siap kapan pun pemeriksaan datang, tanpa lembur dadakan',
           'Satu orang yang paham sistem Anda, tempat bertanya sebelum ambil keputusan berisiko'
         ]
       };
@@ -2615,7 +2659,7 @@
         headline: 'Fondasi Anda sudah rapi. Tinggal satu mata lagi sebelum benar-benar aman.',
         hook: 'Skor ' + overall + ' artinya Anda sudah jauh lebih siap dibanding kebanyakan bisnis yang baru mulai. Tapi yang bikin pengajuan mental itu jarang hal besar. Biasanya satu dokumen yang formatnya keliru, atau satu bahan yang lupa diverifikasi ulang setelah ganti supplier. Sayang banget kalau kerja keras Anda tersandung di situ.',
         bullets: [
-          'Auditor bersertifikat BNSP mengecek ulang titik-titik yang paling sering jadi temuan',
+          'Tenaga ahli bersertifikat BNSP mengecek ulang titik-titik yang paling sering jadi temuan',
           'Cepat dan fokus, karena yang perlu dibenahi memang tinggal sedikit',
           'Anda maju ke pengajuan dengan tenang, bukan sambil berharap-harap cemas'
         ]
@@ -2715,6 +2759,7 @@
 
     stage.innerHTML =
       '<div class="quiz-card">' +
+        '<div class="quiz-kredensial"><span class="kredensial on-light"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6 4.2 6v6c0 4.6 3.3 7.8 7.8 9 4.5-1.2 7.8-4.4 7.8-9V6L12 2.6Z"/><path d="M9 11.8l2 2 4-4"/></svg>Dikawal tenaga ahli bersertifikat BNSP</span></div>' +
         '<span class="quiz-dim-chip">Sebelum Mulai</span>' +
         '<h3>Dua hal dulu, lalu langsung mulai</h3>' +
         '<div class="field-row">' +
@@ -2733,7 +2778,7 @@
           '</div>' +
         '</div>' +
         '<div class="quiz-nav">' +
-          '<button type="button" class="btn primary block" id="btnStartQuiz" disabled>Mulai, 26 Pertanyaan</button>' +
+          '<button type="button" class="btn primary block" id="btnStartQuiz" disabled>Mulai Sekarang</button>' +
         '</div>' +
         '<p class="field-hint" style="text-align:center;margin-top:14px;">Belum perlu isi nama atau kontak. Itu baru ditanya sekali di akhir, kalau Anda memang mau buka hasil lengkapnya.</p>' +
       '</div>';
@@ -2846,6 +2891,7 @@
         '<div class="field-row"><label for="fBiz">Nama Usaha</label><input type="text" id="fBiz" value="' + esc(state.lead.businessName) + '" placeholder="Nama usaha atau badan usaha Anda"></div>' +
         '<div class="field-row"><label for="fEmail">Email</label><input type="email" id="fEmail" value="' + esc(state.lead.email) + '" placeholder="nama@email.com"></div>' +
         '<div class="field-row"><label>Jenis usaha</label><input type="text" value="' + esc(effectiveBusinessType()) + '" disabled></div>' +
+        '<div class="privasi-baris"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="10.5" width="17" height="10" rx="2"/><path d="M7.5 10.5V7.5a4.5 4.5 0 0 1 9 0v3"/></svg><span>Data Anda dipakai hanya untuk mengirim hasil dan menghubungi Anda soal hasil itu. Tidak dijual, tidak dibagikan ke pihak lain.</span></div>' +
         '<div class="consent-row">' +
           '<input type="checkbox" id="fConsent"' + (state.lead.consent ? ' checked' : '') + '>' +
           '<label for="fConsent">Saya setuju data ini digunakan untuk menampilkan hasil assessment dan dihubungi terkait Halal Readiness Check saya, sesuai kebijakan privasi.</label>' +
