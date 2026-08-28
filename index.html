@@ -423,6 +423,39 @@
     .restart-row .btn{ width: 100%; margin: 0; }
   }
 
+  /* CTA sekunder diturunkan jadi tautan teks: dua tombol setara di titik
+     paling menentukan memecah keputusan. Padding tetap dijaga supaya area
+     sentuhnya tidak menyusut di HP. */
+  .tautan-halus{
+    display:inline-flex; align-items:center; gap:7px;
+    padding:12px 6px; min-height:44px;
+    color:rgba(255,253,247,0.72); font-size:0.94rem; font-weight:600;
+    text-decoration:none; border-bottom:1px solid rgba(255,253,247,0.28);
+    border-radius:2px; transition:color 0.18s ease, border-color 0.18s ease;
+  }
+  .tautan-halus:hover{ color:var(--emas-terang); border-color:var(--emas-terang); }
+  .tautan-halus:focus-visible{ outline:2px solid var(--emas-terang); outline-offset:4px; }
+
+  /* Tiga penghilang keraguan tepat di bawah tombol, bukan menunggu FAQ. */
+  .cta-mikro{
+    display:flex; flex-wrap:wrap; gap:6px 16px; align-items:center;
+    margin:16px 0 0; font-size:0.8rem; color:rgba(255,253,247,0.62);
+  }
+  .cta-mikro span{ display:inline-flex; align-items:center; gap:7px; white-space:nowrap; }
+  .cta-mikro span::before{
+    content:""; width:4px; height:4px; border-radius:50%;
+    background:var(--emas-terang); flex-shrink:0;
+  }
+  .cta-mikro.on-light{ color:var(--teks-lembut); }
+  .cta-mikro.on-light span::before{ background:var(--emas); }
+  @media (max-width: 900px){
+    .cta-mikro{ justify-content:center; }
+  }
+  @media (max-width: 620px){
+    .tautan-halus{ align-self:center; }
+    .cta-mikro{ gap:5px 14px; font-size:0.76rem; }
+  }
+
   /* Badge kredensial. Ditaruh di dua titik intensi tinggi: bawah CTA hero dan
      awal kuis, karena di footer saja praktis tidak pernah terbaca sebelum
      pengunjung memutuskan. */
@@ -1126,11 +1159,15 @@
 
       <div class="hero-ctas">
         <a href="#quiz" class="btn primary">
-          Cek Skor Saya, Gratis
+          Mulai Cek 5 Menit, Gratis
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" width="18" height="18"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
         </a>
-        <a href="#cara-kerja" class="btn on-dark secondary">Lihat Cara Kerjanya</a>
+        <a href="#cara-kerja" class="tautan-halus">Lihat cara kerjanya dulu</a>
       </div>
+
+      <p class="cta-mikro">
+        <span>Gratis</span><span>Hasil langsung ke email Anda</span><span>Tanpa kewajiban lanjut</span>
+      </p>
 
       <div class="hero-kredensial">
         <span class="kredensial on-dark"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6 4.2 6v6c0 4.6 3.3 7.8 7.8 9 4.5-1.2 7.8-4.4 7.8-9V6L12 2.6Z"/><path d="M9 11.8l2 2 4-4"/></svg>Dikawal tenaga ahli bersertifikat BNSP</span>
@@ -1281,7 +1318,8 @@
         kelihatannya rumit. <strong>Makanya kami tidak minta Anda membeli apa pun dulu.</strong>
         Cek gratis 5 menit, lihat posisi bisnis Anda hari ini, baru putuskan mau lanjut atau tidak.
       </p>
-      <a href="#quiz" class="btn primary">Cek Skor Saya, Gratis</a>
+      <a href="#quiz" class="btn primary">Mulai Cek 5 Menit, Gratis</a>
+      <p class="cta-mikro"><span>Gratis</span><span>Hasil langsung ke email Anda</span><span>Tanpa kewajiban lanjut</span></p>
     </div>
   </div>
 </section>
@@ -1356,7 +1394,8 @@
         rangkaian di atas bisa dihindari dan langkah pertamanya gratis: cari tahu
         posisi bisnis Anda hari ini.
       </p>
-      <a href="#quiz" class="btn primary">Cek Skor Saya, Gratis</a>
+      <a href="#quiz" class="btn primary">Cek Sebelum Kena Tahap 1</a>
+      <p class="cta-mikro"><span>Gratis, 5 menit</span><span>Hasil langsung ke email Anda</span><span>Tanpa kewajiban lanjut</span></p>
     </div>
 
     <p class="sanksi-rujukan reveal">
@@ -1374,7 +1413,8 @@
       <span class="how-eyebrow">Cara Kerja</span>
       <h2>Kami Mulai dari Cek Kondisi, Bukan Jualan</h2>
       <p>Banyak yang keburu mendaftar tanpa tahu kondisi bisnisnya sendiri, lalu kaget waktu berkasnya dikembalikan. Cek ini gratis, untuk melihat bagian mana yang sudah kuat dan bagian mana yang masih perlu dibenahi. Setelahnya tidak ada kewajiban membeli jasa apa pun.</p>
-      <a href="#quiz" class="btn primary">Cek Skor Saya, Gratis</a>
+      <a href="#quiz" class="btn primary">Mulai Cek 5 Menit, Gratis</a>
+      <p class="cta-mikro on-light"><span>Gratis</span><span>Hasil langsung ke email Anda</span><span>Tanpa kewajiban lanjut</span></p>
       <p class="note">26 Pertanyaan → Skor 0–100 → Peta Titik Lemah → Rekomendasi Langkah</p>
     </div>
     <div class="how-timeline">
@@ -1867,6 +1907,13 @@
   // Selama masih kosong, pengiriman email dilewati diam-diam dan tombol unduh
   // PDF tetap berfungsi. Cara deploy ada di KIRIM-EMAIL.md.
   var KIRIM_HASIL_URL = '';
+
+  // Janji waktu balasan konsultasi. SENGAJA KOSONG: janji yang tidak ditepati
+  // lebih merusak daripada tidak berjanji sama sekali, dan hanya Anda yang tahu
+  // kecepatan balas yang realistis. Isi contohnya:
+  //   var JANJI_RESPONS = 'Biasanya kami balas dalam 1 hari kerja.';
+  // Selama kosong, barisnya tidak ditampilkan sama sekali.
+  var JANJI_RESPONS = '';
 
   var JSPDF_CDN = 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';
   var jsPdfPromise = null;
@@ -3012,7 +3059,9 @@
             r.rec.bullets.map(function(b){ return '<li>' + esc(b) + '</li>'; }).join('') +
           '</ul>' +
           '<a class="btn primary" href="' + waLink + '" target="_blank" rel="noopener">Ngobrol Dulu via WhatsApp, Gratis</a>' +
-          '<p class="cta-note">Ngobrol dulu, bukan langsung ditawari. Kalau ternyata belum butuh, kami bilang belum butuh.</p>' +
+          '<p class="cta-note">' +
+            (JANJI_RESPONS ? esc(JANJI_RESPONS) + ' ' : '') +
+            'Ngobrol dulu, bukan langsung ditawari. Kalau ternyata belum butuh, kami bilang belum butuh.</p>' +
         '</div>' +
       '</div>' +
       '<div class="kirim-status" id="kirimStatus" role="status" aria-live="polite"></div>' +
