@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>GoHalal — Cek Kesiapan Sertifikasi Halal Gratis dalam 5 Menit</title>
-<meta name="description" content="Cek kesiapan sertifikasi halal bisnis Anda, gratis, 5 menit. Anda dapat skor 0-100, tahu bagian mana yang masih bolong, dan rekomendasi langkah berikutnya dari GoHalal.">
+<meta name="description" content="Cek kesiapan sertifikasi halal bisnis Anda lewat 26 pertanyaan, gratis, 5 menit. Dapatkan skor 0-100, peta titik lemah per bagian, dan rekomendasi langkah berikutnya dari GoHalal.">
 <meta property="og:title" content="GoHalal — Cek Kesiapan Sertifikasi Halal Gratis">
-<meta property="og:description" content="26 pertanyaan, 5 menit, hasilnya langsung keluar. Tahu posisi bisnis Anda dulu, sebelum keluar biaya sertifikasi.">
+<meta property="og:description" content="26 pertanyaan menelusuri bahan baku, pemasok, produksi, dan dokumentasi Anda. Lima menit, gratis, hasil langsung keluar.">
 <meta property="og:image" content="assets/og-image.png">
 <meta property="og:type" content="website">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
@@ -98,7 +98,10 @@
   .reveal.is-in{ opacity: 1; transform: none; }
   @media (prefers-reduced-motion: reduce){
     .reveal{ opacity: 1; transform: none; transition: none; }
-    .hero-media video{ animation: none; }
+    /* Video autoplay itu gerakan, jadi dimatikan total; ilustrasi SVG di
+       lapisan bawah yang mengisi hero. Daftar rantai pasok tetap tampil
+       karena isinya informasi, bukan kontrol video. */
+    .hero-media video{ animation: none; display: none; }
     html{ scroll-behavior: auto; }
   }
 
@@ -192,73 +195,50 @@
   .hero-media::after{
     content:"";
     position:absolute; inset:0;
-    background-image: radial-gradient(circle at 15% 20%, rgba(212,175,106,0.18) 0, transparent 45%),
-                       radial-gradient(circle at 85% 75%, rgba(212,175,106,0.14) 0, transparent 45%);
+    background-image: radial-gradient(circle at 88% 78%, rgba(212,175,106,0.08) 0, transparent 42%);
   }
   /* Dua lapis: vertikal menjaga keterbacaan menyeluruh, horizontal melindungi
      kolom teks di kiri saat videonya ramai. */
+  /* Overlay ditipiskan supaya videonya kelihatan. Keterbacaan teks dijaga oleh
+     lapisan kedua yang hanya menggelapkan sisi kiri (tempat headline), bukan
+     dengan menggelapkan seluruh layar. */
   .hero-overlay{
     position: absolute; inset: 0; z-index: 1;
     background:
-      linear-gradient(180deg, rgba(10,38,32,0.70) 0%, rgba(10,38,32,0.78) 55%, rgba(8,30,25,0.93) 100%),
-      linear-gradient(90deg, rgba(10,38,32,0.62) 0%, rgba(10,38,32,0.28) 55%, rgba(10,38,32,0.52) 100%);
+      linear-gradient(180deg, rgba(10,38,32,0.34) 0%, rgba(10,38,32,0.30) 45%, rgba(8,30,25,0.72) 100%),
+      linear-gradient(100deg, rgba(8,30,25,0.80) 0%, rgba(9,34,28,0.52) 34%, rgba(10,38,32,0.10) 62%, rgba(10,38,32,0.05) 100%);
   }
 
-  /* Penanda scene: 4 tahap rantai pasok yang memang dinilai di assessment,
-     jadi labelnya menyampaikan isi, bukan sekadar titik navigasi. */
-  .hero-scenes{
-    position: absolute; z-index: 3; left: 0; right: 0; bottom: 0;
-    padding: 0 20px 22px;
-  }
-  .hero-scenes-inner{
-    max-width: 1180px; margin: 0 auto;
-    display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px;
-  }
-  .scene-btn{
-    background: none; border: none; padding: 0; cursor: pointer;
-    text-align: left; display: flex; flex-direction: column; gap: 7px;
-    font: inherit; color: rgba(255,253,247,0.55);
-    transition: color 0.25s ease;
-  }
-  .scene-btn:hover{ color: rgba(255,253,247,0.85); }
-  .scene-btn:focus-visible{ outline: 2px solid var(--emas-terang); outline-offset: 4px; border-radius: 3px; }
-  .scene-btn .bar{
-    height: 2px; background: rgba(255,253,247,0.22); border-radius: 2px;
-    overflow: hidden; position: relative;
-  }
-  .scene-btn .bar::after{
-    content:""; position:absolute; inset:0 100% 0 0;
-    background: var(--emas-terang); border-radius: 2px;
-  }
-  .scene-btn .label{
-    font-size: 0.74rem; font-weight: 600; letter-spacing: 0.2px;
-    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-  }
-  .scene-btn.is-active{ color: var(--emas-terang); }
-  .scene-btn.is-active .bar::after{
-    animation: sceneFill var(--scene-dur, 4s) linear forwards;
-  }
-  @keyframes sceneFill{ from{ inset:0 100% 0 0; } to{ inset:0 0 0 0; } }
-  /* Sudah lewat: bar penuh tanpa animasi ulang. */
-  .scene-btn.is-done .bar::after{ inset:0 0 0 0; opacity:0.4; }
-
-  @media (prefers-reduced-motion: reduce){
-    .hero-media video{ display: none; }
-    .hero-scenes{ display: none; }
-  }
-  @media (max-width: 560px){
-    .hero-scenes-inner{ gap: 8px; }
-    .scene-btn .label{ display: none; }
-  }
+  /* Hairline emas dengan kilau di tengah. Menggantikan strip diagonal
+     kuning-hitam yang terbaca seperti garis peringatan, bukan aksen mewah. */
   .islamic-border{
     position:absolute; top:0; left:0; right:0; z-index:2;
-    height: 6px;
-    background-image: repeating-linear-gradient(135deg, var(--emas) 0 6px, var(--hijau-tua) 6px 12px);
-    opacity: 0.9;
+    height: 2px;
+    background-image: linear-gradient(90deg,
+      rgba(182,144,63,0) 0%,
+      rgba(182,144,63,0.55) 14%,
+      var(--emas-terang) 38%,
+      #f0dbb0 50%,
+      var(--emas-terang) 62%,
+      rgba(182,144,63,0.55) 86%,
+      rgba(182,144,63,0) 100%);
+  }
+  .islamic-border::after{
+    content:""; position:absolute; left:0; right:0; top:2px; height:14px;
+    background: linear-gradient(180deg, rgba(212,175,106,0.16), rgba(212,175,106,0));
+    pointer-events:none;
+  }
+  /* Garis yang sama dipakai di bawah nav supaya headernya satu bahasa. */
+  .site-nav{ border-bottom: none; position: sticky; }
+  .site-nav::after{
+    content:""; position:absolute; left:0; right:0; bottom:0; height:1px;
+    background-image: linear-gradient(90deg,
+      rgba(182,144,63,0) 0%, rgba(212,175,106,0.5) 25%,
+      rgba(212,175,106,0.75) 50%, rgba(212,175,106,0.5) 75%, rgba(182,144,63,0) 100%);
   }
   .hero-content{
     position: relative; z-index: 2; width: 100%; max-width: 1180px;
-    margin: 0 auto; padding: 88px 20px 108px;
+    margin: 0 auto; padding: 88px 20px 72px;
     display: grid; grid-template-columns: 1.35fr 0.65fr; gap: 48px; align-items: center;
   }
   .hero-copy{ text-align: left; }
@@ -290,54 +270,84 @@
     color: rgba(255,253,247,0.5); max-width: 480px;
   }
 
-  /* Hero visual: score card (real preview of the actual quiz result) */
-  .hero-visual{ display: flex; justify-content: center; }
-  .score-card-hero{
-    position: relative; width: 100%; max-width: 300px;
-    background: rgba(255,253,247,0.06);
-    border: 1px solid rgba(255,253,247,0.18);
-    border-radius: 20px;
-    padding: 30px 26px 26px;
-    backdrop-filter: blur(8px);
-    box-shadow: 0 24px 60px rgba(0,0,0,0.35);
-    text-align: center;
-    opacity: 0; transform: translateY(18px) scale(0.98);
-    transition: opacity 0.7s cubic-bezier(0.16,1,0.3,1), transform 0.7s cubic-bezier(0.16,1,0.3,1);
+  /* Hero visual: tahapan rantai pasok yang sedang diputar di video. Sengaja
+     tembus pandang supaya videonya tetap terlihat, bukan kartu solid yang
+     menutupi. Ini juga menggantikan strip scene yang dulu ada di bawah hero. */
+  .hero-visual{ display: flex; justify-content: flex-end; align-items: center; }
+  .rantai{
+    width: 100%; max-width: 320px;
+    display: flex; flex-direction: column; gap: 2px;
+    opacity: 0; transform: translateY(16px);
+    transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1), transform 0.8s cubic-bezier(0.16,1,0.3,1);
   }
-  .score-card-hero.is-visible{ opacity: 1; transform: none; }
-  .score-card-tag{
-    position: absolute; top: -13px; left: 50%; transform: translateX(-50%);
+  .rantai.is-visible{ opacity: 1; transform: none; }
+  .rantai-judul{
+    font-size: 0.7rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
+    color: rgba(255,253,247,0.5); margin-bottom: 14px; padding-left: 2px;
+  }
+  .rantai-item{
+    position: relative; display: flex; align-items: center; gap: 14px;
+    padding: 13px 16px 13px 14px; border: none; background: none; cursor: pointer;
+    font: inherit; text-align: left; width: 100%;
+    border-radius: 10px; overflow: hidden;
+    color: rgba(255,253,247,0.62);
+    transition: color 0.35s ease, background 0.35s ease;
+  }
+  .rantai-item:hover{ color: rgba(255,253,247,0.9); background: rgba(255,253,247,0.06); }
+  .rantai-item:focus-visible{ outline: 2px solid var(--emas-terang); outline-offset: -2px; }
+  .rantai-item.is-active{
+    color: var(--gading);
+    background: rgba(255,253,247,0.10);
+    backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px);
+  }
+  /* Bar tipis di kiri yang terisi selama scene-nya berjalan. */
+  .rantai-item .sisi{
+    position: absolute; left: 0; top: 0; bottom: 0; width: 2px;
+    background: rgba(255,253,247,0.16); border-radius: 2px; overflow: hidden;
+  }
+  .rantai-item .sisi::after{
+    content: ""; position: absolute; left: 0; right: 0; top: 0; bottom: 100%;
     background: linear-gradient(180deg, var(--emas-terang), var(--emas));
-    color: #2a1f08; font-size: 0.7rem; font-weight: 800; letter-spacing: 0.3px;
-    padding: 5px 14px; border-radius: 999px; white-space: nowrap;
   }
-  .score-ring{
-    width: 116px; height: 116px; border-radius: 50%; margin: 8px auto 16px;
-    background: conic-gradient(var(--emas-terang) calc(var(--pct,0) * 1%), rgba(255,253,247,0.14) 0);
+  .rantai-item.is-active .sisi::after{
+    animation: rantaiIsi var(--scene-dur, 4s) linear forwards;
+  }
+  @keyframes rantaiIsi{ from{ bottom: 100%; } to{ bottom: 0; } }
+  .rantai-item.is-done .sisi::after{ bottom: 0; opacity: 0.35; }
+  .rantai-item .ikon{
+    flex-shrink: 0; width: 30px; height: 30px; border-radius: 50%;
     display: flex; align-items: center; justify-content: center;
+    border: 1px solid rgba(255,253,247,0.22);
+    transition: border-color 0.35s ease, background 0.35s ease;
   }
-  .score-ring-inner{
-    width: 90px; height: 90px; border-radius: 50%; background: #0f3c32;
-    display: flex; flex-direction: column; align-items: center; justify-content: center;
+  .rantai-item .ikon svg{ width: 15px; height: 15px; stroke: currentColor; fill: none; stroke-width: 1.8; }
+  .rantai-item.is-active .ikon{ border-color: var(--emas-terang); background: rgba(212,175,106,0.16); }
+  .rantai-item .teks{ min-width: 0; }
+  .rantai-item .nama{ display: block; font-size: 0.9rem; font-weight: 600; line-height: 1.3; }
+  .rantai-item .ket{
+    display: block; font-size: 0.72rem; line-height: 1.35; margin-top: 2px;
+    color: rgba(255,253,247,0.45);
   }
-  .score-ring-inner .num{ font-size: 1.7rem; font-weight: 800; color: var(--gading); line-height: 1; }
-  .score-ring-inner .max{ font-size: 0.66rem; color: rgba(255,253,247,0.6); }
-  .score-card-status{ font-weight: 800; color: var(--gading); font-size: 1rem; margin-bottom: 6px; }
-  .score-card-desc{ font-size: 0.83rem; color: rgba(255,253,247,0.68); line-height: 1.5; margin: 0 0 20px; }
-  .score-card-dims{ display: flex; flex-direction: column; gap: 10px; text-align: left; }
-  .dim-mini span{ font-size: 0.72rem; color: rgba(255,253,247,0.6); display: block; margin-bottom: 4px; }
-  .dim-mini .mini-bar{ height: 6px; border-radius: 6px; background: rgba(255,253,247,0.14); overflow: hidden; }
-  .dim-mini .mini-bar div{ height: 100%; border-radius: 6px; background: linear-gradient(90deg, var(--hijau-muda), var(--emas-terang)); }
+  .rantai-item.is-active .ket{ color: rgba(255,253,247,0.62); }
+  .rantai-kaki{
+    margin: 12px 0 0; padding-left: 16px; font-size: 0.74rem; line-height: 1.5;
+    color: rgba(255,253,247,0.45);
+  }
 
   @media (prefers-reduced-motion: reduce){
-    .score-card-hero{ transition: none; opacity: 1; transform: none; }
+    .rantai{ opacity: 1; transform: none; transition: none; }
+    .rantai-item.is-active .sisi::after{ animation: none; bottom: 0; }
+  }
+
   }
   @media (max-width: 900px){
-    .hero-content{ grid-template-columns: 1fr; padding: 84px 20px 96px; gap: 40px; }
+    .hero-content{ grid-template-columns: 1fr; padding: 84px 20px 56px; gap: 34px; }
     .hero-copy{ text-align: center; }
     .hero p.subhead{ margin-left: auto; margin-right: auto; }
     .hero-ctas{ justify-content: center; }
     .hero-disclaimer{ margin-left: auto; margin-right: auto; }
+    .hero-visual{ justify-content: center; }
+    .rantai{ max-width: 420px; }
   }
 
   /* ===== Trust strip (moved out of hero per hero-stack discipline) ===== */
@@ -663,6 +673,37 @@
     .kenapa-tutup{ flex-direction:column; align-items:flex-start; gap:20px; }
   }
 
+  /* Logo Halal Indonesia ditempatkan sebagai TUJUAN yang dikejar klien, bukan
+     sebagai lencana milik GoHalal. Framing ini disengaja: GoHalal konsultan,
+     bukan lembaga penerbit sertifikat. */
+  .tujuan{
+    margin-top: 44px; padding: 30px 32px;
+    background: rgba(255,253,247,0.05);
+    border: 1px solid rgba(212,175,106,0.28); border-radius: 16px;
+    display: grid; grid-template-columns: auto 1fr; gap: 28px; align-items: center;
+  }
+  .tujuan-logo{
+    width: 108px; height: 108px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--gading); border-radius: 14px; padding: 12px;
+  }
+  .tujuan-logo img{ width: 100%; height: 100%; object-fit: contain; display: block; }
+  .tujuan-teks h3{
+    margin: 0 0 8px; font-size: 1.12rem; color: var(--gading); line-height: 1.35;
+  }
+  .tujuan-teks p{
+    margin: 0; font-size: 0.93rem; line-height: 1.62; color: rgba(255,253,247,0.72); max-width: 56ch;
+  }
+  .tujuan-teks .catatan{
+    margin-top: 10px; font-size: 0.78rem; color: rgba(255,253,247,0.5);
+  }
+  /* Kalau file logonya belum diupload, kotaknya dilepas dan blok jadi satu kolom
+     penuh, bukan menyisakan grid dua kolom yang kosong sebelah. */
+  .tujuan.tanpa-logo{ grid-template-columns: 1fr; }
+  @media (max-width: 620px){
+    .tujuan{ grid-template-columns: 1fr; gap: 20px; justify-items: start; padding: 26px 22px; }
+  }
+
   /* ===== FAQ (accordion, satu kolom lebar baca) ===== */
   .faq{ background: var(--gading); }
   .faq-head{ max-width: 640px; margin-bottom: 34px; }
@@ -712,7 +753,9 @@
   .result-section-title{ font-size:1.05rem; color:var(--hijau-tua); margin: 30px 0 14px; }
   .result-block + .result-block{ margin-top:8px; }
   .quiz-disclaimer{ font-size:0.75rem; color:var(--teks-lembut); line-height:1.55; margin-top:26px; text-align:center; }
-  .restart-row{ text-align:center; margin-top:22px; }
+  .restart-row{ text-align:center; margin-top:22px; display:flex; flex-direction:column; align-items:center; gap:12px; }
+  .restart-row .btn{ margin:0 4px; }
+  .pdf-status{ margin:0; font-size:0.82rem; color:var(--teks-lembut); min-height:1em; }
 </style>
 <script type="application/ld+json">
 {
@@ -789,7 +832,7 @@
       "name": "Skor dari cek gratis ini sama dengan hasil audit resmi?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Bukan, dan kami tegas soal ini. Skor tersebut adalah hasil penilaian mandiri berdasarkan jawaban Anda sendiri, bukan audit, bukan penetapan status halal, bukan fatwa, dan bukan jaminan sertifikasi. Fungsinya satu: memberi gambaran cepat bagian mana yang sudah rapi dan bagian mana yang masih bolong, supaya Anda punya dasar sebelum mengambil keputusan. Proses resminya tetap mengikuti ketentuan BPJPH dan lembaga pemeriksa halal yang berlaku."
+        "text": "Bukan, dan kami tegas soal ini. Skor tersebut adalah hasil penilaian mandiri berdasarkan jawaban Anda sendiri, bukan audit, bukan penetapan status halal, bukan fatwa, dan bukan jaminan sertifikasi. Fungsinya satu: memberi gambaran cepat bagian mana yang sudah rapi dan bagian mana yang masih perlu dibenahi, supaya Anda punya dasar sebelum mengambil keputusan. Proses resminya tetap mengikuti ketentuan BPJPH dan lembaga pemeriksa halal yang berlaku."
       }
     },
     {
@@ -857,7 +900,7 @@
       <h1 id="heroHeadline">Sebelum Keluar Biaya, Cek Dulu <span class="accent">Kesiapan Halal Bisnis Anda</span></h1>
 
       <p class="subhead" id="heroSubhead">
-        Isi 26 pertanyaan, 5 menit, gratis. Anda langsung tahu bagian mana yang sudah aman dan mana yang masih bolong.
+        26 pertanyaan singkat menelusuri bahan baku, pemasok, produksi, sampai dokumentasi Anda. Lima menit, gratis, hasilnya keluar saat itu juga.
       </p>
 
       <div class="hero-ctas">
@@ -874,36 +917,55 @@
     </div>
 
     <div class="hero-visual">
-      <div class="score-card-hero" id="scoreCardHero" role="img" aria-label="Contoh hasil: skor kesiapan halal 54 dari 100, status Perlu Ditingkatkan, bagian paling bolong di Manajemen Halal, Supplier, dan Dokumentasi">
-        <span class="score-card-tag">Contoh Hasil</span>
-        <div class="score-ring" style="--pct:54">
-          <div class="score-ring-inner"><span class="num">54</span><span class="max">/100</span></div>
-        </div>
-        <div class="score-card-status">Perlu Ditingkatkan</div>
-        <p class="score-card-desc">Paling bolong di dokumentasi bahan dan data pemasok.</p>
-        <div class="score-card-dims">
-          <div class="dim-mini"><span>Bahan Baku</span><div class="mini-bar"><div style="width:54%"></div></div></div>
-          <div class="dim-mini"><span>Dokumentasi &amp; Kontrol</span><div class="mini-bar"><div style="width:38%"></div></div></div>
-          <div class="dim-mini"><span>Manajemen Halal</span><div class="mini-bar"><div style="width:42%"></div></div></div>
-        </div>
-      </div>
-    </div>
-  </div>
+      <div class="rantai" id="rantai">
+        <div class="rantai-judul">Yang kami periksa</div>
 
-  <div class="hero-scenes" id="heroScenes">
-    <div class="hero-scenes-inner">
-      <button type="button" class="scene-btn" data-scene="0">
-        <span class="bar"></span><span class="label">Cek Bahan Baku</span>
-      </button>
-      <button type="button" class="scene-btn" data-scene="1">
-        <span class="bar"></span><span class="label">Penyimpanan Gudang</span>
-      </button>
-      <button type="button" class="scene-btn" data-scene="2">
-        <span class="bar"></span><span class="label">Proses Produksi</span>
-      </button>
-      <button type="button" class="scene-btn" data-scene="3">
-        <span class="bar"></span><span class="label">Distribusi</span>
-      </button>
+        <button type="button" class="rantai-item" data-scene="0">
+          <span class="sisi" aria-hidden="true"></span>
+          <span class="ikon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>
+          </span>
+          <span class="teks">
+            <span class="nama">Bahan Baku</span>
+            <span class="ket">Status halal tiap bahan dan asal-usulnya</span>
+          </span>
+        </button>
+
+        <button type="button" class="rantai-item" data-scene="1">
+          <span class="sisi" aria-hidden="true"></span>
+          <span class="ikon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M3 7l9-4 9 4v10l-9 4-9-4V7Z"/><path d="M3 7l9 4 9-4M12 11v10"/></svg>
+          </span>
+          <span class="teks">
+            <span class="nama">Pemasok &amp; Penyimpanan</span>
+            <span class="ket">Dokumen pemasok dan ketertelusurannya</span>
+          </span>
+        </button>
+
+        <button type="button" class="rantai-item" data-scene="2">
+          <span class="sisi" aria-hidden="true"></span>
+          <span class="ikon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M4 20V9l5-3v3l5-3v3l6-3v14H4Z"/><path d="M9 20v-4h4v4"/></svg>
+          </span>
+          <span class="teks">
+            <span class="nama">Proses Produksi</span>
+            <span class="ket">Alur produksi dan pencegahan kontaminasi</span>
+          </span>
+        </button>
+
+        <button type="button" class="rantai-item" data-scene="3">
+          <span class="sisi" aria-hidden="true"></span>
+          <span class="ikon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M2 8h11v9H2V8Z"/><path d="M13 11h4l3 3v3h-7v-6Z"/><circle cx="6" cy="18.5" r="1.6"/><circle cx="16.5" cy="18.5" r="1.6"/></svg>
+          </span>
+          <span class="teks">
+            <span class="nama">Distribusi</span>
+            <span class="ket">Produk terjaga sampai ke tangan pembeli</span>
+          </span>
+        </button>
+
+        <p class="rantai-kaki">26 pertanyaan menelusuri keempat tahap ini.</p>
+      </div>
     </div>
   </div>
 </section>
@@ -965,9 +1027,28 @@
         <span class="no">04</span>
         <h3>Makin ditunda, makin mahal</h3>
         <p>
-          Setiap bulan Anda menambah SKU, ganti pemasok, dan mengubah proses tanpa pencatatan.
+          Setiap bulan Anda menambah produk, mengganti pemasok, dan mengubah proses tanpa pencatatan.
           Semua itu tetap harus dirapikan nanti, cuma jumlahnya sudah berlipat.
           <span class="tegas">Membereskan 5 produk jauh lebih murah daripada 50.</span>
+        </p>
+      </div>
+    </div>
+
+    <div class="tujuan reveal">
+      <div class="tujuan-logo">
+        <img src="assets/logo-halal-indonesia.png"
+             alt="Logo Halal Indonesia yang diterbitkan BPJPH"
+             onerror="var t=this.closest('.tujuan'); t.classList.add('tanpa-logo'); t.querySelector('h3').textContent='Yang menerbitkan sertifikat halal itu BPJPH, bukan kami'; this.parentNode.remove();">
+      </div>
+      <div class="tujuan-teks">
+        <h3>Logo inilah yang jadi tujuan akhirnya</h3>
+        <p>
+          Label Halal Indonesia diterbitkan oleh BPJPH, dan hanya BPJPH yang berhak
+          menerbitkannya. Tugas kami bukan mengeluarkan logo ini, melainkan menyiapkan
+          bisnis Anda sampai benar-benar layak mengajukannya.
+        </p>
+        <p class="catatan">
+          GoHalal adalah konsultan independen, bukan lembaga sertifikasi dan bukan bagian dari BPJPH.
         </p>
       </div>
     </div>
@@ -989,15 +1070,15 @@
     <div class="how-intro reveal">
       <span class="how-eyebrow">Cara Kerja</span>
       <h2>Kami Mulai dari Cek Kondisi, Bukan Jualan</h2>
-      <p>Banyak yang keburu daftar sertifikasi tanpa tahu kondisi bisnisnya sendiri, lalu kaget waktu ditolak. Cek ini gratis, buat lihat mana yang sudah aman dan mana yang masih bolong. Setelahnya tidak ada kewajiban beli jasa apa pun.</p>
+      <p>Banyak yang keburu mendaftar tanpa tahu kondisi bisnisnya sendiri, lalu kaget waktu berkasnya dikembalikan. Cek ini gratis, untuk melihat bagian mana yang sudah kuat dan bagian mana yang masih perlu dibenahi. Setelahnya tidak ada kewajiban membeli jasa apa pun.</p>
       <a href="#quiz" class="btn primary">Mulai Cek Gratis Sekarang</a>
-      <p class="note">26 Pertanyaan → Skor 0–100 → Bagian yang Bolong → Rekomendasi Langkah</p>
+      <p class="note">26 Pertanyaan → Skor 0–100 → Peta Titik Lemah → Rekomendasi Langkah</p>
     </div>
     <div class="how-timeline">
       <div class="how-step reveal">
         <span class="step-num">1</span>
         <h3>Jawab 26 Pertanyaan</h3>
-        <p>Soal produk, bahan, supplier, produksi, dan dokumentasi. Pilihan ganda semua, tinggal klik.</p>
+        <p>Menelusuri produk, bahan baku, pemasok, produksi, dan dokumentasi. Semuanya pilihan ganda, tinggal klik.</p>
       </div>
       <div class="how-step reveal" style="--d:0.06s">
         <span class="step-num">2</span>
@@ -1006,8 +1087,8 @@
       </div>
       <div class="how-step reveal" style="--d:0.12s">
         <span class="step-num">3</span>
-        <h3>Lihat Bagian yang Paling Bolong</h3>
-        <p>Sistem otomatis menunjukkan bagian mana yang paling perlu dibereskan duluan.</p>
+        <h3>Lihat Titik Lemah Terbesar</h3>
+        <p>Sistem menyoroti bagian yang paling menahan skor Anda, lengkap dengan urutan pengerjaannya.</p>
       </div>
       <div class="how-step reveal" style="--d:0.18s">
         <span class="step-num">4</span>
@@ -1022,7 +1103,7 @@
   <div class="wrap">
     <div class="layanan-head reveal">
       <h2>Kalau Mau Lanjut, Ini Pilihannya</h2>
-      <p>Setelah tahu skor dan bagian yang bolong, Anda tinggal pilih mau dibantu sampai mana. Tidak harus ambil yang paling besar. Mulai dari mana pun yang pas sama kebutuhan dan kantong Anda.</p>
+      <p>Setelah tahu skor dan titik lemah Anda, tinggal pilih mau dibantu sampai mana. Tidak harus ambil yang paling besar. Mulai dari mana pun yang pas sama kebutuhan dan kantong Anda.</p>
     </div>
     <div class="service-ladder">
       <div class="service-row reveal" style="--fill:20%; --d:0.0s">
@@ -1046,7 +1127,7 @@
         <div class="service-body">
           <span class="service-level">Diagnostic</span>
           <h3>Halal Gap Assessment</h3>
-          <p>Bolongnya kepencar dan bingung mulai dari mana? Kami petakan akar masalahnya, lalu urutkan mana yang paling mendesak.</p>
+          <p>Temuannya tersebar dan bingung mulai dari mana? Kami petakan akar masalahnya, lalu urutkan mana yang paling mendesak.</p>
         </div>
       </div>
       <div class="service-row reveal" style="--fill:64%; --d:0.15s">
@@ -1199,7 +1280,7 @@
         </button>
         <div class="faq-a"><div class="faq-a-inner">
           <p>Bukan, dan kami tegas soal ini. Skor tersebut adalah hasil penilaian mandiri berdasarkan jawaban Anda sendiri, bukan audit, bukan penetapan status halal, bukan fatwa, dan bukan jaminan sertifikasi.</p>
-          <p>Fungsinya satu: memberi gambaran cepat bagian mana yang sudah rapi dan bagian mana yang masih bolong, supaya Anda punya dasar sebelum mengambil keputusan. Proses resminya tetap mengikuti ketentuan BPJPH dan lembaga pemeriksa halal yang berlaku.</p>
+          <p>Fungsinya satu: memberi gambaran cepat bagian mana yang sudah rapi dan bagian mana yang masih perlu dibenahi, supaya Anda punya dasar sebelum mengambil keputusan. Proses resminya tetap mengikuti ketentuan BPJPH dan lembaga pemeriksa halal yang berlaku.</p>
         </div></div>
       </div>
 
@@ -1248,8 +1329,7 @@
         <h4>Badan Usaha</h4>
         <div class="org-name">PT Cita Mulia Madani</div>
         <p>
-          Email: <a href="mailto:kontak@amalnajib.com">kontak@amalnajib.com</a><br>
-          Dikelola oleh Amal Najib, ST., MM., Auditor Halal Bersertifikat BNSP
+          Email: <a href="mailto:kontak@amalnajib.com">kontak@amalnajib.com</a>
         </p>
         <!-- TODO: tambahkan WA, alamat, link sosial media di sini setelah tersedia -->
       </div>
@@ -1297,15 +1377,15 @@
   var HEADLINES = {
     fnb: {
       html: 'Sebelum Keluar Biaya, Cek Dulu <span class="accent">Kesiapan Halal Bisnis Anda</span>',
-      sub: 'Isi 26 pertanyaan, 5 menit, gratis. Anda langsung tahu bagian mana yang sudah aman dan mana yang masih bolong.'
+      sub: '26 pertanyaan singkat menelusuri bahan baku, pemasok, produksi, sampai dokumentasi Anda. Lima menit, gratis, hasilnya keluar saat itu juga.'
     },
     brand: {
       html: 'Mau Nambah Produk atau Ganti Supplier? <span class="accent">Cek Dulu Dampaknya</span>',
-      sub: 'Gratis, 5 menit. Lihat bagian mana yang sudah aman dan mana yang bisa bikin repot pas pengajuan nanti.'
+      sub: '26 pertanyaan singkat, lima menit, gratis. Lihat bagian mana yang sudah kuat dan mana yang berisiko menahan pengajuan Anda.'
     },
     manufaktur: {
       html: 'Produk dan Fasilitas Anda Banyak? <span class="accent">Petakan Kesiapan Halalnya Dulu</span>',
-      sub: 'Gratis, 5 menit. Lihat kondisi kesiapan halal di seluruh operasional Anda sebelum mulai keluar biaya.'
+      sub: '26 pertanyaan singkat, lima menit, gratis. Petakan kesiapan halal seluruh operasional Anda sebelum biaya mulai keluar.'
     }
   };
   var segment = new URLSearchParams(window.location.search).get('segment');
@@ -1317,20 +1397,20 @@
 
   // Hero score card entrance reveal (native IntersectionObserver, no scroll listeners)
   var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var scoreCard = document.getElementById('scoreCardHero');
-  if(scoreCard){
+  var rantai = document.getElementById('rantai');
+  if(rantai){
     if(reduceMotion || !('IntersectionObserver' in window)){
-      scoreCard.classList.add('is-visible');
+      rantai.classList.add('is-visible');
     } else {
       var revealObserver = new IntersectionObserver(function(entries){
         entries.forEach(function(entry){
           if(entry.isIntersecting){
-            scoreCard.classList.add('is-visible');
+            rantai.classList.add('is-visible');
             revealObserver.disconnect();
           }
         });
       }, { threshold: 0.3 });
-      revealObserver.observe(scoreCard);
+      revealObserver.observe(rantai);
     }
   }
 
@@ -1374,16 +1454,23 @@
   // kalau semuanya gagal, ilustrasi SVG di lapisan bawah yang tampil.
   heroScenes();
   function heroScenes(){
-    var wrap = document.getElementById('heroScenes');
+    var wrap = document.getElementById('rantai');
     if(!wrap) return;
 
     var videos = [], buttons = [];
     for(var i = 0; i < 4; i++){
       var v = document.getElementById('heroVideo' + i);
-      var b = wrap.querySelector('.scene-btn[data-scene="' + i + '"]');
+      var b = wrap.querySelector('.rantai-item[data-scene="' + i + '"]');
       if(v && b){ videos.push(v); buttons.push(b); }
     }
-    if(!videos.length || reduceMotion){ wrap.style.display = 'none'; return; }
+    // Beda dari strip lama: daftar ini tetap ditampilkan walau videonya gagal
+    // atau animasi dimatikan, karena isinya informasi (apa saja yang diperiksa),
+    // bukan sekadar navigasi video.
+    if(!videos.length || reduceMotion){
+      buttons.forEach(function(b){ b.disabled = true; b.style.cursor = 'default'; });
+      if(buttons[0]) buttons[0].classList.add('is-active');
+      return;
+    }
 
     var current = 0;
     var timer = null;
@@ -1391,9 +1478,12 @@
 
     function drop(idx){
       videos.splice(idx, 1);
-      buttons.splice(idx, 1)[0].style.display = 'none';
+      // Tombolnya dibiarkan terlihat, cuma tidak lagi ikut rotasi.
+      var b = buttons.splice(idx, 1)[0];
+      b.disabled = true; b.style.cursor = 'default';
+      b.classList.remove('is-active', 'is-done');
       if(idx < current) current--;
-      if(!videos.length){ wrap.style.display = 'none'; return true; }
+      if(!videos.length) return true;
       return false;
     }
 
@@ -1491,6 +1581,202 @@
     };
   }
 
+  // Endpoint Supabase Edge Function yang mengirim PDF ke email pengunjung.
+  // Selama masih kosong, pengiriman email dilewati diam-diam dan tombol unduh
+  // PDF tetap berfungsi. Cara deploy ada di KIRIM-EMAIL.md.
+  var KIRIM_HASIL_URL = '';
+
+  var JSPDF_CDN = 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';
+  var jsPdfPromise = null;
+
+  // jsPDF ~350KB, jadi baru diambil saat benar-benar dibutuhkan. Pengunjung yang
+  // tidak mengunduh PDF tidak ikut menanggung ukurannya.
+  function loadJsPdf(){
+    if(window.jspdf && window.jspdf.jsPDF) return Promise.resolve(window.jspdf.jsPDF);
+    if(jsPdfPromise) return jsPdfPromise;
+    jsPdfPromise = new Promise(function(resolve, reject){
+      var el = document.createElement('script');
+      el.src = JSPDF_CDN;
+      el.onload = function(){
+        if(window.jspdf && window.jspdf.jsPDF) resolve(window.jspdf.jsPDF);
+        else reject(new Error('jsPDF tidak tersedia setelah dimuat'));
+      };
+      el.onerror = function(){ jsPdfPromise = null; reject(new Error('Gagal memuat jsPDF')); };
+      document.head.appendChild(el);
+    });
+    return jsPdfPromise;
+  }
+
+  var HIJAU_PDF = [18, 70, 59];
+  var EMAS_PDF = [154, 118, 40];
+  var ABU_PDF = [90, 90, 79];
+
+  function buildResultPdf(r){
+    return loadJsPdf().then(function(JsPDF){
+      var doc = new JsPDF({ unit: 'pt', format: 'a4' });
+      var W = doc.internal.pageSize.getWidth();
+      var M = 48;
+      var y = 0;
+
+      function ruang(butuh){
+        if(y + butuh > doc.internal.pageSize.getHeight() - 60){ doc.addPage(); y = M; }
+      }
+      function judulBagian(t){
+        ruang(40); y += 16;
+        doc.setFont('helvetica', 'bold').setFontSize(11).setTextColor.apply(doc, HIJAU_PDF);
+        doc.text(t, M, y); y += 6;
+        doc.setDrawColor(224, 220, 200).setLineWidth(0.8).line(M, y, W - M, y); y += 14;
+      }
+      function paragraf(t, size, warna){
+        doc.setFont('helvetica', 'normal').setFontSize(size || 9.5);
+        doc.setTextColor.apply(doc, warna || ABU_PDF);
+        var baris = doc.splitTextToSize(t, W - M * 2);
+        ruang(baris.length * (size || 9.5) * 1.45);
+        doc.text(baris, M, y);
+        y += baris.length * (size || 9.5) * 1.45;
+      }
+
+      // Kop
+      doc.setFillColor.apply(doc, HIJAU_PDF);
+      doc.rect(0, 0, W, 92, 'F');
+      doc.setFont('helvetica', 'bold').setFontSize(19).setTextColor(255, 253, 247);
+      doc.text('GoHalal', M, 42);
+      doc.setFont('helvetica', 'normal').setFontSize(10).setTextColor(212, 175, 106);
+      doc.text('Hasil Halal Readiness Check', M, 60);
+      doc.setFontSize(8.5).setTextColor(200, 214, 208);
+      doc.text(new Date().toLocaleDateString('id-ID', { year:'numeric', month:'long', day:'numeric' }), W - M, 60, { align: 'right' });
+      y = 126;
+
+      // Identitas
+      doc.setFont('helvetica', 'bold').setFontSize(15).setTextColor.apply(doc, HIJAU_PDF);
+      doc.text(String(state.lead.businessName || effectiveBusinessType()), M, y); y += 17;
+      doc.setFont('helvetica', 'normal').setFontSize(9.5).setTextColor.apply(doc, ABU_PDF);
+      doc.text(effectiveBusinessType() + '  ·  ' + String(state.lead.name), M, y); y += 26;
+
+      // Skor
+      doc.setFillColor(250, 246, 236); doc.roundedRect(M, y, W - M * 2, 82, 8, 8, 'F');
+      doc.setFont('helvetica', 'bold').setFontSize(38).setTextColor.apply(doc, HIJAU_PDF);
+      doc.text(String(r.overall), M + 26, y + 52);
+      doc.setFont('helvetica', 'normal').setFontSize(11).setTextColor.apply(doc, ABU_PDF);
+      doc.text('/ 100', M + 26 + doc.getTextWidth(String(r.overall)) * 1.05 + 8, y + 52);
+      doc.setFont('helvetica', 'bold').setFontSize(11).setTextColor.apply(doc, EMAS_PDF);
+      doc.text(String(r.category), M + 140, y + 32);
+      doc.setFont('helvetica', 'normal').setFontSize(9).setTextColor.apply(doc, ABU_PDF);
+      doc.text(doc.splitTextToSize(String(r.categoryCopy), W - M * 2 - 160), M + 140, y + 48);
+      y += 82;
+
+      // Skor per bagian
+      judulBagian('Skor per Bagian');
+      DIM_ORDER.forEach(function(d){
+        var pct = r.dimPercent[d];
+        ruang(30);
+        doc.setFont('helvetica', 'normal').setFontSize(9.5).setTextColor(42, 42, 36);
+        doc.text(DIMENSIONS[d].label, M, y);
+        doc.setFont('helvetica', 'bold').setTextColor.apply(doc, HIJAU_PDF);
+        doc.text(pct + '%', W - M, y, { align: 'right' });
+        y += 6;
+        doc.setFillColor(232, 228, 212); doc.roundedRect(M, y, W - M * 2, 5, 2.5, 2.5, 'F');
+        if(pct >= 70) doc.setFillColor(29, 92, 76);
+        else if(pct >= 40) doc.setFillColor(182, 144, 63);
+        else doc.setFillColor(169, 80, 63);
+        doc.roundedRect(M, y, Math.max((W - M * 2) * pct / 100, 3), 5, 2.5, 2.5, 'F');
+        y += 19;
+      });
+
+      // Prioritas
+      judulBagian('3 Titik Lemah Terbesar');
+      r.biggestGaps.forEach(function(d, i){
+        ruang(42);
+        doc.setFont('helvetica', 'bold').setFontSize(9.5).setTextColor.apply(doc, HIJAU_PDF);
+        doc.text('Prioritas ' + (i + 1) + ': ' + DIMENSIONS[d].label, M, y); y += 13;
+        paragraf(DIMENSIONS[d].focus, 9);
+        y += 7;
+      });
+
+      // Catatan kritis
+      judulBagian('Yang Perlu Diwaspadai');
+      if(r.criticalGaps.length){
+        r.criticalGaps.forEach(function(g){
+          ruang(38);
+          doc.setFont('helvetica', 'bold').setFontSize(9.5).setTextColor(169, 80, 63);
+          doc.text(String(g.title), M, y); y += 12;
+          paragraf(String(g.desc), 9);
+          y += 6;
+        });
+      } else {
+        paragraf('Tidak ada masalah kritis dari jawaban Anda.', 9.5);
+      }
+
+      // Rekomendasi
+      judulBagian('Langkah yang Kami Sarankan');
+      doc.setFont('helvetica', 'bold').setFontSize(11).setTextColor.apply(doc, HIJAU_PDF);
+      var jd = doc.splitTextToSize(String(r.rec.headline), W - M * 2);
+      ruang(jd.length * 15 + 10);
+      doc.text(jd, M, y); y += jd.length * 15 + 4;
+      paragraf(String(r.rec.hook), 9.5);
+      y += 8;
+      doc.setFont('helvetica', 'bold').setFontSize(9.5).setTextColor.apply(doc, EMAS_PDF);
+      ruang(20); doc.text(r.rec.tier.toUpperCase() + '  ·  ' + r.rec.service, M, y); y += 15;
+      r.rec.bullets.forEach(function(b){
+        ruang(24);
+        doc.setFont('helvetica', 'bold').setFontSize(9).setTextColor.apply(doc, EMAS_PDF);
+        doc.text('-', M, y);
+        doc.setFont('helvetica', 'normal').setTextColor.apply(doc, ABU_PDF);
+        var bl = doc.splitTextToSize(String(b), W - M * 2 - 14);
+        doc.text(bl, M + 12, y);
+        y += bl.length * 13 + 3;
+      });
+      if(r.rec.urgensi){ y += 6; paragraf(String(r.rec.urgensi), 9, EMAS_PDF); }
+
+      // Kaki halaman di setiap halaman
+      var total = doc.internal.getNumberOfPages();
+      for(var i = 1; i <= total; i++){
+        doc.setPage(i);
+        var H = doc.internal.pageSize.getHeight();
+        doc.setDrawColor(224, 220, 200).setLineWidth(0.6).line(M, H - 46, W - M, H - 46);
+        doc.setFont('helvetica', 'normal').setFontSize(6.8).setTextColor(140, 140, 128);
+        doc.text(doc.splitTextToSize(
+          'Halal Readiness Score adalah hasil self-assessment berdasarkan informasi yang Anda berikan: bukan audit, bukan penetapan status halal, bukan fatwa, dan bukan jaminan sertifikasi. Proses resmi tetap mengikuti ketentuan BPJPH/LPH yang berlaku.',
+          W - M * 2 - 40), M, H - 36);
+        doc.text(i + '/' + total, W - M, H - 20, { align: 'right' });
+      }
+
+      return doc;
+    });
+  }
+
+  function namaFilePdf(){
+    var nama = (state.lead.businessName || 'hasil').replace(/[^a-zA-Z0-9]+/g, '-').replace(/^-|-$/g, '');
+    return 'GoHalal-Hasil-' + (nama || 'assessment') + '.pdf';
+  }
+
+  // Kirim PDF ke email pengunjung lewat Edge Function. Gagal diam-diam supaya
+  // alur quiz tidak pernah terganggu oleh urusan email.
+  function kirimHasilKeEmail(r){
+    if(!KIRIM_HASIL_URL || !state.lead.email) return;
+    buildResultPdf(r).then(function(doc){
+      var b64 = doc.output('datauristring').split(',')[1];
+      return fetch(KIRIM_HASIL_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: state.lead.email,
+          nama: state.lead.name,
+          namaUsaha: state.lead.businessName,
+          skor: r.overall,
+          kategori: r.category,
+          layanan: r.rec.service,
+          namaFile: namaFilePdf(),
+          pdfBase64: b64
+        })
+      });
+    }).then(function(res){
+      if(res && !res.ok) console.warn('Kirim email gagal:', res.status);
+    }).catch(function(err){
+      console.warn('Kirim email gagal:', err && err.message ? err.message : err);
+    });
+  }
+
   // UUID v4. crypto.randomUUID() butuh HTTPS (atau localhost), jadi tetap ada
   // cadangan supaya penyimpanan tidak ikut gagal di browser lama.
   function newUuid(){
@@ -1554,7 +1840,6 @@
         submission_id: submissionId,
         name: state.lead.name,
         business_name: state.lead.businessName,
-        whatsapp: state.lead.whatsapp,
         email: state.lead.email,
         consent: state.lead.consent,
         recommended_service: result.recommendedService
@@ -1781,7 +2066,7 @@
     profile: { businessType:'', businessTypeOther:'', hasCertificate:'' },
     answers: {},
     // Satu-satunya form kontak di seluruh alur (setelah skor headline, sebelum breakdown lengkap)
-    lead: { name:'', businessName:'', whatsapp:'', email:'', consent:false }
+    lead: { name:'', businessName:'', email:'', consent:false }
   };
 
   function effectiveBusinessType(){
@@ -1855,10 +2140,10 @@
     } else if(overall >= 60){
       category = 'BERKEMBANG';
       categoryCopy = 'Beberapa bagian sudah jalan, tapi masih ada yang perlu dikuatkan sebelum Anda maju ke pengajuan.';
-      primaryCtaLabel = 'Petakan Bolongnya Dulu';
+      primaryCtaLabel = 'Petakan Titik Lemahnya Dulu';
     } else if(overall >= 40){
       category = 'PERLU DITINGKATKAN';
-      categoryCopy = 'Ada beberapa bagian penting yang masih bolong, entah di bahan, supplier, proses, atau dokumentasi.';
+      categoryCopy = 'Ada beberapa bagian penting yang masih perlu dibenahi, entah di bahan baku, pemasok, proses produksi, atau dokumentasi.';
       primaryCtaLabel = 'Susun Rencana Bereskannya';
     } else {
       category = 'TAHAP AWAL';
@@ -1948,8 +2233,8 @@
       rec = {
         service: 'Halal Gap Assessment',
         tier: 'Diagnostic',
-        headline: 'Arahnya sudah benar. Masalahnya, gap-nya kepencar di mana-mana.',
-        hook: 'Skor ' + overall + ' biasanya berarti Anda sudah jalan, cuma belum tahu persis mana yang harus dibereskan duluan. Godaannya adalah membenahi semuanya sekaligus, dan itu mahal, lama, dan sering salah sasaran. Yang Anda butuhkan bukan kerja lebih banyak, tapi tahu mana yang benar-benar menahan Anda.',
+        headline: 'Arahnya sudah benar. Yang menyulitkan, temuannya tersebar di banyak bagian.',
+        hook: 'Skor ' + overall + ' biasanya berarti Anda sudah berjalan, cuma belum tahu persis mana yang harus dibereskan lebih dulu. Godaannya adalah membenahi semuanya sekaligus, dan itu mahal, lama, serta sering salah sasaran. Yang Anda butuhkan bukan kerja lebih banyak, tapi tahu mana yang benar-benar menahan Anda.',
         bullets: [
           'Kami telusuri akar masalahnya, bukan cuma gejalanya di permukaan',
           'Temuan diurutkan dari yang paling berisiko, jadi jelas mana yang dikerjakan minggu ini',
@@ -1960,10 +2245,10 @@
       rec = {
         service: 'Halal Readiness Program',
         tier: 'Implementation',
-        headline: 'Anda sudah tahu bolongnya. Yang belum ada itu rencana dan yang mendampingi.',
-        hook: 'Skor ' + overall + ' sebetulnya kabar bagus, karena Anda tahu kondisi sebenarnya sekarang, bukan nanti pas pengajuan ditolak dan uang sudah telanjur keluar. Yang berat justru langkah setelah ini: menerjemahkan daftar gap jadi kerjaan nyata yang tim Anda sanggup jalankan sambil tetap produksi tiap hari.',
+        headline: 'Anda sudah tahu masalahnya. Yang belum ada rencana kerjanya dan yang mendampingi.',
+        hook: 'Skor ' + overall + ' sebetulnya kabar bagus, karena Anda tahu kondisi sebenarnya sekarang, bukan nanti waktu pengajuan dikembalikan dan biaya sudah telanjur keluar. Yang berat justru langkah setelah ini: menerjemahkan daftar temuan jadi pekerjaan nyata yang tim Anda sanggup jalankan sambil tetap produksi tiap hari.',
         bullets: [
-          'Daftar gap di atas kami ubah jadi rencana kerja bertahap, bukan wacana',
+          'Daftar temuan di atas kami ubah jadi rencana kerja bertahap, bukan wacana',
           'Tim Anda didampingi langsung sampai bisa jalan sendiri, bukan cuma dikasih dokumen',
           'Perbaikan ' + gapUtama + ' dikerjakan duluan, karena itu yang paling menahan skor Anda'
         ]
@@ -2168,7 +2453,6 @@
         '<h3>Isi sekali, langsung buka hasil lengkap Anda</h3>' +
         '<div class="field-row"><label for="fName">Nama Anda</label><input type="text" id="fName" value="' + esc(state.lead.name) + '" placeholder="Nama lengkap"></div>' +
         '<div class="field-row"><label for="fBiz">Nama Usaha</label><input type="text" id="fBiz" value="' + esc(state.lead.businessName) + '" placeholder="Nama usaha atau badan usaha Anda"></div>' +
-        '<div class="field-row"><label for="fWa">Nomor WhatsApp</label><input type="tel" id="fWa" value="' + esc(state.lead.whatsapp) + '" placeholder="08xxxxxxxxxx"></div>' +
         '<div class="field-row"><label for="fEmail">Email</label><input type="email" id="fEmail" value="' + esc(state.lead.email) + '" placeholder="nama@email.com"></div>' +
         '<div class="field-row"><label>Jenis usaha</label><input type="text" value="' + esc(effectiveBusinessType()) + '" disabled></div>' +
         '<div class="consent-row">' +
@@ -2183,15 +2467,14 @@
 
     var name = document.getElementById('fName');
     var biz = document.getElementById('fBiz');
-    var wa = document.getElementById('fWa');
     var email = document.getElementById('fEmail');
     var consent = document.getElementById('fConsent');
     var unlockBtn = document.getElementById('btnUnlock');
 
     function checkReady(){
-      unlockBtn.disabled = !(name.value.trim() && biz.value.trim() && wa.value.trim() && isValidEmailGlobal(email.value.trim()) && consent.checked);
+      unlockBtn.disabled = !(name.value.trim() && biz.value.trim() && isValidEmailGlobal(email.value.trim()) && consent.checked);
     }
-    [name, biz, wa, email].forEach(function(el){ el.addEventListener('input', checkReady); });
+    [name, biz, email].forEach(function(el){ el.addEventListener('input', checkReady); });
     consent.addEventListener('change', checkReady);
 
     document.getElementById('btnBackToHeadline').addEventListener('click', function(){
@@ -2201,10 +2484,11 @@
     unlockBtn.addEventListener('click', function(){
       state.lead.name = name.value.trim();
       state.lead.businessName = biz.value.trim();
-      state.lead.whatsapp = wa.value.trim();
       state.lead.email = email.value.trim();
       state.lead.consent = consent.checked;
-      saveToSupabase(computeResult());
+      var hasil = computeResult();
+      saveToSupabase(hasil);
+      kirimHasilKeEmail(hasil);
       state.step = TOTAL_STEPS + 3;
       render();
     });
@@ -2267,7 +2551,7 @@
         '<h4 class="result-section-title">Skor Anda per Bagian</h4>' +
         dimRows +
 
-        '<h4 class="result-section-title">3 Bagian Paling Bolong, Urut dari yang Utama</h4>' +
+        '<h4 class="result-section-title">3 Titik Lemah Terbesar, Urut dari yang Utama</h4>' +
         roadmapHtml +
 
         '<h4 class="result-section-title">Yang Perlu Diwaspadai</h4>' +
@@ -2293,12 +2577,32 @@
           '<p class="cta-note">Ngobrol dulu, bukan langsung ditawari. Kalau ternyata belum butuh, kami bilang belum butuh.</p>' +
         '</div>' +
       '</div>' +
-      '<div class="restart-row"><button type="button" class="btn secondary" id="btnRestart">Ulangi Cek dari Awal</button></div>';
+      '<div class="restart-row">' +
+        '<button type="button" class="btn secondary" id="btnPdf">Unduh Hasil (PDF)</button> ' +
+        '<button type="button" class="btn secondary" id="btnRestart">Ulangi Cek dari Awal</button>' +
+        '<p class="pdf-status" id="pdfStatus" role="status"></p>' +
+      '</div>';
 
     document.getElementById('btnRestart').addEventListener('click', function(){
       state.step = 0;
       state.answers = {};
       render();
+    });
+
+    var pdfBtn = document.getElementById('btnPdf');
+    var pdfStatus = document.getElementById('pdfStatus');
+    pdfBtn.addEventListener('click', function(){
+      pdfBtn.disabled = true;
+      pdfStatus.textContent = 'Menyiapkan PDF...';
+      buildResultPdf(r).then(function(doc){
+        doc.save(namaFilePdf());
+        pdfStatus.textContent = '';
+        pdfBtn.disabled = false;
+      }).catch(function(err){
+        console.warn('Gagal membuat PDF:', err && err.message ? err.message : err);
+        pdfStatus.textContent = 'PDF gagal dibuat. Coba lagi, atau minta hasilnya lewat WhatsApp.';
+        pdfBtn.disabled = false;
+      });
     });
   }
 

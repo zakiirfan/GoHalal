@@ -38,7 +38,7 @@ create table if not exists leads (
   submission_id uuid references quiz_submissions(id) on delete set null,
   name text not null,
   business_name text not null,
-  whatsapp text not null,
+  whatsapp text,
   email text,
   consent boolean not null default false,
   recommended_service text,
@@ -50,6 +50,10 @@ create table if not exists leads (
 -- Untuk database yang sudah ada dari sebelum kolom email ditambahkan
 -- (aman dijalankan ulang, tidak akan error kalau kolomnya sudah ada).
 alter table leads add column if not exists email text;
+
+-- Nomor WhatsApp tidak lagi diminta di form (kontak lewat email), jadi kolomnya
+-- dibuat opsional. Aman dijalankan ulang.
+alter table leads alter column whatsapp drop not null;
 
 alter table quiz_submissions enable row level security;
 alter table leads enable row level security;
