@@ -27,7 +27,19 @@
     --merah-lembut: #a9503f;
     --teks-lembut-terang: rgba(255,253,247,0.82);
     --radius: 14px;
-    --shadow: 0 2px 10px rgba(18,70,59,0.08);
+    /* Bayangan diganti hairline: di layar kecil bayangan lembut cuma bikin kotor,
+       garis tipis tetap memisahkan tanpa menambah bobot. */
+    --shadow: 0 1px 3px rgba(15,58,48,0.05);
+    --garis-halus: rgba(15,58,48,0.09);
+
+    /* Satu skala untuk seluruh halaman, biar ritmenya tidak beda-beda per bagian. */
+    --ruang-bagian: clamp(56px, 9vw, 88px);
+    --ruang-tepi: clamp(20px, 5vw, 28px);
+    --t-h1: clamp(1.72rem, 6.4vw, 2.9rem);
+    --t-h2: clamp(1.35rem, 4.4vw, 2.1rem);
+    --t-h3: clamp(1rem, 2.4vw, 1.12rem);
+    --t-body: clamp(0.95rem, 2.5vw, 1.02rem);
+    --t-kecil: clamp(0.83rem, 2.2vw, 0.9rem);
   }
   *{box-sizing:border-box;}
   html,body{margin:0;padding:0;}
@@ -38,7 +50,7 @@
     background: var(--krem);
     color: var(--teks);
   }
-  section{ padding: 72px 20px; scroll-margin-top: 64px; }
+  section{ padding: var(--ruang-bagian) var(--ruang-tepi); scroll-margin-top: 64px; }
   .wrap{ max-width: 880px; margin: 0 auto; }
 
   /* ===== Sticky nav ===== */
@@ -106,7 +118,7 @@
   }
 
   h2.section-title{
-    font-size: clamp(1.5rem, 3.5vw, 2.1rem);
+    font-size: var(--t-h2);
     color: var(--hijau-tua);
     margin: 0 0 12px;
     text-align:center;
@@ -135,7 +147,7 @@
   .btn.primary{
     background: linear-gradient(180deg, var(--emas-terang), var(--emas));
     color: #2a1f08;
-    box-shadow: 0 10px 30px rgba(182,144,63,0.35);
+    box-shadow: 0 6px 18px rgba(182,144,63,0.22);
   }
   .btn.primary:hover{ filter: brightness(1.06); }
   .btn.primary:disabled{ opacity:0.45; cursor:not-allowed; box-shadow:none; }
@@ -252,7 +264,7 @@
   }
   .hero-eyebrow svg{ width:14px; height:14px; flex-shrink:0; }
   .hero h1{
-    margin: 0 0 18px; font-size: clamp(1.9rem, 3.4vw, 2.9rem);
+    margin: 0 0 18px; font-size: var(--t-h1);
     line-height: 1.14; font-weight: 800; letter-spacing: -0.6px;
     text-wrap: balance; color: var(--gading);
   }
@@ -286,49 +298,34 @@
     color: rgba(255,253,247,0.5); margin-bottom: 14px; padding-left: 2px;
   }
   .rantai-item{
-    position: relative; display: flex; align-items: center; gap: 14px;
-    padding: 13px 16px 13px 14px; border: none; background: none; cursor: pointer;
-    font: inherit; text-align: left; width: 100%;
-    border-radius: 10px; overflow: hidden;
-    color: rgba(255,253,247,0.62);
-    transition: color 0.35s ease, background 0.35s ease;
+    position: relative; display: flex; align-items: flex-start; gap: 13px;
+    padding: 12px 0 12px 17px;
+    color: rgba(255,253,247,0.72);
   }
-  .rantai-item:hover{ color: rgba(255,253,247,0.9); background: rgba(255,253,247,0.06); }
-  .rantai-item:focus-visible{ outline: 2px solid var(--emas-terang); outline-offset: -2px; }
-  .rantai-item.is-active{
-    color: var(--gading);
-    background: rgba(255,253,247,0.10);
-    backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px);
+  /* Satu garis tipis mengikat kelimanya jadi satu daftar, bukan lima kotak. */
+  .rantai-item::before{
+    content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 1px;
+    background: rgba(212,175,106,0.28);
   }
-  /* Bar tipis di kiri yang terisi selama scene-nya berjalan. */
-  .rantai-item .sisi{
-    position: absolute; left: 0; top: 0; bottom: 0; width: 2px;
-    background: rgba(255,253,247,0.16); border-radius: 2px; overflow: hidden;
-  }
-  .rantai-item .sisi::after{
-    content: ""; position: absolute; left: 0; right: 0; top: 0; bottom: 100%;
-    background: linear-gradient(180deg, var(--emas-terang), var(--emas));
-  }
-  .rantai-item.is-active .sisi::after{
-    animation: rantaiIsi var(--scene-dur, 4s) linear forwards;
-  }
-  @keyframes rantaiIsi{ from{ bottom: 100%; } to{ bottom: 0; } }
-  .rantai-item.is-done .sisi::after{ bottom: 0; opacity: 0.35; }
+  .rantai-item:first-of-type::before{ top: 13px; }
+  .rantai-item:last-of-type::before{ bottom: 13px; }
   .rantai-item .ikon{
-    flex-shrink: 0; width: 30px; height: 30px; border-radius: 50%;
+    flex-shrink: 0; width: 28px; height: 28px; border-radius: 50%;
     display: flex; align-items: center; justify-content: center;
-    border: 1px solid rgba(255,253,247,0.22);
-    transition: border-color 0.35s ease, background 0.35s ease;
+    border: 1px solid rgba(212,175,106,0.32);
+    color: var(--emas-terang); background: rgba(10,38,32,0.35);
+    margin-top: 1px;
   }
-  .rantai-item .ikon svg{ width: 15px; height: 15px; stroke: currentColor; fill: none; stroke-width: 1.8; }
-  .rantai-item.is-active .ikon{ border-color: var(--emas-terang); background: rgba(212,175,106,0.16); }
+  .rantai-item .ikon svg{ width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 1.7; }
   .rantai-item .teks{ min-width: 0; }
-  .rantai-item .nama{ display: block; font-size: 0.9rem; font-weight: 600; line-height: 1.3; }
-  .rantai-item .ket{
-    display: block; font-size: 0.72rem; line-height: 1.35; margin-top: 2px;
-    color: rgba(255,253,247,0.45);
+  .rantai-item .nama{
+    display: block; font-size: 0.88rem; font-weight: 600; line-height: 1.35;
+    color: var(--gading); letter-spacing: 0.1px;
   }
-  .rantai-item.is-active .ket{ color: rgba(255,253,247,0.62); }
+  .rantai-item .ket{
+    display: block; font-size: 0.73rem; line-height: 1.45; margin-top: 3px;
+    color: rgba(255,253,247,0.52);
+  }
   .rantai-kaki{
     margin: 12px 0 0; padding-left: 16px; font-size: 0.74rem; line-height: 1.5;
     color: rgba(255,253,247,0.45);
@@ -336,18 +333,73 @@
 
   @media (prefers-reduced-motion: reduce){
     .rantai{ opacity: 1; transform: none; transition: none; }
-    .rantai-item.is-active .sisi::after{ animation: none; bottom: 0; }
   }
 
-  }
   @media (max-width: 900px){
-    .hero-content{ grid-template-columns: 1fr; padding: 84px 20px 56px; gap: 34px; }
+    .hero-content{ grid-template-columns: 1fr; padding: 72px var(--ruang-tepi) 56px; gap: 36px; }
     .hero-copy{ text-align: center; }
     .hero p.subhead{ margin-left: auto; margin-right: auto; }
     .hero-ctas{ justify-content: center; }
     .hero-disclaimer{ margin-left: auto; margin-right: auto; }
     .hero-visual{ justify-content: center; }
-    .rantai{ max-width: 420px; }
+    .rantai{ max-width: 460px; }
+  }
+  @media (max-width: 620px){
+    /* 100vh memaksa hero jadi sangat tinggi di HP padahal isinya sudah selesai
+       jauh di atas. Biarkan tingginya mengikuti isi. */
+    .hero{ min-height: 0; }
+    .hero-content{ padding: 52px var(--ruang-tepi) 44px; gap: 30px; }
+    .hero h1{ margin-bottom: 14px; letter-spacing: -0.4px; }
+    .hero p.subhead{ margin-bottom: 24px; }
+    .hero-eyebrow{ font-size: 0.72rem; padding: 6px 13px; margin-bottom: 18px; letter-spacing: 0.2px; }
+    /* Satu tombol per baris, selebar layar: lebih mudah disentuh dan
+       hierarkinya lebih jelas ketimbang dua tombol berdempetan. */
+    .hero-ctas{ flex-direction: column; align-items: stretch; gap: 10px; }
+    .hero-ctas .btn{ width: 100%; justify-content: center; }
+    .hero-disclaimer{ margin-top: 18px; font-size: 0.69rem; }
+    .rantai-judul{ text-align: left; }
+  }
+
+  /* ===== Penyesuaian layar kecil, dikumpulkan supaya ritmenya konsisten ===== */
+  @media (max-width: 620px){
+    h2.section-title{ line-height: 1.25; }
+    p.section-lead{ font-size: var(--t-body); margin-bottom: 32px; }
+
+    .trust-strip{ padding: 18px var(--ruang-tepi); }
+    .trust-strip-inner{ gap: 10px 20px; font-size: 0.8rem; }
+
+    .how-intro p{ font-size: var(--t-body); margin-bottom: 24px; }
+    .how-intro .btn{ width: 100%; justify-content: center; }
+    .how-step{ padding-left: 46px; padding-bottom: 26px; }
+    .how-step h3{ font-size: var(--t-h3); }
+
+    .kenapa-head{ margin-bottom: 32px; }
+    .kenapa-lead{ font-size: var(--t-body); }
+    .alasan{ padding: 24px 20px; gap: 9px; }
+    .alasan h3{ font-size: var(--t-h3); }
+    .alasan p{ font-size: var(--t-kecil); }
+    .kenapa-tutup{ margin-top: 32px; padding-top: 26px; }
+    .kenapa-tutup p{ font-size: var(--t-body); }
+    .kenapa-tutup .btn{ width: 100%; justify-content: center; }
+    .tujuan{ margin-top: 32px; }
+
+    .layanan-head{ margin-bottom: 26px; }
+    .layanan-head p{ font-size: var(--t-body); }
+    .service-row{ padding: 18px 20px; }
+    .service-row h3{ font-size: var(--t-h3); }
+
+    .artikel-head{ margin-bottom: 24px; gap: 12px; }
+    .article-row{ padding: 18px 0; gap: 14px; }
+
+    .faq-head{ margin-bottom: 26px; }
+    .faq-q{ font-size: 0.97rem; padding: 18px 0; gap: 14px; }
+    .faq-a p{ font-size: var(--t-kecil); }
+
+    .quiz-card{ padding: 22px 18px; }
+    .quiz-card h3{ font-size: 1.05rem; }
+    .option-card{ padding: 13px 14px; }
+    .quiz-nav{ flex-direction: column-reverse; }
+    .restart-row .btn{ width: 100%; margin: 0; }
   }
 
   /* ===== Trust strip (moved out of hero per hero-stack discipline) ===== */
@@ -370,7 +422,7 @@
     color: var(--emas-teks); margin-bottom:14px;
   }
   .how-intro h2{
-    font-size: clamp(1.5rem, 3vw, 2.1rem); color: var(--hijau-tua); margin:0 0 16px;
+    font-size: var(--t-h2); color: var(--hijau-tua); margin:0 0 16px;
   }
   .how-intro p{ color:var(--teks-lembut); font-size:1.02rem; line-height:1.6; margin:0 0 28px; max-width:420px; }
   .how-it-works .note{ font-size:0.82rem; color:var(--teks-lembut); margin-top:10px; }
@@ -394,7 +446,7 @@
   /* ===== Layanan: staircase ladder (visual metaphor for commitment level) ===== */
   .layanan{ background: var(--gading); }
   .layanan-head{ margin-bottom:32px; }
-  .layanan-head h2{ text-align:left; font-size: clamp(1.5rem, 3vw, 2.1rem); color: var(--hijau-tua); margin:0 0 12px; }
+  .layanan-head h2{ text-align:left; font-size: var(--t-h2); color: var(--hijau-tua); margin:0 0 12px; }
   .layanan-head p{ text-align:left; color:var(--teks-lembut); font-size:1.02rem; line-height:1.6; max-width:560px; margin:0; }
   .service-ladder{ display:flex; flex-direction:column; gap:10px; }
   .service-row{
@@ -422,7 +474,7 @@
   /* ===== Artikel: editorial divided list (no cards) ===== */
   .artikel{ background: var(--krem); }
   .artikel-head{ display:flex; align-items:flex-end; justify-content:space-between; gap:24px; flex-wrap:wrap; margin-bottom:30px; }
-  .artikel-head h2{ text-align:left; font-size: clamp(1.5rem, 3vw, 2.1rem); color: var(--hijau-tua); margin:0; }
+  .artikel-head h2{ text-align:left; font-size: var(--t-h2); color: var(--hijau-tua); margin:0; }
   .artikel-head p{ margin:0; max-width:420px; color:var(--teks-lembut); font-size:0.98rem; text-align:left; line-height:1.55; }
   .article-list{ border-top:1px solid var(--garis); }
   .article-row{
@@ -640,7 +692,7 @@
     text-transform:uppercase; color: var(--emas-terang); margin-bottom:14px;
   }
   .kenapa h2{
-    font-size: clamp(1.6rem, 3.4vw, 2.3rem); line-height:1.22; margin:0 0 16px;
+    font-size: var(--t-h2); line-height:1.24; margin:0 0 16px;
     color: var(--gading); text-wrap:balance; letter-spacing:-0.4px;
   }
   .kenapa h2 .accent{ color: var(--emas-terang); }
@@ -708,7 +760,7 @@
   .faq{ background: var(--gading); }
   .faq-head{ max-width: 640px; margin-bottom: 34px; }
   .faq-head h2{
-    font-size: clamp(1.5rem, 3vw, 2.1rem); color: var(--hijau-tua); margin:0 0 12px; text-wrap:balance;
+    font-size: var(--t-h2); color: var(--hijau-tua); margin:0 0 12px; text-wrap:balance;
   }
   .faq-head p{ margin:0; color:var(--teks-lembut); font-size:1rem; line-height:1.6; }
   .faq-list{ max-width: 780px; border-top:1px solid var(--garis); }
@@ -918,53 +970,49 @@
 
     <div class="hero-visual">
       <div class="rantai" id="rantai">
-        <div class="rantai-judul">Yang kami periksa</div>
+        <div class="rantai-judul">Kriteria SJPH</div>
 
-        <button type="button" class="rantai-item" data-scene="0">
-          <span class="sisi" aria-hidden="true"></span>
-          <span class="ikon" aria-hidden="true">
-            <svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>
-          </span>
+        <div class="rantai-item">
+          <span class="ikon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 11l2 2 4-4"/><path d="M12 3 4 6v6c0 4.5 3.4 7.7 8 9 4.6-1.3 8-4.5 8-9V6l-8-3Z"/></svg></span>
           <span class="teks">
-            <span class="nama">Bahan Baku</span>
-            <span class="ket">Status halal tiap bahan dan asal-usulnya</span>
+            <span class="nama">Komitmen &amp; Tanggung Jawab</span>
+            <span class="ket">Kebijakan halal, penyelia, dan pelatihan tim</span>
           </span>
-        </button>
+        </div>
 
-        <button type="button" class="rantai-item" data-scene="1">
-          <span class="sisi" aria-hidden="true"></span>
-          <span class="ikon" aria-hidden="true">
-            <svg viewBox="0 0 24 24"><path d="M3 7l9-4 9 4v10l-9 4-9-4V7Z"/><path d="M3 7l9 4 9-4M12 11v10"/></svg>
-          </span>
+        <div class="rantai-item">
+          <span class="ikon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 4h18v16H3z"/><path d="M7 9h10M7 13h10M7 17h6"/></svg></span>
           <span class="teks">
-            <span class="nama">Pemasok &amp; Penyimpanan</span>
-            <span class="ket">Dokumen pemasok dan ketertelusurannya</span>
+            <span class="nama">Bahan</span>
+            <span class="ket">Daftar bahan, dokumen pendukung, dan pemasok</span>
           </span>
-        </button>
+        </div>
 
-        <button type="button" class="rantai-item" data-scene="2">
-          <span class="sisi" aria-hidden="true"></span>
-          <span class="ikon" aria-hidden="true">
-            <svg viewBox="0 0 24 24"><path d="M4 20V9l5-3v3l5-3v3l6-3v14H4Z"/><path d="M9 20v-4h4v4"/></svg>
-          </span>
+        <div class="rantai-item">
+          <span class="ikon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 20V9l5-3v3l5-3v3l6-3v14H4Z"/><path d="M9 20v-4h4v4"/></svg></span>
           <span class="teks">
-            <span class="nama">Proses Produksi</span>
-            <span class="ket">Alur produksi dan pencegahan kontaminasi</span>
+            <span class="nama">Proses Produk Halal</span>
+            <span class="ket">Fasilitas, alur produksi, dan pencegahan kontaminasi</span>
           </span>
-        </button>
+        </div>
 
-        <button type="button" class="rantai-item" data-scene="3">
-          <span class="sisi" aria-hidden="true"></span>
-          <span class="ikon" aria-hidden="true">
-            <svg viewBox="0 0 24 24"><path d="M2 8h11v9H2V8Z"/><path d="M13 11h4l3 3v3h-7v-6Z"/><circle cx="6" cy="18.5" r="1.6"/><circle cx="16.5" cy="18.5" r="1.6"/></svg>
-          </span>
+        <div class="rantai-item">
+          <span class="ikon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 7l9-4 9 4v10l-9 4-9-4V7Z"/><path d="M3 7l9 4 9-4M12 11v10"/></svg></span>
           <span class="teks">
-            <span class="nama">Distribusi</span>
-            <span class="ket">Produk terjaga sampai ke tangan pembeli</span>
+            <span class="nama">Produk</span>
+            <span class="ket">Identifikasi produk dan kendali saat formula berubah</span>
           </span>
-        </button>
+        </div>
 
-        <p class="rantai-kaki">26 pertanyaan menelusuri keempat tahap ini.</p>
+        <div class="rantai-item">
+          <span class="ikon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 17l5-5 4 4 8-8"/><path d="M16 8h4v4"/></svg></span>
+          <span class="teks">
+            <span class="nama">Pemantauan &amp; Evaluasi</span>
+            <span class="ket">Rekaman pelaksanaan dan tinjauan internal berkala</span>
+          </span>
+        </div>
+
+        <p class="rantai-kaki">26 pertanyaan disusun mengikuti kelima kriteria ini.</p>
       </div>
     </div>
   </div>
@@ -1318,9 +1366,10 @@
       </span>
       <div>
         <h3>Tentang GoHalal</h3>
-        <p>GoHalal itu jasa konsultasi halal buat pemilik usaha yang pengin sertifikasi tapi bingung mulai dari mana. Kami kerja bareng UMKM F&amp;B, brand consumer goods, sampai pabrik skala menengah.</p>
-        <p>Menurut kami urusan halal itu harusnya dimulai dari paham dulu, bukan dari isi formulir. Semua rekomendasi di sini dipegang langsung oleh ahli bersertifikat BNSP, jadi yang Anda dapat bukan tebakan, tapi arahan dari orang yang memang ngerti detail teknisnya.</p>
-        <p>Dari cek gratis sampai pendampingan penuh, kami berusaha ngomong pakai bahasa bisnis Anda, bukan bahasa peraturan.</p>
+        <p>GoHalal adalah mitra konsultasi yang menyiapkan pelaku usaha menuju sertifikasi halal, mulai dari UMKM makanan dan minuman, brand consumer goods, hingga manufaktur skala menengah.</p>
+        <p>Kami berangkat dari satu keyakinan sederhana: kepatuhan halal yang benar tidak lahir dari mengisi formulir, melainkan dari sistem yang dipahami dan dijalankan setiap hari. Karena itu pendampingan kami selalu dimulai dari diagnosis, bukan dari penawaran jasa.</p>
+        <p>Seluruh prosesnya dikawal auditor halal bersertifikat BNSP, sehingga yang Anda terima bukan tafsiran umum, melainkan arahan teknis yang bisa langsung dikerjakan tim Anda: dari penelusuran bahan baku, tata kelola dokumen pemasok, sampai kesiapan Sistem Jaminan Produk Halal.</p>
+        <p>Ukuran keberhasilan kami bukan berapa banyak jasa yang terjual, melainkan berapa banyak usaha yang akhirnya benar-benar siap. Itu sebabnya Halal Readiness Check kami buka gratis untuk siapa saja. Kalau setelah melihat hasilnya Anda ternyata belum membutuhkan kami, kami akan mengatakannya.</p>
       </div>
     </div>
 
@@ -1454,100 +1503,62 @@
   // kalau semuanya gagal, ilustrasi SVG di lapisan bawah yang tampil.
   heroScenes();
   function heroScenes(){
-    var wrap = document.getElementById('rantai');
-    if(!wrap) return;
-
-    var videos = [], buttons = [];
+    var videos = [];
     for(var i = 0; i < 4; i++){
       var v = document.getElementById('heroVideo' + i);
-      var b = wrap.querySelector('.rantai-item[data-scene="' + i + '"]');
-      if(v && b){ videos.push(v); buttons.push(b); }
+      if(v) videos.push(v);
     }
-    // Beda dari strip lama: daftar ini tetap ditampilkan walau videonya gagal
-    // atau animasi dimatikan, karena isinya informasi (apa saja yang diperiksa),
-    // bukan sekadar navigasi video.
-    if(!videos.length || reduceMotion){
-      buttons.forEach(function(b){ b.disabled = true; b.style.cursor = 'default'; });
-      if(buttons[0]) buttons[0].classList.add('is-active');
-      return;
-    }
+    if(!videos.length || reduceMotion) return;
 
     var current = 0;
     var timer = null;
     var CROSSFADE = 1.4; // detik, harus sama dengan transition opacity di CSS
 
-    function drop(idx){
-      videos.splice(idx, 1);
-      // Tombolnya dibiarkan terlihat, cuma tidak lagi ikut rotasi.
-      var b = buttons.splice(idx, 1)[0];
-      b.disabled = true; b.style.cursor = 'default';
-      b.classList.remove('is-active', 'is-done');
-      if(idx < current) current--;
-      if(!videos.length) return true;
-      return false;
-    }
-
     function show(i){
       clearTimeout(timer);
-      videos.forEach(function(v, n){
-        v.classList.toggle('is-active', n === i);
-        buttons[n].classList.toggle('is-active', n === i);
-        buttons[n].classList.toggle('is-done', n < i);
-      });
+      videos.forEach(function(v, n){ v.classList.toggle('is-active', n === i); });
       current = i;
 
       var v = videos[i];
-      // Durasi bar disamakan dengan durasi video aslinya, bukan angka tetap.
       var dur = isFinite(v.duration) && v.duration > 0 ? v.duration : 4;
-      buttons[i].style.setProperty('--scene-dur', dur + 's');
 
       try{ v.currentTime = 0; }catch(e){}
       var p = v.play();
       if(p && p.catch) p.catch(function(){});
 
       // Video yang ditinggalkan dibiarkan jalan selama crossfade, baru
-      // dihentikan setelah benar-benar tidak terlihat. Kalau langsung di-pause,
-      // frame terakhirnya membeku di tengah fade dan itu yang terlihat
-      // sebagai potongan.
+      // dihentikan setelah tidak terlihat. Kalau langsung di-pause, frame
+      // terakhirnya membeku di tengah fade dan itu terbaca sebagai potongan.
       videos.forEach(function(other, n){
         if(n === i || other.paused) return;
         setTimeout(function(){ if(!other.classList.contains('is-active')) other.pause(); }, CROSSFADE * 1000);
       });
 
-      // Ambil video berikutnya sekarang, sisanya biarkan. Kalau keempatnya
-      // di-preload sekaligus, pengunjung mobile harus mengunduh semuanya di
-      // awal padahal mungkin cuma sempat melihat scene pertama.
+      // Ambil video berikutnya saja, sisanya nanti, supaya pengunjung mobile
+      // tidak mengunduh keempatnya di awal.
       var nx = videos[(i + 1) % videos.length];
       if(nx && nx !== v && nx.preload === 'none'){
         nx.preload = 'auto';
         try{ nx.load(); }catch(e){}
       }
 
-      // Pindah scene SEBELUM video habis, selama durasi crossfade, supaya kedua
-      // video sama-sama bergerak saat bertukar. Kalau menunggu 'ended', frame
-      // terakhir sempat diam dan pergantiannya terasa seperti potongan.
+      // Pindah SEBELUM video habis, selama durasi crossfade, supaya kedua
+      // video sama-sama bergerak waktu bertukar.
       timer = setTimeout(next, Math.max(dur - CROSSFADE, 0.6) * 1000);
     }
 
     function next(){ if(videos.length) show((current + 1) % videos.length); }
 
-    videos.forEach(function(v, i){
+    videos.forEach(function(v){
       v.addEventListener('ended', function(){ if(videos[current] === v) next(); });
       v.addEventListener('error', function(){
         var idx = videos.indexOf(v);
         if(idx === -1) return;
         var wasCurrent = idx === current;
-        if(drop(idx)) return;
+        videos.splice(idx, 1);
+        if(idx < current) current--;
+        if(!videos.length){ clearTimeout(timer); return; }
         if(wasCurrent) show(idx % videos.length);
-      });
-    });
-
-    // Index dicari saat diklik, bukan dari closure, supaya tetap benar
-    // setelah ada video yang dibuang dari daftar.
-    buttons.forEach(function(b){
-      b.addEventListener('click', function(){
-        var idx = buttons.indexOf(b);
-        if(idx !== -1) show(idx);
       });
     });
 
