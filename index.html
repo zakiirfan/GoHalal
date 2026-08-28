@@ -31,6 +31,7 @@
   }
   *{box-sizing:border-box;}
   html,body{margin:0;padding:0;}
+  html{ scroll-behavior: smooth; scroll-padding-top: 72px; }
   html{ scroll-behavior: smooth; }
   body{
     font-family: -apple-system, "Segoe UI", Roboto, "Noto Sans", Arial, sans-serif;
@@ -57,10 +58,10 @@
   }
   .site-nav .brand .dot{ width:8px; height:8px; border-radius:50%; background:var(--emas-terang); flex-shrink:0; }
   .site-nav .nav-links{
-    display:flex; gap:24px; list-style:none; margin:0; padding:0;
+    display:flex; gap:19px; list-style:none; margin:0; padding:0;
   }
   .site-nav .nav-links a{
-    color: var(--teks-lembut-terang); text-decoration:none; font-size:0.9rem; font-weight:600;
+    color: var(--teks-lembut-terang); text-decoration:none; font-size:0.86rem; font-weight:600; white-space:nowrap;
     transition: color 0.15s ease;
   }
   .site-nav .nav-links a:hover{ color: var(--emas-terang); }
@@ -69,7 +70,7 @@
     border-radius:8px; width:38px; height:38px; font-size:1.1rem; cursor:pointer;
     align-items:center; justify-content:center;
   }
-  @media (max-width: 720px){
+  @media (max-width: 900px){
     .site-nav .nav-toggle{ display:flex; }
     .site-nav .nav-links{
       display:none; position:absolute; left:0; right:0; top:100%;
@@ -80,6 +81,27 @@
     .site-nav .nav-links.is-open{ display:flex; }
     .site-nav .nav-links a{ padding: 13px 22px; display:block; }
   }
+  /* Nav memadat begitu pengunjung meninggalkan hero. */
+  .site-nav{ transition: background 0.3s ease, box-shadow 0.3s ease; }
+  .site-nav.is-scrolled{
+    background: rgba(12, 50, 41, 0.88);
+    backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.22);
+  }
+
+  /* Satu sistem reveal untuk seluruh halaman, bukan efek terpisah per bagian. */
+  .reveal{
+    opacity: 0; transform: translateY(22px);
+    transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1) var(--d, 0s),
+                transform 0.75s cubic-bezier(0.16, 1, 0.3, 1) var(--d, 0s);
+  }
+  .reveal.is-in{ opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce){
+    .reveal{ opacity: 1; transform: none; transition: none; }
+    .hero-media video{ animation: none; }
+    html{ scroll-behavior: auto; }
+  }
+
   h2.section-title{
     font-size: clamp(1.5rem, 3.5vw, 2.1rem);
     color: var(--hijau-tua);
@@ -149,11 +171,24 @@
     position: absolute; inset: 0; width: 100%; height: 100%;
     object-fit: cover;
   }
+  /* Ken Burns jalan terus di semua video, tidak diikat ke status aktif, supaya
+     tidak ada lompatan skala saat satu video mulai memudar. Gerakan yang tidak
+     pernah berhenti inilah yang bikin pergantian scene terasa menyambung. */
   .hero-media video{
     position: absolute; inset: 0; width: 100%; height: 100%;
-    object-fit: cover; opacity: 0; transition: opacity 1s ease;
+    object-fit: cover; opacity: 0;
+    transition: opacity 1.4s cubic-bezier(0.4, 0, 0.2, 1);
+    animation: kenBurns 22s ease-in-out infinite alternate;
+    will-change: opacity, transform;
   }
+  .hero-media video:nth-of-type(2){ animation-delay: -5.5s; }
+  .hero-media video:nth-of-type(3){ animation-delay: -11s; }
+  .hero-media video:nth-of-type(4){ animation-delay: -16.5s; }
   .hero-media video.is-active{ opacity: 1; }
+  @keyframes kenBurns{
+    from{ transform: scale(1.04) translate3d(0, 0, 0); }
+    to{ transform: scale(1.15) translate3d(-1.2%, -0.8%, 0); }
+  }
   .hero-media::after{
     content:"";
     position:absolute; inset:0;
@@ -578,11 +613,204 @@
     margin:14px 0 0; font-size:0.78rem; line-height:1.55;
     color:rgba(255,253,247,0.5); max-width:400px; margin-left:auto; margin-right:auto;
   }
+  /* ===== Kenapa Sertifikasi Halal (hijau tua, jadi jeda gelap di tengah halaman) ===== */
+  .kenapa{
+    background: linear-gradient(165deg, var(--hijau-tua), #0c3229 75%);
+    color: var(--gading); position: relative; overflow: hidden;
+  }
+  .kenapa::before{
+    content:""; position:absolute; inset:0; pointer-events:none;
+    background-image: radial-gradient(circle at 12% 15%, rgba(212,175,106,0.14) 0, transparent 42%),
+                      radial-gradient(circle at 88% 82%, rgba(212,175,106,0.10) 0, transparent 45%);
+  }
+  .kenapa .wrap{ position:relative; }
+  .kenapa-head{ max-width: 720px; margin-bottom: 44px; }
+  .kenapa-eyebrow{
+    display:inline-block; font-size:0.75rem; font-weight:800; letter-spacing:0.5px;
+    text-transform:uppercase; color: var(--emas-terang); margin-bottom:14px;
+  }
+  .kenapa h2{
+    font-size: clamp(1.6rem, 3.4vw, 2.3rem); line-height:1.22; margin:0 0 16px;
+    color: var(--gading); text-wrap:balance; letter-spacing:-0.4px;
+  }
+  .kenapa h2 .accent{ color: var(--emas-terang); }
+  .kenapa-lead{ margin:0; font-size:1.04rem; line-height:1.65; color: rgba(255,253,247,0.78); }
+  .alasan-grid{ display:grid; grid-template-columns: repeat(2, 1fr); gap:2px; background: rgba(255,253,247,0.12); }
+  .alasan{
+    background: #0e3a30; padding: 30px 28px;
+    display:flex; flex-direction:column; gap:11px;
+    transition: background 0.3s ease;
+  }
+  .alasan:hover{ background: #104437; }
+  .alasan .no{
+    font-size:0.72rem; font-weight:800; letter-spacing:0.12em;
+    color: var(--emas-terang); font-variant-numeric: tabular-nums;
+  }
+  .alasan h3{ margin:0; font-size:1.12rem; line-height:1.3; color: var(--gading); text-wrap:balance; }
+  .alasan p{ margin:0; font-size:0.93rem; line-height:1.62; color: rgba(255,253,247,0.72); }
+  .alasan .tegas{ color: var(--emas-terang); font-weight:700; }
+  .kenapa-tutup{
+    margin-top: 40px; padding-top: 32px; border-top:1px solid rgba(255,253,247,0.16);
+    display:flex; align-items:center; justify-content:space-between; gap:28px; flex-wrap:wrap;
+  }
+  .kenapa-tutup p{
+    margin:0; max-width:52ch; font-size:1rem; line-height:1.62; color: rgba(255,253,247,0.82);
+  }
+  .kenapa-tutup strong{ color: var(--gading); }
+  @media (max-width: 760px){
+    .alasan-grid{ grid-template-columns: 1fr; }
+    .alasan{ padding: 26px 22px; }
+    .kenapa-tutup{ flex-direction:column; align-items:flex-start; gap:20px; }
+  }
+
+  /* ===== FAQ (accordion, satu kolom lebar baca) ===== */
+  .faq{ background: var(--gading); }
+  .faq-head{ max-width: 640px; margin-bottom: 34px; }
+  .faq-head h2{
+    font-size: clamp(1.5rem, 3vw, 2.1rem); color: var(--hijau-tua); margin:0 0 12px; text-wrap:balance;
+  }
+  .faq-head p{ margin:0; color:var(--teks-lembut); font-size:1rem; line-height:1.6; }
+  .faq-list{ max-width: 780px; border-top:1px solid var(--garis); }
+  .faq-item{ border-bottom:1px solid var(--garis); }
+  .faq-q{
+    width:100%; background:none; border:none; cursor:pointer; font:inherit; text-align:left;
+    display:flex; align-items:flex-start; justify-content:space-between; gap:20px;
+    padding: 20px 0; color: var(--hijau-tua); font-size:1.02rem; font-weight:700; line-height:1.45;
+    transition: color 0.18s ease;
+  }
+  .faq-q:hover{ color: var(--emas-teks); }
+  .faq-q:focus-visible{ outline:2px solid var(--hijau-muda); outline-offset:3px; border-radius:4px; }
+  .faq-q .tanda{
+    flex-shrink:0; width:22px; height:22px; position:relative; margin-top:2px;
+  }
+  .faq-q .tanda::before, .faq-q .tanda::after{
+    content:""; position:absolute; background: var(--emas); border-radius:2px;
+    transition: transform 0.28s cubic-bezier(0.4,0,0.2,1), opacity 0.28s ease;
+  }
+  .faq-q .tanda::before{ top:10px; left:2px; right:2px; height:2px; }
+  .faq-q .tanda::after{ left:10px; top:2px; bottom:2px; width:2px; }
+  .faq-item.is-open .faq-q .tanda::after{ transform: rotate(90deg); opacity:0; }
+  .faq-a{
+    display:grid; grid-template-rows: 0fr;
+    transition: grid-template-rows 0.34s cubic-bezier(0.4,0,0.2,1);
+  }
+  .faq-item.is-open .faq-a{ grid-template-rows: 1fr; }
+  .faq-a-inner{ overflow:hidden; }
+  .faq-a p{
+    margin:0 0 18px; padding-right:42px; max-width:64ch;
+    font-size:0.96rem; line-height:1.68; color:var(--teks-lembut);
+  }
+  .faq-a p + p{ margin-top:-6px; }
+  @media (prefers-reduced-motion: reduce){
+    .faq-a{ transition:none; }
+    .faq-q .tanda::before, .faq-q .tanda::after{ transition:none; }
+  }
+  @media (max-width: 560px){
+    .faq-a p{ padding-right:0; }
+  }
+
   .result-section-title{ font-size:1.05rem; color:var(--hijau-tua); margin: 30px 0 14px; }
   .result-block + .result-block{ margin-top:8px; }
   .quiz-disclaimer{ font-size:0.75rem; color:var(--teks-lembut); line-height:1.55; margin-top:26px; text-align:center; }
   .restart-row{ text-align:center; margin-top:22px; }
 </style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  "name": "GoHalal",
+  "description": "Jasa konsultasi kesiapan sertifikasi halal untuk UMKM F&B, brand consumer goods, dan manufaktur skala menengah di Indonesia. Dikelola auditor halal bersertifikat BNSP.",
+  "areaServed": {
+    "@type": "Country",
+    "name": "Indonesia"
+  },
+  "email": "kontak@amalnajib.com",
+  "telephone": "+6287712644343",
+  "parentOrganization": {
+    "@type": "Organization",
+    "name": "PT Cita Mulia Madani"
+  },
+  "knowsAbout": [
+    "Sertifikasi halal",
+    "Jaminan Produk Halal",
+    "BPJPH",
+    "Sistem Jaminan Produk Halal",
+    "Audit kesiapan halal"
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Sertifikasi halal itu wajib atau sukarela?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Wajib. Undang-Undang Nomor 33 Tahun 2014 tentang Jaminan Produk Halal mewajibkan produk yang beredar dan diperdagangkan di Indonesia untuk bersertifikat halal, dan pelaksanaannya diberlakukan bertahap per kategori produk oleh BPJPH. Karena tahapan dan tenggatnya bisa berubah dan berbeda antar kategori, jangan pakai halaman ini sebagai acuan tanggal. Cek langsung ke BPJPH untuk kategori produk Anda, atau tanyakan ke kami waktu konsultasi."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Usaha saya masih kecil dan produksinya di rumah. Tetap perlu?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Kewajibannya melekat pada produk yang Anda perdagangkan, bukan pada seberapa besar usahanya. Jadi ya, tetap perlu. Kabar baiknya, usaha kecil justru paling murah dan paling cepat dibereskan. Produknya sedikit, pemasoknya sedikit, prosesnya masih Anda pegang sendiri. Yang repot justru yang menunda sampai produknya sudah puluhan."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Berapa biaya dan berapa lama prosesnya?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Tidak ada angka tunggal yang jujur untuk pertanyaan ini, dan kami tidak mau mengarang. Biaya dan durasi tergantung jumlah produk, jumlah pemasok, kondisi dokumentasi Anda sekarang, dan kategori produknya. Yang perlu Anda tahu: ada biaya resmi ke BPJPH dan lembaga pemeriksa, dan itu terpisah dari biaya pendampingan kami. Skor dari cek gratis ini yang menentukan seberapa besar pekerjaannya, jadi angkanya baru bisa kami sebut setelah tahu posisi Anda."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Apa bedanya pakai GoHalal dibanding mengurus sendiri ke BPJPH?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Anda memang bisa mengurus sendiri, dan untuk usaha yang dokumentasinya sudah rapi, itu pilihan yang masuk akal. Kami tidak akan bilang sebaliknya. Yang biasanya bikin orang tersendat bukan pendaftarannya, tapi persiapan di belakangnya: daftar bahan yang belum lengkap, dokumen pemasok yang tercecer, proses produksi yang belum tercatat. Di situ kami masuk, membereskan dulu sebelum diajukan, supaya tidak bolak-balik."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Kalau pakai GoHalal, sertifikat saya dijamin keluar?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Tidak. Siapa pun yang menjanjikan itu sebaiknya Anda hindari. Keputusan sertifikasi ada di BPJPH dan lembaga berwenang, bukan di konsultan. Yang bisa kami kerjakan adalah memastikan bisnis Anda benar-benar siap sebelum diajukan, sehingga peluangnya jauh lebih baik dan tidak buang waktu mengajukan dalam kondisi belum layak."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Skor dari cek gratis ini sama dengan hasil audit resmi?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Bukan, dan kami tegas soal ini. Skor tersebut adalah hasil penilaian mandiri berdasarkan jawaban Anda sendiri, bukan audit, bukan penetapan status halal, bukan fatwa, dan bukan jaminan sertifikasi. Fungsinya satu: memberi gambaran cepat bagian mana yang sudah rapi dan bagian mana yang masih bolong, supaya Anda punya dasar sebelum mengambil keputusan. Proses resminya tetap mengikuti ketentuan BPJPH dan lembaga pemeriksa halal yang berlaku."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Kalau skor saya jelek, apa saya ditolak jadi klien?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Justru sebaliknya. Skor rendah bukan nilai rapor, itu peta pekerjaan. Sebagian besar bisnis yang datang ke kami memang mulai dari kondisi belum tertata, dan itu wajar untuk usaha yang selama ini fokus jualan dulu. Yang kami sarankan berbeda-beda sesuai skor Anda, bukan sesuai besar kecilnya usaha."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Saya cuma mau cek gratis dan belum tentu lanjut. Boleh?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Boleh, dan itu memang tujuan kami membuatnya. Cek ini gratis tanpa syarat, hasilnya milik Anda, dan tidak ada kewajiban membeli jasa apa pun setelahnya. Kontak Anda kami minta sekali saja di akhir, untuk membuka hasil lengkap dan menghubungi Anda terkait hasil tersebut. Kalau setelah ngobrol ternyata Anda belum butuh jasa kami, kami akan bilang belum butuh."
+      }
+    }
+  ]
+}
+</script>
 </head>
 <body>
 
@@ -592,10 +820,12 @@
     <button type="button" class="nav-toggle" id="navToggle" aria-label="Buka menu" aria-expanded="false">☰</button>
     <ul class="nav-links" id="navLinks">
       <li><a href="#top">Beranda</a></li>
+      <li><a href="#kenapa">Kenapa Halal</a></li>
       <li><a href="#cara-kerja">Cara Kerja</a></li>
       <li><a href="#layanan">Layanan</a></li>
-      <li><a href="#tentang">Tentang</a></li>
+      <li><a href="#faq">FAQ</a></li>
       <li><a href="#artikel">Artikel</a></li>
+      <li><a href="#tentang">Tentang</a></li>
       <li><a href="#kontak">Kontak</a></li>
     </ul>
   </div>
@@ -686,9 +916,77 @@
   </div>
 </section>
 
+<section id="kenapa" class="kenapa" aria-label="Kenapa perlu sertifikasi halal">
+  <div class="wrap">
+    <div class="kenapa-head reveal">
+      <span class="kenapa-eyebrow">Kenapa Ini Penting</span>
+      <h2>Sertifikasi halal bukan formalitas. <span class="accent">Itu izin masuk pasar Anda.</span></h2>
+      <p class="kenapa-lead">
+        Banyak pemilik usaha menunda karena merasa belum mendesak. Padahal empat hal
+        di bawah ini sudah berjalan sekarang, dengan atau tanpa persiapan Anda.
+      </p>
+    </div>
+
+    <div class="alasan-grid">
+      <div class="alasan reveal" style="--d:0.05s">
+        <span class="no">01</span>
+        <h3>Ini kewajiban hukum, bukan pilihan</h3>
+        <p>
+          Undang-Undang Nomor 33 Tahun 2014 tentang Jaminan Produk Halal mewajibkan produk
+          yang beredar dan diperdagangkan di Indonesia untuk bersertifikat halal, diberlakukan
+          bertahap per kategori produk oleh BPJPH. <span class="tegas">Ini bukan program sukarela</span>
+          yang bisa diikuti kalau sempat.
+        </p>
+      </div>
+
+      <div class="alasan reveal" style="--d:0.1s">
+        <span class="no">02</span>
+        <h3>Tanpa sertifikat, pintunya memang tertutup</h3>
+        <p>
+          Retail modern, distributor besar, buyer korporat, dan pembeli ekspor makin banyak
+          yang menjadikan sertifikat halal sebagai syarat masuk, bukan nilai tambah.
+          <span class="tegas">Produk sebagus apa pun tidak bisa masuk</span> kalau dokumennya
+          belum ada.
+        </p>
+      </div>
+
+      <div class="alasan reveal" style="--d:0.15s">
+        <span class="no">03</span>
+        <h3>Pembeli Anda memang mengeceknya</h3>
+        <p>
+          Indonesia punya populasi muslim terbesar di dunia. Di rak toko, logo halal itu
+          jalan pintas kepercayaan: pembeli tidak perlu membaca komposisi satu per satu.
+          <span class="tegas">Tanpa logo itu, produk Anda yang harus meyakinkan sendiri,</span>
+          sementara kompetitor sebelahnya tidak perlu.
+        </p>
+      </div>
+
+      <div class="alasan reveal" style="--d:0.2s">
+        <span class="no">04</span>
+        <h3>Makin ditunda, makin mahal</h3>
+        <p>
+          Setiap bulan Anda menambah SKU, ganti pemasok, dan mengubah proses tanpa pencatatan.
+          Semua itu tetap harus dirapikan nanti, cuma jumlahnya sudah berlipat.
+          <span class="tegas">Membereskan 5 produk jauh lebih murah daripada 50.</span>
+        </p>
+      </div>
+    </div>
+
+    <div class="kenapa-tutup reveal">
+      <p>
+        Sejujurnya, kebanyakan pemilik usaha bukan menolak sertifikasi. Mereka cuma tidak tahu
+        harus mulai dari mana, takut salah langkah, dan enggan berhadapan dengan proses yang
+        kelihatannya rumit. <strong>Makanya kami tidak minta Anda membeli apa pun dulu.</strong>
+        Cek gratis 5 menit, lihat posisi bisnis Anda hari ini, baru putuskan mau lanjut atau tidak.
+      </p>
+      <a href="#quiz" class="btn primary">Cek Posisi Saya, Gratis</a>
+    </div>
+  </div>
+</section>
+
 <section id="cara-kerja" class="how-it-works">
   <div class="wrap how-grid">
-    <div class="how-intro">
+    <div class="how-intro reveal">
       <span class="how-eyebrow">Cara Kerja</span>
       <h2>Kami Mulai dari Cek Kondisi, Bukan Jualan</h2>
       <p>Banyak yang keburu daftar sertifikasi tanpa tahu kondisi bisnisnya sendiri, lalu kaget waktu ditolak. Cek ini gratis, buat lihat mana yang sudah aman dan mana yang masih bolong. Setelahnya tidak ada kewajiban beli jasa apa pun.</p>
@@ -696,22 +994,22 @@
       <p class="note">26 Pertanyaan → Skor 0–100 → Bagian yang Bolong → Rekomendasi Langkah</p>
     </div>
     <div class="how-timeline">
-      <div class="how-step">
+      <div class="how-step reveal">
         <span class="step-num">1</span>
         <h3>Jawab 26 Pertanyaan</h3>
         <p>Soal produk, bahan, supplier, produksi, dan dokumentasi. Pilihan ganda semua, tinggal klik.</p>
       </div>
-      <div class="how-step">
+      <div class="how-step reveal" style="--d:0.06s">
         <span class="step-num">2</span>
         <h3>Skor Anda Langsung Keluar</h3>
         <p>Tidak pakai nunggu, lengkap dengan rincian nilai per bagian.</p>
       </div>
-      <div class="how-step">
+      <div class="how-step reveal" style="--d:0.12s">
         <span class="step-num">3</span>
         <h3>Lihat Bagian yang Paling Bolong</h3>
         <p>Sistem otomatis menunjukkan bagian mana yang paling perlu dibereskan duluan.</p>
       </div>
-      <div class="how-step">
+      <div class="how-step reveal" style="--d:0.18s">
         <span class="step-num">4</span>
         <h3>Anda yang Putuskan Lanjutnya</h3>
         <p>Mau baca rekomendasinya, ngobrol sama konsultan, atau cukup sampai di sini. Terserah Anda.</p>
@@ -722,12 +1020,12 @@
 
 <section id="layanan" class="layanan" aria-label="Layanan">
   <div class="wrap">
-    <div class="layanan-head">
+    <div class="layanan-head reveal">
       <h2>Kalau Mau Lanjut, Ini Pilihannya</h2>
       <p>Setelah tahu skor dan bagian yang bolong, Anda tinggal pilih mau dibantu sampai mana. Tidak harus ambil yang paling besar. Mulai dari mana pun yang pas sama kebutuhan dan kantong Anda.</p>
     </div>
     <div class="service-ladder">
-      <div class="service-row" style="--fill:20%">
+      <div class="service-row reveal" style="--fill:20%; --d:0.0s">
         <span class="service-idx">1</span>
         <div class="service-body">
           <span class="service-level">Free</span>
@@ -735,7 +1033,7 @@
           <p>Gratis. Anda tahu posisi bisnis Anda sekarang, sebelum keluar duit sepeser pun.</p>
         </div>
       </div>
-      <div class="service-row" style="--fill:34%">
+      <div class="service-row reveal" style="--fill:34%; --d:0.05s">
         <span class="service-idx">2</span>
         <div class="service-body">
           <span class="service-level">Entry</span>
@@ -743,7 +1041,7 @@
           <p>Skor Anda sudah tinggi? Auditor bersertifikat cek ulang sebentar, biar Anda tidak tersandung hal kecil pas pengajuan.</p>
         </div>
       </div>
-      <div class="service-row" style="--fill:48%">
+      <div class="service-row reveal" style="--fill:48%; --d:0.1s">
         <span class="service-idx">3</span>
         <div class="service-body">
           <span class="service-level">Diagnostic</span>
@@ -751,7 +1049,7 @@
           <p>Bolongnya kepencar dan bingung mulai dari mana? Kami petakan akar masalahnya, lalu urutkan mana yang paling mendesak.</p>
         </div>
       </div>
-      <div class="service-row" style="--fill:64%">
+      <div class="service-row reveal" style="--fill:64%; --d:0.15s">
         <span class="service-idx">4</span>
         <div class="service-body">
           <span class="service-level">Implementation</span>
@@ -759,7 +1057,7 @@
           <p>Sudah tahu masalahnya tapi tim belum jalan? Kami ubah jadi rencana kerja dan dampingi sampai tim Anda bisa sendiri.</p>
         </div>
       </div>
-      <div class="service-row" style="--fill:82%">
+      <div class="service-row reveal" style="--fill:82%; --d:0.2s">
         <span class="service-idx">5</span>
         <div class="service-body">
           <span class="service-level">Comprehensive</span>
@@ -767,7 +1065,7 @@
           <p>Produk banyak, cabang banyak, dan mulai dari nol? Kami bangun sistem halal Anda dari dasar sampai layak diajukan.</p>
         </div>
       </div>
-      <div class="service-row" style="--fill:100%">
+      <div class="service-row reveal" style="--fill:100%; --d:0.25s">
         <span class="service-idx">6</span>
         <div class="service-body">
           <span class="service-level">Recurring</span>
@@ -781,13 +1079,13 @@
 
 <section id="artikel" class="artikel" aria-label="Artikel">
   <div class="wrap">
-    <div class="artikel-head">
+    <div class="artikel-head reveal">
       <h2>Artikel</h2>
       <p>Bacaan singkat soal sertifikasi halal, ditulis buat pemilik usaha, bukan buat auditor.</p>
     </div>
     <!-- TODO: konten artikel di bawah ini masih placeholder — ganti judul/ringkasan/link begitu artikel asli tersedia -->
     <div class="article-list">
-      <div class="article-row">
+      <div class="article-row reveal" style="--d:0.0s">
         <span class="article-num">01</span>
         <div class="article-body">
           <h3>Apa Itu Halal Readiness Check dan Kenapa Perlu?</h3>
@@ -795,7 +1093,7 @@
         </div>
         <span class="article-badge">Segera Hadir</span>
       </div>
-      <div class="article-row">
+      <div class="article-row reveal" style="--d:0.07s">
         <span class="article-num">02</span>
         <div class="article-body">
           <h3>5 Kesalahan Umum Sebelum Mengajukan Sertifikasi Halal</h3>
@@ -803,7 +1101,7 @@
         </div>
         <span class="article-badge">Segera Hadir</span>
       </div>
-      <div class="article-row">
+      <div class="article-row reveal" style="--d:0.14s">
         <span class="article-num">03</span>
         <div class="article-body">
           <h3>Self-Assessment vs Audit vs Sertifikasi: Apa Bedanya?</h3>
@@ -831,10 +1129,109 @@
   </div>
 </section>
 
+<section id="faq" class="faq" aria-label="Pertanyaan yang sering ditanyakan">
+  <div class="wrap">
+    <div class="faq-head reveal">
+      <h2>Pertanyaan yang paling sering masuk</h2>
+      <p>Termasuk yang biasanya sungkan ditanyakan. Kami jawab apa adanya.</p>
+    </div>
+
+    <div class="faq-list">
+      <div class="faq-item reveal">
+        <button type="button" class="faq-q" aria-expanded="false">
+          Sertifikasi halal itu wajib atau sukarela?
+          <span class="tanda" aria-hidden="true"></span>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner">
+          <p>Wajib. Undang-Undang Nomor 33 Tahun 2014 tentang Jaminan Produk Halal mewajibkan produk yang beredar dan diperdagangkan di Indonesia untuk bersertifikat halal, dan pelaksanaannya diberlakukan bertahap per kategori produk oleh BPJPH.</p>
+          <p>Karena tahapan dan tenggatnya bisa berubah dan berbeda antar kategori, jangan pakai halaman ini sebagai acuan tanggal. Cek langsung ke BPJPH untuk kategori produk Anda, atau tanyakan ke kami waktu konsultasi.</p>
+        </div></div>
+      </div>
+
+      <div class="faq-item reveal">
+        <button type="button" class="faq-q" aria-expanded="false">
+          Usaha saya masih kecil dan produksinya di rumah. Tetap perlu?
+          <span class="tanda" aria-hidden="true"></span>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner">
+          <p>Kewajibannya melekat pada produk yang Anda perdagangkan, bukan pada seberapa besar usahanya. Jadi ya, tetap perlu.</p>
+          <p>Kabar baiknya, usaha kecil justru paling murah dan paling cepat dibereskan. Produknya sedikit, pemasoknya sedikit, prosesnya masih Anda pegang sendiri. Yang repot justru yang menunda sampai produknya sudah puluhan.</p>
+        </div></div>
+      </div>
+
+      <div class="faq-item reveal">
+        <button type="button" class="faq-q" aria-expanded="false">
+          Berapa biaya dan berapa lama prosesnya?
+          <span class="tanda" aria-hidden="true"></span>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner">
+          <p>Tidak ada angka tunggal yang jujur untuk pertanyaan ini, dan kami tidak mau mengarang. Biaya dan durasi tergantung jumlah produk, jumlah pemasok, kondisi dokumentasi Anda sekarang, dan kategori produknya.</p>
+          <p>Yang perlu Anda tahu: ada biaya resmi ke BPJPH dan lembaga pemeriksa, dan itu terpisah dari biaya pendampingan kami. Skor dari cek gratis ini yang menentukan seberapa besar pekerjaannya, jadi angkanya baru bisa kami sebut setelah tahu posisi Anda.</p>
+        </div></div>
+      </div>
+
+      <div class="faq-item reveal">
+        <button type="button" class="faq-q" aria-expanded="false">
+          Apa bedanya pakai GoHalal dibanding mengurus sendiri ke BPJPH?
+          <span class="tanda" aria-hidden="true"></span>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner">
+          <p>Anda memang bisa mengurus sendiri, dan untuk usaha yang dokumentasinya sudah rapi, itu pilihan yang masuk akal. Kami tidak akan bilang sebaliknya.</p>
+          <p>Yang biasanya bikin orang tersendat bukan pendaftarannya, tapi persiapan di belakangnya: daftar bahan yang belum lengkap, dokumen pemasok yang tercecer, proses produksi yang belum tercatat. Di situ kami masuk, membereskan dulu sebelum diajukan, supaya tidak bolak-balik.</p>
+        </div></div>
+      </div>
+
+      <div class="faq-item reveal">
+        <button type="button" class="faq-q" aria-expanded="false">
+          Kalau pakai GoHalal, sertifikat saya dijamin keluar?
+          <span class="tanda" aria-hidden="true"></span>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner">
+          <p>Tidak. Siapa pun yang menjanjikan itu sebaiknya Anda hindari.</p>
+          <p>Keputusan sertifikasi ada di BPJPH dan lembaga berwenang, bukan di konsultan. Yang bisa kami kerjakan adalah memastikan bisnis Anda benar-benar siap sebelum diajukan, sehingga peluangnya jauh lebih baik dan tidak buang waktu mengajukan dalam kondisi belum layak.</p>
+        </div></div>
+      </div>
+
+      <div class="faq-item reveal">
+        <button type="button" class="faq-q" aria-expanded="false">
+          Skor dari cek gratis ini sama dengan hasil audit resmi?
+          <span class="tanda" aria-hidden="true"></span>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner">
+          <p>Bukan, dan kami tegas soal ini. Skor tersebut adalah hasil penilaian mandiri berdasarkan jawaban Anda sendiri, bukan audit, bukan penetapan status halal, bukan fatwa, dan bukan jaminan sertifikasi.</p>
+          <p>Fungsinya satu: memberi gambaran cepat bagian mana yang sudah rapi dan bagian mana yang masih bolong, supaya Anda punya dasar sebelum mengambil keputusan. Proses resminya tetap mengikuti ketentuan BPJPH dan lembaga pemeriksa halal yang berlaku.</p>
+        </div></div>
+      </div>
+
+      <div class="faq-item reveal">
+        <button type="button" class="faq-q" aria-expanded="false">
+          Kalau skor saya jelek, apa saya ditolak jadi klien?
+          <span class="tanda" aria-hidden="true"></span>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner">
+          <p>Justru sebaliknya. Skor rendah bukan nilai rapor, itu peta pekerjaan. Sebagian besar bisnis yang datang ke kami memang mulai dari kondisi belum tertata, dan itu wajar untuk usaha yang selama ini fokus jualan dulu.</p>
+          <p>Yang kami sarankan berbeda-beda sesuai skor Anda, bukan sesuai besar kecilnya usaha.</p>
+        </div></div>
+      </div>
+
+      <div class="faq-item reveal">
+        <button type="button" class="faq-q" aria-expanded="false">
+          Saya cuma mau cek gratis dan belum tentu lanjut. Boleh?
+          <span class="tanda" aria-hidden="true"></span>
+        </button>
+        <div class="faq-a"><div class="faq-a-inner">
+          <p>Boleh, dan itu memang tujuan kami membuatnya. Cek ini gratis tanpa syarat, hasilnya milik Anda, dan tidak ada kewajiban membeli jasa apa pun setelahnya.</p>
+          <p>Kontak Anda kami minta sekali saja di akhir, untuk membuka hasil lengkap dan menghubungi Anda terkait hasil tersebut. Kalau setelah ngobrol ternyata Anda belum butuh jasa kami, kami akan bilang belum butuh.</p>
+        </div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <footer class="site-footer" aria-label="Tentang dan Kontak">
   <div class="footer-inner">
 
-    <div id="tentang" class="about-block">
+    <div id="tentang" class="about-block reveal">
       <span class="icon" aria-hidden="true">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2 3 6v6c0 5 4 8.5 9 10 5-1.5 9-5 9-10V6l-9-4Z"/><path d="M9 12l2 2 4-4"/></svg>
       </span>
@@ -937,6 +1334,41 @@
     }
   }
 
+  // Nav memadat setelah pengunjung melewati hero.
+  var nav = document.querySelector('.site-nav');
+  if(nav){
+    var onScroll = function(){ nav.classList.toggle('is-scrolled', window.scrollY > 40); };
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+  }
+
+  // Reveal saat elemen masuk layar. Satu observer untuk seluruh halaman,
+  // dilepas begitu elemennya sudah tampil supaya tidak jalan terus.
+  var reveals = document.querySelectorAll('.reveal');
+  if(reveals.length){
+    if(reduceMotion || !('IntersectionObserver' in window)){
+      reveals.forEach(function(el){ el.classList.add('is-in'); });
+    } else {
+      var io = new IntersectionObserver(function(entries){
+        entries.forEach(function(e){
+          if(e.isIntersecting){ e.target.classList.add('is-in'); io.unobserve(e.target); }
+        });
+      }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+      reveals.forEach(function(el){ io.observe(el); });
+    }
+  }
+
+  // FAQ accordion. Tinggi dianimasikan lewat grid-template-rows di CSS, jadi
+  // di sini cukup buka/tutup kelas dan jaga aria-expanded tetap benar.
+  document.querySelectorAll('.faq-item').forEach(function(item){
+    var btn = item.querySelector('.faq-q');
+    if(!btn) return;
+    btn.addEventListener('click', function(){
+      var open = item.classList.toggle('is-open');
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+  });
+
   // Empat scene rantai pasok yang berganti di background hero. Tetap jalan
   // walaupun sebagian video gagal dimuat: yang error dibuang dari daftar, dan
   // kalau semuanya gagal, ilustrasi SVG di lapisan bawah yang tampil.
@@ -955,6 +1387,7 @@
 
     var current = 0;
     var timer = null;
+    var CROSSFADE = 1.4; // detik, harus sama dengan transition opacity di CSS
 
     function drop(idx){
       videos.splice(idx, 1);
@@ -982,6 +1415,15 @@
       var p = v.play();
       if(p && p.catch) p.catch(function(){});
 
+      // Video yang ditinggalkan dibiarkan jalan selama crossfade, baru
+      // dihentikan setelah benar-benar tidak terlihat. Kalau langsung di-pause,
+      // frame terakhirnya membeku di tengah fade dan itu yang terlihat
+      // sebagai potongan.
+      videos.forEach(function(other, n){
+        if(n === i || other.paused) return;
+        setTimeout(function(){ if(!other.classList.contains('is-active')) other.pause(); }, CROSSFADE * 1000);
+      });
+
       // Ambil video berikutnya sekarang, sisanya biarkan. Kalau keempatnya
       // di-preload sekaligus, pengunjung mobile harus mengunduh semuanya di
       // awal padahal mungkin cuma sempat melihat scene pertama.
@@ -991,8 +1433,10 @@
         try{ nx.load(); }catch(e){}
       }
 
-      // Cadangan kalau event 'ended' tidak pernah datang (video stall/diblokir).
-      timer = setTimeout(next, (dur + 1.5) * 1000);
+      // Pindah scene SEBELUM video habis, selama durasi crossfade, supaya kedua
+      // video sama-sama bergerak saat bertukar. Kalau menunggu 'ended', frame
+      // terakhir sempat diam dan pergantiannya terasa seperti potongan.
+      timer = setTimeout(next, Math.max(dur - CROSSFADE, 0.6) * 1000);
     }
 
     function next(){ if(videos.length) show((current + 1) % videos.length); }
