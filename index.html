@@ -164,9 +164,11 @@
     opacity: 0.9;
   }
   .hero-content{
-    position: relative; z-index: 2; width: 100%; max-width: 760px;
-    margin: 0 auto; padding: 96px 4px 72px; text-align: center;
+    position: relative; z-index: 2; width: 100%; max-width: 1180px;
+    margin: 0 auto; padding: 88px 20px 64px;
+    display: grid; grid-template-columns: 1.35fr 0.65fr; gap: 48px; align-items: center;
   }
+  .hero-copy{ text-align: left; }
   .hero-eyebrow{
     display: inline-flex; align-items: center; gap: 8px;
     background: rgba(255,253,247,0.1);
@@ -177,46 +179,82 @@
   }
   .hero-eyebrow svg{ width:14px; height:14px; flex-shrink:0; }
   .hero h1{
-    margin: 0 0 18px; font-size: clamp(1.9rem, 5vw, 3.1rem);
-    line-height: 1.18; font-weight: 800; letter-spacing: -0.5px;
+    margin: 0 0 18px; font-size: clamp(1.9rem, 3.4vw, 2.9rem);
+    line-height: 1.14; font-weight: 800; letter-spacing: -0.6px;
     text-wrap: balance; color: var(--gading);
   }
   .hero h1 .accent{ color: var(--emas-terang); }
   .hero p.subhead{
-    margin: 0 auto 34px; max-width: 580px;
-    font-size: clamp(1rem, 2vw, 1.2rem); line-height: 1.6;
+    margin: 0 0 30px; max-width: 480px;
+    font-size: clamp(1rem, 1.6vw, 1.15rem); line-height: 1.6;
     color: var(--teks-lembut-terang);
   }
   .hero-ctas{
-    display: flex; align-items: center; justify-content: center;
-    gap: 14px; flex-wrap: wrap; margin-bottom: 34px;
+    display: flex; align-items: center; flex-wrap: wrap; gap: 14px;
   }
-  .hero-trust{
-    display: flex; flex-wrap: wrap; align-items: center; justify-content: center;
-    gap: 10px 22px; font-size: 0.85rem; color: var(--teks-lembut-terang); margin-bottom: 30px;
-  }
-  .hero-trust span{ display: inline-flex; align-items: center; gap: 7px; }
-  .hero-trust svg{ width: 16px; height: 16px; color: var(--emas-terang); flex-shrink:0; }
-  .score-preview{
-    display: inline-flex; align-items: center; gap: 14px;
-    background: rgba(255,253,247,0.08);
-    border: 1px solid rgba(255,253,247,0.22);
-    backdrop-filter: blur(6px);
-    border-radius: var(--radius); padding: 12px 20px; text-align: left;
-  }
-  .score-preview .num{ font-size: 1.6rem; font-weight: 800; color: var(--emas-terang); line-height: 1; }
-  .score-preview .num small{ font-size: 0.9rem; font-weight: 600; color: var(--teks-lembut-terang); }
-  .score-preview .label{ font-size: 0.75rem; letter-spacing: 0.3px; text-transform: uppercase; color: var(--teks-lembut-terang); }
-  .score-preview .status{ font-size: 0.92rem; font-weight: 700; color: var(--gading); }
-  .score-preview .weak-areas{ font-size: 0.78rem; color: rgba(255,253,247,0.65); margin-top: 3px; }
   .hero-disclaimer{
-    margin-top: 26px; font-size: 0.72rem; line-height: 1.5;
-    color: rgba(255,253,247,0.55); max-width: 560px; margin-left: auto; margin-right: auto;
+    margin: 22px 0 0; font-size: 0.72rem; line-height: 1.5;
+    color: rgba(255,253,247,0.5); max-width: 480px;
   }
-  @media (max-width: 520px){
-    .hero-content{ padding: 84px 2px 56px; }
-    .score-preview{ flex-direction: column; align-items: flex-start; gap: 4px; }
+
+  /* Hero visual: score card (real preview of the actual quiz result) */
+  .hero-visual{ display: flex; justify-content: center; }
+  .score-card-hero{
+    position: relative; width: 100%; max-width: 300px;
+    background: rgba(255,253,247,0.06);
+    border: 1px solid rgba(255,253,247,0.18);
+    border-radius: 20px;
+    padding: 30px 26px 26px;
+    backdrop-filter: blur(8px);
+    box-shadow: 0 24px 60px rgba(0,0,0,0.35);
+    text-align: center;
+    opacity: 0; transform: translateY(18px) scale(0.98);
+    transition: opacity 0.7s cubic-bezier(0.16,1,0.3,1), transform 0.7s cubic-bezier(0.16,1,0.3,1);
   }
+  .score-card-hero.is-visible{ opacity: 1; transform: none; }
+  .score-card-tag{
+    position: absolute; top: -13px; left: 50%; transform: translateX(-50%);
+    background: linear-gradient(180deg, var(--emas-terang), var(--emas));
+    color: #2a1f08; font-size: 0.7rem; font-weight: 800; letter-spacing: 0.3px;
+    padding: 5px 14px; border-radius: 999px; white-space: nowrap;
+  }
+  .score-ring{
+    width: 116px; height: 116px; border-radius: 50%; margin: 8px auto 16px;
+    background: conic-gradient(var(--emas-terang) calc(var(--pct,0) * 1%), rgba(255,253,247,0.14) 0);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .score-ring-inner{
+    width: 90px; height: 90px; border-radius: 50%; background: #0f3c32;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+  }
+  .score-ring-inner .num{ font-size: 1.7rem; font-weight: 800; color: var(--gading); line-height: 1; }
+  .score-ring-inner .max{ font-size: 0.66rem; color: rgba(255,253,247,0.6); }
+  .score-card-status{ font-weight: 800; color: var(--gading); font-size: 1rem; margin-bottom: 6px; }
+  .score-card-desc{ font-size: 0.83rem; color: rgba(255,253,247,0.68); line-height: 1.5; margin: 0 0 20px; }
+  .score-card-dims{ display: flex; flex-direction: column; gap: 10px; text-align: left; }
+  .dim-mini span{ font-size: 0.72rem; color: rgba(255,253,247,0.6); display: block; margin-bottom: 4px; }
+  .dim-mini .mini-bar{ height: 6px; border-radius: 6px; background: rgba(255,253,247,0.14); overflow: hidden; }
+  .dim-mini .mini-bar div{ height: 100%; border-radius: 6px; background: linear-gradient(90deg, var(--hijau-muda), var(--emas-terang)); }
+
+  @media (prefers-reduced-motion: reduce){
+    .score-card-hero{ transition: none; opacity: 1; transform: none; }
+  }
+  @media (max-width: 900px){
+    .hero-content{ grid-template-columns: 1fr; padding: 84px 20px 56px; gap: 40px; }
+    .hero-copy{ text-align: center; }
+    .hero p.subhead{ margin-left: auto; margin-right: auto; }
+    .hero-ctas{ justify-content: center; }
+    .hero-disclaimer{ margin-left: auto; margin-right: auto; }
+  }
+
+  /* ===== Trust strip (moved out of hero per hero-stack discipline) ===== */
+  .trust-strip{ background: var(--krem); padding: 24px 20px; border-bottom: 1px solid var(--garis); }
+  .trust-strip-inner{
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: center;
+    gap: 12px 32px; font-size: 0.87rem; color: var(--teks-lembut); font-weight: 600;
+  }
+  .trust-strip-inner span{ display: inline-flex; align-items: center; gap: 8px; }
+  .trust-strip-inner svg{ width: 17px; height: 17px; color: var(--hijau); flex-shrink: 0; }
 
   /* ===== How it works ===== */
   .how-it-works{ background: var(--krem); }
@@ -441,7 +479,7 @@
   </div>
 </nav>
 
-<section class="hero" id="top" aria-label="Hero — Halal Readiness Check">
+<section class="hero" id="top" aria-label="Hero: Halal Readiness Check">
   <div class="islamic-border" aria-hidden="true"></div>
 
   <div class="hero-media" aria-hidden="true">
@@ -450,43 +488,54 @@
   <div class="hero-overlay" aria-hidden="true"></div>
 
   <div class="hero-content">
-    <span class="hero-eyebrow" id="heroEyebrow">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg>
-      Gratis · Tanpa Kewajiban Membeli Jasa
-    </span>
+    <div class="hero-copy">
+      <span class="hero-eyebrow" id="heroEyebrow">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg>
+        Gratis · Tanpa Kewajiban Membeli Jasa
+      </span>
 
-    <h1 id="heroHeadline">Seberapa Siap Bisnis Anda untuk <span class="accent">Sertifikasi Halal?</span></h1>
+      <h1 id="heroHeadline">Seberapa Siap Bisnis Anda untuk <span class="accent">Sertifikasi Halal?</span></h1>
 
-    <p class="subhead" id="heroSubhead">
-      Lakukan Halal Readiness Check gratis dan dapatkan skor kesiapan bisnis Anda dalam beberapa menit — sebelum Anda memutuskan langkah berikutnya.
-    </p>
+      <p class="subhead" id="heroSubhead">
+        Cek gratis dalam 5 menit. Dapatkan skor kesiapan halal Anda sebelum memutuskan langkah berikutnya.
+      </p>
 
-    <div class="hero-ctas">
-      <a href="#quiz" class="btn primary">
-        Cek Kesiapan Halal Gratis
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" width="18" height="18"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-      </a>
-      <a href="#cara-kerja" class="btn on-dark secondary">Lihat Cara Kerjanya</a>
+      <div class="hero-ctas">
+        <a href="#quiz" class="btn primary">
+          Cek Kesiapan Gratis
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" width="18" height="18"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+        <a href="#cara-kerja" class="btn on-dark secondary">Lihat Cara Kerjanya</a>
+      </div>
+
+      <p class="hero-disclaimer">
+        Halal Readiness Score adalah hasil self-assessment berdasarkan informasi yang Anda berikan — bukan audit, bukan penetapan status halal, bukan fatwa, dan bukan jaminan sertifikasi. Proses resmi tetap mengikuti ketentuan BPJPH/LPH yang berlaku.
+      </p>
     </div>
 
-    <div class="hero-trust">
-      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2 3 6v6c0 5 4 8.5 9 10 5-1.5 9-5 9-10V6l-9-4Z"/></svg>26 pertanyaan · ± 5 menit</span>
-      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>Hasil instan, skor 0–100</span>
-      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V8a5 5 0 0 1 10 0v3"/></svg>Data Anda aman &amp; privat</span>
-    </div>
-
-    <div class="score-preview" role="img" aria-label="Contoh hasil: skor kesiapan halal 54 dari 100, status Perlu Ditingkatkan, area terlemah Dokumentasi Bahan dan Manajemen Pemasok">
-      <div class="num">54<small>/100</small></div>
-      <div>
-        <div class="label">Contoh Halal Readiness Score</div>
-        <div class="status">Perlu Ditingkatkan — ada gap di dua area</div>
-        <div class="weak-areas">Area terlemah: Dokumentasi Bahan &amp; Manajemen Pemasok</div>
+    <div class="hero-visual">
+      <div class="score-card-hero" id="scoreCardHero" role="img" aria-label="Contoh hasil: skor kesiapan halal 54 dari 100, status Perlu Ditingkatkan, gap terbesar di Manajemen Halal, Supplier, dan Dokumentasi">
+        <span class="score-card-tag">Contoh Hasil</span>
+        <div class="score-ring" style="--pct:54">
+          <div class="score-ring-inner"><span class="num">54</span><span class="max">/100</span></div>
+        </div>
+        <div class="score-card-status">Perlu Ditingkatkan</div>
+        <p class="score-card-desc">Gap terbesar di Dokumentasi Bahan dan Manajemen Pemasok.</p>
+        <div class="score-card-dims">
+          <div class="dim-mini"><span>Bahan Baku</span><div class="mini-bar"><div style="width:54%"></div></div></div>
+          <div class="dim-mini"><span>Dokumentasi &amp; Kontrol</span><div class="mini-bar"><div style="width:38%"></div></div></div>
+          <div class="dim-mini"><span>Manajemen Halal</span><div class="mini-bar"><div style="width:42%"></div></div></div>
+        </div>
       </div>
     </div>
+  </div>
+</section>
 
-    <p class="hero-disclaimer">
-      Halal Readiness Score adalah hasil self-assessment berdasarkan informasi yang Anda berikan — bukan audit, bukan penetapan status halal, bukan fatwa, dan bukan jaminan sertifikasi. Proses resmi tetap mengikuti ketentuan BPJPH/LPH yang berlaku.
-    </p>
+<section class="trust-strip" aria-label="Kepercayaan">
+  <div class="wrap trust-strip-inner">
+    <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2 3 6v6c0 5 4 8.5 9 10 5-1.5 9-5 9-10V6l-9-4Z"/></svg>26 pertanyaan, ± 5 menit</span>
+    <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>Hasil instan, skor 0-100</span>
+    <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V8a5 5 0 0 1 10 0v3"/></svg>Data Anda aman dan privat</span>
   </div>
 </section>
 
@@ -494,7 +543,7 @@
   <div class="wrap">
     <h2 class="section-title">Mulai dari Diagnosis, Bukan Penjualan</h2>
     <p class="section-lead">
-      Kami menyediakan Halal Readiness Check gratis untuk membantu Anda melihat area yang sudah kuat dan area yang masih perlu diperbaiki — sebelum mengambil keputusan berikutnya. Tidak ada kewajiban membeli jasa.
+      Kami menyediakan Halal Readiness Check gratis untuk membantu Anda melihat area yang sudah kuat dan area yang masih perlu diperbaiki, sebelum mengambil keputusan berikutnya. Tidak ada kewajiban membeli jasa.
     </p>
     <div class="steps-grid">
       <div class="step-card">
@@ -515,7 +564,7 @@
       <div class="step-card">
         <div class="step-num">4</div>
         <h3>Tentukan Langkah Anda</h3>
-        <p>Baca rekomendasi, hubungi konsultan, atau selesai di sini — pilihan di tangan Anda.</p>
+        <p>Baca rekomendasi, hubungi konsultan, atau selesai di sini. Pilihan di tangan Anda.</p>
       </div>
     </div>
     <div class="center">
@@ -529,7 +578,7 @@
   <div class="wrap">
     <h2 class="section-title">Layanan</h2>
     <p class="section-lead">
-      Setelah tahu skor dan gap Anda, pilih langkah lanjutan yang sesuai — dari sekadar second opinion sampai pendampingan penuh. Tidak ada keharusan naik level; mulai dari mana pun sesuai kebutuhan.
+      Setelah tahu skor dan gap Anda, pilih langkah lanjutan yang sesuai, dari sekadar second opinion sampai pendampingan penuh. Tidak ada keharusan naik level; mulai dari mana pun sesuai kebutuhan.
     </p>
     <div class="service-list">
       <div class="service-card">
@@ -557,14 +606,14 @@
         <span class="service-level">Implementation</span>
         <div class="service-main">
           <h3>Halal Readiness Program</h3>
-          <p>Dari peta masalah menjadi rencana aksi nyata — didampingi langsung sampai tim Anda siap eksekusi.</p>
+          <p>Dari peta masalah menjadi rencana aksi nyata, didampingi langsung sampai tim Anda siap eksekusi.</p>
         </div>
       </div>
       <div class="service-card">
         <span class="service-level">Comprehensive</span>
         <div class="service-main">
           <h3>Halal Foundation / Certification Preparation</h3>
-          <p>Untuk bisnis dengan banyak SKU, fasilitas, dan pemasok — kami bangun fondasi halal Anda dari nol hingga siap sertifikasi.</p>
+          <p>Untuk bisnis dengan banyak SKU, fasilitas, dan pemasok, kami bangun fondasi halal Anda dari nol hingga siap sertifikasi.</p>
         </div>
       </div>
       <div class="service-card">
@@ -594,7 +643,7 @@
       <div class="article-card">
         <span class="article-badge">Segera Hadir</span>
         <h3>5 Kesalahan Umum Sebelum Mengajukan Sertifikasi Halal</h3>
-        <p>Gap yang paling sering ditemukan pada bisnis F&amp;B dan consumer goods — dan cara menghindarinya.</p>
+        <p>Gap yang paling sering ditemukan pada bisnis F&amp;B dan consumer goods, dan cara menghindarinya.</p>
       </div>
       <div class="article-card">
         <span class="article-badge">Segera Hadir</span>
@@ -630,8 +679,8 @@
       </span>
       <div>
         <h3>Tentang GoHalal</h3>
-        <p>GoHalal hadir sebagai layanan konsultasi halal untuk bisnis F&amp;B, brand consumer goods, hingga manufaktur skala menengah yang ingin membangun kesiapan sertifikasi halal — bukan lewat coba-coba, tapi lewat diagnosis yang terukur.</p>
-        <p>Kami percaya proses menuju halal yang benar dimulai dari pemahaman, bukan formulir. Setiap rekomendasi yang kami berikan dikelola langsung oleh ahli bersertifikat BNSP yang memahami detail teknis di balik setiap ketentuan — dari traceability bahan baku hingga tata kelola dokumentasi produksi.</p>
+        <p>GoHalal hadir sebagai layanan konsultasi halal untuk bisnis F&amp;B, brand consumer goods, hingga manufaktur skala menengah yang ingin membangun kesiapan sertifikasi halal, bukan lewat coba-coba, tapi lewat diagnosis yang terukur.</p>
+        <p>Kami percaya proses menuju halal yang benar dimulai dari pemahaman, bukan formulir. Setiap rekomendasi yang kami berikan dikelola langsung oleh ahli bersertifikat BNSP yang memahami detail teknis di balik setiap ketentuan, dari traceability bahan baku hingga tata kelola dokumentasi produksi.</p>
         <p>Dari self-assessment gratis sampai pendampingan penuh menuju sertifikasi, GoHalal adalah partner yang bicara bahasa bisnis Anda, bukan sekadar bahasa regulasi.</p>
       </div>
     </div>
@@ -642,7 +691,7 @@
         <div class="org-name">PT Cita Mulia Madani</div>
         <p>
           Email: <a href="mailto:kontak@amalnajib.com">kontak@amalnajib.com</a><br>
-          Dikelola oleh Amal Najib, ST., MM. — Auditor Halal Bersertifikat BNSP
+          Dikelola oleh Amal Najib, ST., MM., Auditor Halal Bersertifikat BNSP
         </p>
         <!-- TODO: tambahkan WA, alamat, link sosial media di sini setelah tersedia -->
       </div>
@@ -657,7 +706,7 @@
     </div>
 
     <div class="footer-bottom">
-      <span>© <span id="footerYear"></span> PT Cita Mulia Madani — GoHalal</span>
+      <span>© <span id="footerYear"></span> PT Cita Mulia Madani, GoHalal</span>
       <span>Halal Readiness Check bukan pengganti audit atau sertifikasi resmi BPJPH/LPH.</span>
     </div>
 
@@ -690,14 +739,14 @@
   var HEADLINES = {
     fnb: {
       html: 'Seberapa Siap Bisnis Anda untuk <span class="accent">Sertifikasi Halal?</span>',
-      sub: 'Lakukan Halal Readiness Check gratis dan dapatkan skor kesiapan bisnis Anda dalam beberapa menit — sebelum Anda memutuskan langkah berikutnya.'
+      sub: 'Cek gratis dalam 5 menit. Dapatkan skor kesiapan halal Anda sebelum memutuskan langkah berikutnya.'
     },
     brand: {
-      html: 'Ekspansi SKU atau Supplier Baru? Pastikan <span class="accent">Kesiapan Halal Anda</span> Lebih Dulu',
-      sub: 'Cek gratis kesiapan halal brand Anda sebelum meluncurkan produk atau pemasok baru — dapatkan skor dan gap terbesar dalam beberapa menit.'
+      html: 'Ekspansi SKU atau Supplier Baru? <span class="accent">Pastikan Kesiapan Halal Anda</span>',
+      sub: 'Cek gratis kesiapan halal brand Anda sebelum meluncurkan produk atau pemasok baru. Dapatkan skor dan gap terbesar dalam hitungan menit.'
     },
     manufaktur: {
-      html: 'Governance Halal untuk Fasilitas dan SKU Skala Besar — <span class="accent">Mulai dari Diagnostic Gratis</span>',
+      html: 'Governance Halal untuk Fasilitas dan SKU Skala Besar. <span class="accent">Mulai dari Diagnostic Gratis</span>',
       sub: 'Petakan kesiapan halal di seluruh fasilitas dan lini produk Anda, mulai dari Halal Readiness Check gratis dalam beberapa menit.'
     }
   };
@@ -707,6 +756,25 @@
   var subheadEl = document.getElementById('heroSubhead');
   if(headlineEl) headlineEl.innerHTML = chosen.html;
   if(subheadEl) subheadEl.textContent = chosen.sub;
+
+  // Hero score card entrance reveal (native IntersectionObserver, no scroll listeners)
+  var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var scoreCard = document.getElementById('scoreCardHero');
+  if(scoreCard){
+    if(reduceMotion || !('IntersectionObserver' in window)){
+      scoreCard.classList.add('is-visible');
+    } else {
+      var revealObserver = new IntersectionObserver(function(entries){
+        entries.forEach(function(entry){
+          if(entry.isIntersecting){
+            scoreCard.classList.add('is-visible');
+            revealObserver.disconnect();
+          }
+        });
+      }, { threshold: 0.3 });
+      revealObserver.observe(scoreCard);
+    }
+  }
 })();
 </script>
 
@@ -1426,13 +1494,13 @@
     var roadmapHtml = r.biggestGaps.map(function(d, i){
       return '<div class="roadmap-item">' +
         '<div class="roadmap-num">' + (i+1) + '</div>' +
-        '<div><h4>Prioritas ' + (i+1) + ' — ' + esc(DIMENSIONS[d].label) + '</h4><p>' + esc(DIMENSIONS[d].focus) + '</p></div>' +
+        '<div><h4>Prioritas ' + (i+1) + ': ' + esc(DIMENSIONS[d].label) + '</h4><p>' + esc(DIMENSIONS[d].focus) + '</p></div>' +
       '</div>';
     }).join('');
 
     var complexityLabel = COMPLEXITY_LABELS_ID[r.complexity] || r.complexity;
     var complexityDesc = r.complexity === 'HIGH'
-      ? 'Jumlah SKU dan/atau cabang tergolong tinggi — assessment lebih detail disarankan untuk memetakan risiko secara menyeluruh.'
+      ? 'Jumlah SKU dan/atau cabang tergolong tinggi, assessment lebih detail disarankan untuk memetakan risiko secara menyeluruh.'
       : r.complexity === 'MEDIUM'
         ? 'Kompleksitas operasional tergolong sedang, sesuai dengan jumlah SKU dan cabang yang dikelola.'
         : 'Struktur bisnis tergolong sederhana berdasarkan jumlah SKU dan cabang saat ini.';
@@ -1441,7 +1509,7 @@
       'Nama: ' + state.lead.name + '\n' +
       'Bisnis: ' + state.profile.businessName + ' (' + effectiveBusinessType() + ')\n' +
       'Email: ' + state.profile.progressiveEmail + '\n' +
-      'Skor: ' + r.overall + '/100 — ' + r.category + '\n' +
+      'Skor: ' + r.overall + '/100 (' + r.category + ')\n' +
       'Kompleksitas: ' + complexityLabel + '\n' +
       'Saya ingin diskusi lebih lanjut mengenai: ' + r.recommendedService;
     var waLink = 'https://wa.me/' + CONSULTANT_WA_NUMBER + '?text=' + encodeURIComponent(waMessage);
