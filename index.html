@@ -858,8 +858,9 @@
 
 <script>
 (function halalQuiz(){
-  // TODO: ganti dengan nomor WhatsApp konsultan yang sebenarnya (format: kode negara tanpa "+", contoh 62812xxxxxxx)
-  var CONSULTANT_WA_NUMBER = '628123456789';
+  // Nomor WhatsApp konsultan. Format wa.me: kode negara tanpa "+" dan tanpa
+  // "0" di depan, jadi 0877-1264-4343 ditulis 6287712644343.
+  var CONSULTANT_WA_NUMBER = '6287712644343';
 
   // Jalankan supabase-schema.sql di SQL Editor Supabase dulu sebelum ini bisa nyimpen data.
   var SUPABASE_URL = 'https://qqbqrlrfvbrynvdtrrhc.supabase.co';
@@ -1637,7 +1638,7 @@
       'Bisnis: ' + state.lead.businessName + ' (' + effectiveBusinessType() + ')\n' +
       'Email: ' + state.lead.email + '\n' +
       'Skor: ' + r.overall + '/100 (' + r.category + ')\n' +
-      'Kompleksitas: ' + complexityLabel + '\n' +
+      'Skala usaha: ' + complexityLabel + '\n' +
       'Saya mau ngobrol soal: ' + r.recommendedService;
     var waLink = 'https://wa.me/' + CONSULTANT_WA_NUMBER + '?text=' + encodeURIComponent(waMessage);
 
