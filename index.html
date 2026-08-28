@@ -143,19 +143,77 @@
     scroll-margin-top: 0;
   }
   .hero-media{ position: absolute; inset: 0; z-index: 0; }
+  /* SVG ini lapisan dasar: tetap terlihat sebelum video termuat, kalau video
+     gagal dimuat, dan saat pengunjung memilih kurangi animasi. */
   .hero-media img{
     position: absolute; inset: 0; width: 100%; height: 100%;
     object-fit: cover;
   }
+  .hero-media video{
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    object-fit: cover; opacity: 0; transition: opacity 1s ease;
+  }
+  .hero-media video.is-active{ opacity: 1; }
   .hero-media::after{
     content:"";
     position:absolute; inset:0;
     background-image: radial-gradient(circle at 15% 20%, rgba(212,175,106,0.18) 0, transparent 45%),
                        radial-gradient(circle at 85% 75%, rgba(212,175,106,0.14) 0, transparent 45%);
   }
+  /* Dua lapis: vertikal menjaga keterbacaan menyeluruh, horizontal melindungi
+     kolom teks di kiri saat videonya ramai. */
   .hero-overlay{
     position: absolute; inset: 0; z-index: 1;
-    background: linear-gradient(180deg, rgba(10,38,32,0.72) 0%, rgba(10,38,32,0.8) 55%, rgba(8,30,25,0.94) 100%);
+    background:
+      linear-gradient(180deg, rgba(10,38,32,0.70) 0%, rgba(10,38,32,0.78) 55%, rgba(8,30,25,0.93) 100%),
+      linear-gradient(90deg, rgba(10,38,32,0.62) 0%, rgba(10,38,32,0.28) 55%, rgba(10,38,32,0.52) 100%);
+  }
+
+  /* Penanda scene: 4 tahap rantai pasok yang memang dinilai di assessment,
+     jadi labelnya menyampaikan isi, bukan sekadar titik navigasi. */
+  .hero-scenes{
+    position: absolute; z-index: 3; left: 0; right: 0; bottom: 0;
+    padding: 0 20px 22px;
+  }
+  .hero-scenes-inner{
+    max-width: 1180px; margin: 0 auto;
+    display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px;
+  }
+  .scene-btn{
+    background: none; border: none; padding: 0; cursor: pointer;
+    text-align: left; display: flex; flex-direction: column; gap: 7px;
+    font: inherit; color: rgba(255,253,247,0.55);
+    transition: color 0.25s ease;
+  }
+  .scene-btn:hover{ color: rgba(255,253,247,0.85); }
+  .scene-btn:focus-visible{ outline: 2px solid var(--emas-terang); outline-offset: 4px; border-radius: 3px; }
+  .scene-btn .bar{
+    height: 2px; background: rgba(255,253,247,0.22); border-radius: 2px;
+    overflow: hidden; position: relative;
+  }
+  .scene-btn .bar::after{
+    content:""; position:absolute; inset:0 100% 0 0;
+    background: var(--emas-terang); border-radius: 2px;
+  }
+  .scene-btn .label{
+    font-size: 0.74rem; font-weight: 600; letter-spacing: 0.2px;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .scene-btn.is-active{ color: var(--emas-terang); }
+  .scene-btn.is-active .bar::after{
+    animation: sceneFill var(--scene-dur, 4s) linear forwards;
+  }
+  @keyframes sceneFill{ from{ inset:0 100% 0 0; } to{ inset:0 0 0 0; } }
+  /* Sudah lewat: bar penuh tanpa animasi ulang. */
+  .scene-btn.is-done .bar::after{ inset:0 0 0 0; opacity:0.4; }
+
+  @media (prefers-reduced-motion: reduce){
+    .hero-media video{ display: none; }
+    .hero-scenes{ display: none; }
+  }
+  @media (max-width: 560px){
+    .hero-scenes-inner{ gap: 8px; }
+    .scene-btn .label{ display: none; }
   }
   .islamic-border{
     position:absolute; top:0; left:0; right:0; z-index:2;
@@ -165,7 +223,7 @@
   }
   .hero-content{
     position: relative; z-index: 2; width: 100%; max-width: 1180px;
-    margin: 0 auto; padding: 88px 20px 64px;
+    margin: 0 auto; padding: 88px 20px 108px;
     display: grid; grid-template-columns: 1.35fr 0.65fr; gap: 48px; align-items: center;
   }
   .hero-copy{ text-align: left; }
@@ -240,7 +298,7 @@
     .score-card-hero{ transition: none; opacity: 1; transform: none; }
   }
   @media (max-width: 900px){
-    .hero-content{ grid-template-columns: 1fr; padding: 84px 20px 56px; gap: 40px; }
+    .hero-content{ grid-template-columns: 1fr; padding: 84px 20px 96px; gap: 40px; }
     .hero-copy{ text-align: center; }
     .hero p.subhead{ margin-left: auto; margin-right: auto; }
     .hero-ctas{ justify-content: center; }
@@ -547,7 +605,15 @@
   <div class="islamic-border" aria-hidden="true"></div>
 
   <div class="hero-media" aria-hidden="true">
-    <img src="assets/hero-illustration.svg" alt="Ilustrasi dokumen checklist kepatuhan dan sertifikasi halal bertema hijau dan emas">
+    <img src="assets/hero-illustration.svg" alt="">
+    <video id="heroVideo0" muted playsinline preload="auto" disablepictureinpicture
+      src="https://d8j0ntlcm91z4.cloudfront.net/user_3ISJUYUC5T8dEJsG2VKPgqHRDSH/hf_20260828_034527_652943d7-42ce-4e19-9666-123acecdf11c.mp4"></video>
+    <video id="heroVideo1" muted playsinline preload="none" disablepictureinpicture
+      src="https://d8j0ntlcm91z4.cloudfront.net/user_3ISJUYUC5T8dEJsG2VKPgqHRDSH/hf_20260828_034534_8f240d02-3582-4f20-9f63-56c8cbe90349.mp4"></video>
+    <video id="heroVideo2" muted playsinline preload="none" disablepictureinpicture
+      src="https://d8j0ntlcm91z4.cloudfront.net/user_3ISJUYUC5T8dEJsG2VKPgqHRDSH/hf_20260828_034636_0ce97f7d-597f-4da2-bab7-0a54e64e0309.mp4"></video>
+    <video id="heroVideo3" muted playsinline preload="none" disablepictureinpicture
+      src="https://d8j0ntlcm91z4.cloudfront.net/user_3ISJUYUC5T8dEJsG2VKPgqHRDSH/hf_20260828_034703_44ea3111-a254-44c7-bca3-43fea8b7a338.mp4"></video>
   </div>
   <div class="hero-overlay" aria-hidden="true"></div>
 
@@ -591,6 +657,23 @@
           <div class="dim-mini"><span>Manajemen Halal</span><div class="mini-bar"><div style="width:42%"></div></div></div>
         </div>
       </div>
+    </div>
+  </div>
+
+  <div class="hero-scenes" id="heroScenes">
+    <div class="hero-scenes-inner">
+      <button type="button" class="scene-btn" data-scene="0">
+        <span class="bar"></span><span class="label">Cek Bahan Baku</span>
+      </button>
+      <button type="button" class="scene-btn" data-scene="1">
+        <span class="bar"></span><span class="label">Penyimpanan Gudang</span>
+      </button>
+      <button type="button" class="scene-btn" data-scene="2">
+        <span class="bar"></span><span class="label">Proses Produksi</span>
+      </button>
+      <button type="button" class="scene-btn" data-scene="3">
+        <span class="bar"></span><span class="label">Distribusi</span>
+      </button>
     </div>
   </div>
 </section>
@@ -852,6 +935,89 @@
       }, { threshold: 0.3 });
       revealObserver.observe(scoreCard);
     }
+  }
+
+  // Empat scene rantai pasok yang berganti di background hero. Tetap jalan
+  // walaupun sebagian video gagal dimuat: yang error dibuang dari daftar, dan
+  // kalau semuanya gagal, ilustrasi SVG di lapisan bawah yang tampil.
+  heroScenes();
+  function heroScenes(){
+    var wrap = document.getElementById('heroScenes');
+    if(!wrap) return;
+
+    var videos = [], buttons = [];
+    for(var i = 0; i < 4; i++){
+      var v = document.getElementById('heroVideo' + i);
+      var b = wrap.querySelector('.scene-btn[data-scene="' + i + '"]');
+      if(v && b){ videos.push(v); buttons.push(b); }
+    }
+    if(!videos.length || reduceMotion){ wrap.style.display = 'none'; return; }
+
+    var current = 0;
+    var timer = null;
+
+    function drop(idx){
+      videos.splice(idx, 1);
+      buttons.splice(idx, 1)[0].style.display = 'none';
+      if(idx < current) current--;
+      if(!videos.length){ wrap.style.display = 'none'; return true; }
+      return false;
+    }
+
+    function show(i){
+      clearTimeout(timer);
+      videos.forEach(function(v, n){
+        v.classList.toggle('is-active', n === i);
+        buttons[n].classList.toggle('is-active', n === i);
+        buttons[n].classList.toggle('is-done', n < i);
+      });
+      current = i;
+
+      var v = videos[i];
+      // Durasi bar disamakan dengan durasi video aslinya, bukan angka tetap.
+      var dur = isFinite(v.duration) && v.duration > 0 ? v.duration : 4;
+      buttons[i].style.setProperty('--scene-dur', dur + 's');
+
+      try{ v.currentTime = 0; }catch(e){}
+      var p = v.play();
+      if(p && p.catch) p.catch(function(){});
+
+      // Ambil video berikutnya sekarang, sisanya biarkan. Kalau keempatnya
+      // di-preload sekaligus, pengunjung mobile harus mengunduh semuanya di
+      // awal padahal mungkin cuma sempat melihat scene pertama.
+      var nx = videos[(i + 1) % videos.length];
+      if(nx && nx !== v && nx.preload === 'none'){
+        nx.preload = 'auto';
+        try{ nx.load(); }catch(e){}
+      }
+
+      // Cadangan kalau event 'ended' tidak pernah datang (video stall/diblokir).
+      timer = setTimeout(next, (dur + 1.5) * 1000);
+    }
+
+    function next(){ if(videos.length) show((current + 1) % videos.length); }
+
+    videos.forEach(function(v, i){
+      v.addEventListener('ended', function(){ if(videos[current] === v) next(); });
+      v.addEventListener('error', function(){
+        var idx = videos.indexOf(v);
+        if(idx === -1) return;
+        var wasCurrent = idx === current;
+        if(drop(idx)) return;
+        if(wasCurrent) show(idx % videos.length);
+      });
+    });
+
+    // Index dicari saat diklik, bukan dari closure, supaya tetap benar
+    // setelah ada video yang dibuang dari daftar.
+    buttons.forEach(function(b){
+      b.addEventListener('click', function(){
+        var idx = buttons.indexOf(b);
+        if(idx !== -1) show(idx);
+      });
+    });
+
+    show(0);
   }
 })();
 </script>
