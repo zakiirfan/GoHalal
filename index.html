@@ -669,6 +669,11 @@
     padding:11px 14px; border-radius:0 8px 8px 0;
     font-size:0.87rem; line-height:1.6; color:var(--emas-terang);
   }
+  .cta-pengantar{
+    margin:0 auto 12px; max-width:520px; text-align:left;
+    font-size:0.86rem; line-height:1.5; font-weight:600;
+    color:var(--emas-terang); letter-spacing:0.1px;
+  }
   .cta-service{
     display:inline-flex; align-items:center; gap:10px; flex-wrap:wrap; justify-content:center;
     background:rgba(255,253,247,0.08); border:1px solid rgba(212,175,106,0.4);
@@ -911,9 +916,25 @@
   .result-section-title{ font-size:1.05rem; color:var(--hijau-tua); margin: 30px 0 14px; }
   .result-block + .result-block{ margin-top:8px; }
   .quiz-disclaimer{ font-size:0.75rem; color:var(--teks-lembut); line-height:1.55; margin-top:26px; text-align:center; }
-  .restart-row{ text-align:center; margin-top:22px; display:flex; flex-direction:column; align-items:center; gap:12px; }
+  .restart-row{ text-align:center; margin-top:18px; display:flex; flex-direction:column; align-items:center; gap:12px; }
   .restart-row .btn{ margin:0 4px; }
-  .pdf-status{ margin:0; font-size:0.82rem; color:var(--teks-lembut); min-height:1em; }
+  .kirim-status{
+    margin-top:16px; padding:15px 18px; border-radius:12px;
+    font-size:0.88rem; line-height:1.6; text-align:center;
+    border:1px solid var(--garis-halus); background:var(--krem);
+    color:var(--teks-lembut);
+  }
+  .kirim-status.is-ok{
+    border-color:rgba(29,92,76,0.3); background:rgba(29,92,76,0.07); color:var(--hijau-tua);
+  }
+  .kirim-status.is-gagal{
+    border-color:rgba(169,80,63,0.32); background:rgba(169,80,63,0.07); color:var(--merah-lembut);
+  }
+  .kirim-status strong{ color:inherit; }
+  .kirim-status .tautan{
+    display:inline-block; margin-top:8px; color:var(--hijau-tua);
+    font-weight:700; cursor:pointer; text-decoration:underline;
+  }
 </style>
 <script type="application/ld+json">
 {
@@ -1825,138 +1846,235 @@
     return jsPdfPromise;
   }
 
-  var HIJAU_PDF = [18, 70, 59];
-  var EMAS_PDF = [154, 118, 40];
-  var ABU_PDF = [90, 90, 79];
+  // Palet PDF disamakan dengan situsnya, jadi dokumen yang mendarat di inbox
+  // terasa satu keluarga dengan halaman yang baru saja dibuka pengunjung.
+  var PDF = {
+    hijauTua:[18,70,59], hijau:[29,92,76], hijauMuda:[47,122,99],
+    emas:[182,144,63], emasTerang:[212,175,106], emasTeks:[122,90,31],
+    krem:[250,246,236], kremTua:[240,233,216], gading:[255,253,247],
+    teks:[42,42,36], lembut:[90,90,79], garis:[227,220,200], merah:[169,80,63]
+  };
 
   function buildResultPdf(r){
     return loadJsPdf().then(function(JsPDF){
-      var doc = new JsPDF({ unit: 'pt', format: 'a4' });
+      var doc = new JsPDF({ unit:'pt', format:'a4', compress:true });
       var W = doc.internal.pageSize.getWidth();
-      var M = 48;
+      var H = doc.internal.pageSize.getHeight();
+      var M = 52;                 // margin kiri/kanan
+      var KOL = W - M * 2;        // lebar kolom teks
+      var ATAS = 118;             // batas atas isi di halaman lanjutan
+      var BAWAH = H - 72;         // batas bawah sebelum area kaki
       var y = 0;
 
-      function ruang(butuh){
-        if(y + butuh > doc.internal.pageSize.getHeight() - 60){ doc.addPage(); y = M; }
+      function set(font, size, warna){
+        doc.setFont('helvetica', font).setFontSize(size);
+        doc.setTextColor(warna[0], warna[1], warna[2]);
       }
-      function judulBagian(t){
-        ruang(40); y += 16;
-        doc.setFont('helvetica', 'bold').setFontSize(11).setTextColor.apply(doc, HIJAU_PDF);
-        doc.text(t, M, y); y += 6;
-        doc.setDrawColor(224, 220, 200).setLineWidth(0.8).line(M, y, W - M, y); y += 14;
+      function isi(warna){ doc.setFillColor(warna[0], warna[1], warna[2]); }
+      function garis(warna){ doc.setDrawColor(warna[0], warna[1], warna[2]); }
+      function potong(t, size, lebar){
+        doc.setFontSize(size);
+        return doc.splitTextToSize(String(t == null ? '' : t), lebar || KOL);
       }
-      function paragraf(t, size, warna){
-        doc.setFont('helvetica', 'normal').setFontSize(size || 9.5);
-        doc.setTextColor.apply(doc, warna || ABU_PDF);
-        var baris = doc.splitTextToSize(t, W - M * 2);
-        ruang(baris.length * (size || 9.5) * 1.45);
-        doc.text(baris, M, y);
-        y += baris.length * (size || 9.5) * 1.45;
+      function halamanBaru(){ doc.addPage(); y = ATAS; }
+      // Kunci perbaikannya: tinggi blok diukur dulu, pindah halaman terjadi
+      // SEBELUM menggambar. Judul tidak pernah lagi terpisah dari isinya.
+      function muat(tinggi){ if(y + tinggi > BAWAH) halamanBaru(); }
+
+      /* ---------- Kop halaman 1 ---------- */
+      isi(PDF.hijauTua); doc.rect(0, 0, W, 132, 'F');
+      isi(PDF.emasTerang); doc.rect(0, 132, W, 2, 'F');
+      set('bold', 22, PDF.gading); doc.text('GoHalal', M, 52);
+      set('normal', 10.5, PDF.emasTerang);
+      doc.text('LAPORAN HALAL READINESS CHECK', M, 72);
+      set('normal', 9, [200,214,208]);
+      doc.text(new Date().toLocaleDateString('id-ID', { year:'numeric', month:'long', day:'numeric' }), W - M, 72, { align:'right' });
+      // Identitas ikut di dalam kop supaya tidak ada blok kecil menggantung.
+      set('bold', 15, PDF.gading);
+      doc.text(potong(state.lead.businessName || effectiveBusinessType(), 15, KOL)[0], M, 106);
+      set('normal', 9.5, [176,199,190]);
+      doc.text(effectiveBusinessType() + '   ·   ' + String(state.lead.name), M, 121);
+      y = 168;
+
+      /* ---------- Panel skor dengan cincin ---------- */
+      var PH = 132;
+      muat(PH + 16);
+      isi(PDF.krem); doc.roundedRect(M, y, KOL, PH, 10, 10, 'F');
+
+      var cx = M + 78, cy = y + PH / 2, R = 42, tebal = 9;
+      // Cincin digambar dari potongan-potongan pendek: jsPDF tidak punya arc,
+      // dan cara ini hasilnya bersih tanpa perlu rasterisasi.
+      var N = 72, isiSeg = Math.round(N * Math.max(0, Math.min(100, r.overall)) / 100);
+      var warnaCincin = r.overall >= 70 ? PDF.hijau : r.overall >= 40 ? PDF.emas : PDF.merah;
+      for(var i = 0; i < N; i++){
+        var a0 = (-90 + i * 360 / N) * Math.PI / 180, a1 = (-90 + (i + 1) * 360 / N + 0.9) * Math.PI / 180;
+        garis(i < isiSeg ? warnaCincin : PDF.kremTua);
+        doc.setLineWidth(tebal); doc.setLineCap('butt');
+        doc.line(cx + R * Math.cos(a0), cy + R * Math.sin(a0), cx + R * Math.cos(a1), cy + R * Math.sin(a1));
+      }
+      set('bold', 27, PDF.hijauTua);
+      doc.text(String(r.overall), cx, cy + 3, { align:'center' });
+      set('normal', 8, PDF.lembut);
+      doc.text('dari 100', cx, cy + 17, { align:'center' });
+
+      var xt = M + 152, wt = KOL - 152 - 26;
+      set('bold', 12, PDF.emasTeks);
+      doc.text(String(r.category), xt, y + 44);
+      set('normal', 9.5, PDF.lembut);
+      var ck = potong(r.categoryCopy, 9.5, wt);
+      doc.text(ck, xt, y + 63);
+      y += PH + 30;
+
+      // `butuh` = tinggi blok pertama sesudah judul. Tanpa ini judul bisa
+      // tercetak di baris terakhir halaman lalu isinya pindah halaman.
+      function judul(t, butuh){
+        muat(46 + (butuh || 0));
+        set('bold', 11.5, PDF.hijauTua);
+        doc.text(String(t).toUpperCase(), M, y);
+        y += 9;
+        garis(PDF.emas); doc.setLineWidth(1.2); doc.line(M, y, M + 34, y);
+        garis(PDF.garis); doc.setLineWidth(0.7); doc.line(M + 34, y, W - M, y);
+        y += 20;
       }
 
-      // Kop
-      doc.setFillColor.apply(doc, HIJAU_PDF);
-      doc.rect(0, 0, W, 92, 'F');
-      doc.setFont('helvetica', 'bold').setFontSize(19).setTextColor(255, 253, 247);
-      doc.text('GoHalal', M, 42);
-      doc.setFont('helvetica', 'normal').setFontSize(10).setTextColor(212, 175, 106);
-      doc.text('Hasil Halal Readiness Check', M, 60);
-      doc.setFontSize(8.5).setTextColor(200, 214, 208);
-      doc.text(new Date().toLocaleDateString('id-ID', { year:'numeric', month:'long', day:'numeric' }), W - M, 60, { align: 'right' });
-      y = 126;
-
-      // Identitas
-      doc.setFont('helvetica', 'bold').setFontSize(15).setTextColor.apply(doc, HIJAU_PDF);
-      doc.text(String(state.lead.businessName || effectiveBusinessType()), M, y); y += 17;
-      doc.setFont('helvetica', 'normal').setFontSize(9.5).setTextColor.apply(doc, ABU_PDF);
-      doc.text(effectiveBusinessType() + '  ·  ' + String(state.lead.name), M, y); y += 26;
-
-      // Skor
-      doc.setFillColor(250, 246, 236); doc.roundedRect(M, y, W - M * 2, 82, 8, 8, 'F');
-      doc.setFont('helvetica', 'bold').setFontSize(38).setTextColor.apply(doc, HIJAU_PDF);
-      doc.text(String(r.overall), M + 26, y + 52);
-      doc.setFont('helvetica', 'normal').setFontSize(11).setTextColor.apply(doc, ABU_PDF);
-      doc.text('/ 100', M + 26 + doc.getTextWidth(String(r.overall)) * 1.05 + 8, y + 52);
-      doc.setFont('helvetica', 'bold').setFontSize(11).setTextColor.apply(doc, EMAS_PDF);
-      doc.text(String(r.category), M + 140, y + 32);
-      doc.setFont('helvetica', 'normal').setFontSize(9).setTextColor.apply(doc, ABU_PDF);
-      doc.text(doc.splitTextToSize(String(r.categoryCopy), W - M * 2 - 160), M + 140, y + 48);
-      y += 82;
-
-      // Skor per bagian
-      judulBagian('Skor per Bagian');
+      /* ---------- Skor per bagian ---------- */
+      judul('Skor per Bagian', 44);
       DIM_ORDER.forEach(function(d){
         var pct = r.dimPercent[d];
-        ruang(30);
-        doc.setFont('helvetica', 'normal').setFontSize(9.5).setTextColor(42, 42, 36);
+        muat(44);
+        set('normal', 9.5, PDF.teks);
         doc.text(DIMENSIONS[d].label, M, y);
-        doc.setFont('helvetica', 'bold').setTextColor.apply(doc, HIJAU_PDF);
-        doc.text(pct + '%', W - M, y, { align: 'right' });
-        y += 6;
-        doc.setFillColor(232, 228, 212); doc.roundedRect(M, y, W - M * 2, 5, 2.5, 2.5, 'F');
-        if(pct >= 70) doc.setFillColor(29, 92, 76);
-        else if(pct >= 40) doc.setFillColor(182, 144, 63);
-        else doc.setFillColor(169, 80, 63);
-        doc.roundedRect(M, y, Math.max((W - M * 2) * pct / 100, 3), 5, 2.5, 2.5, 'F');
-        y += 19;
+        set('bold', 9.5, PDF.hijauTua);
+        doc.text(pct + '%', W - M, y, { align:'right' });
+        y += 8;
+        isi(PDF.kremTua); doc.roundedRect(M, y, KOL, 6, 3, 3, 'F');
+        isi(pct >= 70 ? PDF.hijau : pct >= 40 ? PDF.emas : PDF.merah);
+        doc.roundedRect(M, y, Math.max(KOL * pct / 100, 4), 6, 3, 3, 'F');
+        y += 17;
+        set('normal', 7.6, PDF.lembut);
+        doc.text(dimStatusLabel(pct), M, y);
+        y += 16;
       });
+      y += 8;
 
-      // Prioritas
-      judulBagian('3 Titik Lemah Terbesar');
+      /* ---------- Tiga prioritas ---------- */
+      judul('3 Titik Lemah Terbesar',
+        20 + potong(DIMENSIONS[r.biggestGaps[0]].focus, 9, KOL - 34).length * 12 + 12);
       r.biggestGaps.forEach(function(d, i){
-        ruang(42);
-        doc.setFont('helvetica', 'bold').setFontSize(9.5).setTextColor.apply(doc, HIJAU_PDF);
-        doc.text('Prioritas ' + (i + 1) + ': ' + DIMENSIONS[d].label, M, y); y += 13;
-        paragraf(DIMENSIONS[d].focus, 9);
-        y += 7;
+        var isiTeks = potong(DIMENSIONS[d].focus, 9, KOL - 34);
+        muat(20 + isiTeks.length * 12 + 12);
+        isi(PDF.hijauTua); doc.circle(M + 9, y - 3, 9, 'F');
+        set('bold', 8.5, PDF.gading);
+        doc.text(String(i + 1), M + 9, y, { align:'center' });
+        set('bold', 9.8, PDF.hijauTua);
+        doc.text(DIMENSIONS[d].label, M + 34, y - 1);
+        y += 13;
+        set('normal', 9, PDF.lembut);
+        doc.text(isiTeks, M + 34, y);
+        y += isiTeks.length * 12 + 12;
       });
+      y += 4;
 
-      // Catatan kritis
-      judulBagian('Yang Perlu Diwaspadai');
+      /* ---------- Peringatan ---------- */
+      judul('Yang Perlu Diwaspadai', r.criticalGaps.length
+        ? 40 + potong(r.criticalGaps[0].desc, 8.8, KOL - 32).length * 11.5
+        : 44);
       if(r.criticalGaps.length){
         r.criticalGaps.forEach(function(g){
-          ruang(38);
-          doc.setFont('helvetica', 'bold').setFontSize(9.5).setTextColor(169, 80, 63);
-          doc.text(String(g.title), M, y); y += 12;
-          paragraf(String(g.desc), 9);
-          y += 6;
+          var dsc = potong(g.desc, 8.8, KOL - 32);
+          var tinggi = 30 + dsc.length * 11.5;
+          muat(tinggi + 10);
+          isi([250,240,238]); doc.roundedRect(M, y - 12, KOL, tinggi, 8, 8, 'F');
+          isi(PDF.merah); doc.rect(M, y - 12, 3, tinggi, 'F');
+          set('bold', 9.3, PDF.merah);
+          doc.text(String(g.title), M + 16, y + 3);
+          set('normal', 8.8, PDF.lembut);
+          doc.text(dsc, M + 16, y + 17);
+          y += tinggi + 10;
         });
       } else {
-        paragraf('Tidak ada masalah kritis dari jawaban Anda.', 9.5);
+        muat(40);
+        isi([238,246,243]); doc.roundedRect(M, y - 12, KOL, 34, 8, 8, 'F');
+        isi(PDF.hijau); doc.rect(M, y - 12, 3, 34, 'F');
+        set('bold', 9.3, PDF.hijauTua);
+        doc.text('Tidak ada masalah kritis dari jawaban Anda.', M + 16, y + 8);
+        y += 44;
+      }
+      y += 6;
+
+      /* ---------- Rekomendasi: satu panel utuh, tidak boleh terbelah ---------- */
+      var jd = potong(r.rec.headline, 13, KOL - 44);
+      var hk = potong(r.rec.hook, 9.3, KOL - 44);
+      var ur = r.rec.urgensi ? potong(r.rec.urgensi, 8.8, KOL - 60) : null;
+      var bl = r.rec.bullets.map(function(b){ return potong(b, 9, KOL - 66); });
+      // Dijumlahkan mengikuti persis kenaikan iy saat menggambar di bawah,
+      // supaya tidak ada ruang kosong menganga di dasar panel.
+      var tinggiPanel = 30 + jd.length * 16 + 8 + hk.length * 13 + 14
+        + (ur ? ur.length * 12 + 14 + 12 : 0) + 26
+        + bl.reduce(function(a, x){ return a + x.length * 12 + 8; }, 0) + 12;
+
+      judul('Langkah yang Kami Sarankan');
+      // Panel ini yang dulu terbelah dua halaman. Sekarang tingginya dihitung
+      // lebih dulu, jadi dipindahkan utuh kalau tidak cukup.
+      if(y + tinggiPanel > BAWAH) halamanBaru();
+
+      var py = y - 12;
+      isi(PDF.hijauTua); doc.roundedRect(M, py, KOL, tinggiPanel, 10, 10, 'F');
+      isi(PDF.emasTerang); doc.rect(M, py, KOL, 2.5, 'F');
+      var iy = py + 30;
+
+      set('bold', 13, PDF.gading);
+      doc.text(jd, M + 22, iy); iy += jd.length * 16 + 8;
+      set('normal', 9.3, [206,222,215]);
+      doc.text(hk, M + 22, iy); iy += hk.length * 13 + 14;
+
+      if(ur){
+        var ut = ur.length * 12 + 14;
+        isi([32,84,71]); doc.roundedRect(M + 22, iy - 11, KOL - 44, ut, 5, 5, 'F');
+        isi(PDF.emasTerang); doc.rect(M + 22, iy - 11, 2.5, ut, 'F');
+        set('normal', 8.8, PDF.emasTerang);
+        doc.text(ur, M + 34, iy + 2); iy += ut + 12;
       }
 
-      // Rekomendasi
-      judulBagian('Langkah yang Kami Sarankan');
-      doc.setFont('helvetica', 'bold').setFontSize(11).setTextColor.apply(doc, HIJAU_PDF);
-      var jd = doc.splitTextToSize(String(r.rec.headline), W - M * 2);
-      ruang(jd.length * 15 + 10);
-      doc.text(jd, M, y); y += jd.length * 15 + 4;
-      paragraf(String(r.rec.hook), 9.5);
-      y += 8;
-      doc.setFont('helvetica', 'bold').setFontSize(9.5).setTextColor.apply(doc, EMAS_PDF);
-      ruang(20); doc.text(r.rec.tier.toUpperCase() + '  ·  ' + r.rec.service, M, y); y += 15;
-      r.rec.bullets.forEach(function(b){
-        ruang(24);
-        doc.setFont('helvetica', 'bold').setFontSize(9).setTextColor.apply(doc, EMAS_PDF);
-        doc.text('-', M, y);
-        doc.setFont('helvetica', 'normal').setTextColor.apply(doc, ABU_PDF);
-        var bl = doc.splitTextToSize(String(b), W - M * 2 - 14);
-        doc.text(bl, M + 12, y);
-        y += bl.length * 13 + 3;
-      });
-      if(r.rec.urgensi){ y += 6; paragraf(String(r.rec.urgensi), 9, EMAS_PDF); }
+      isi(PDF.emasTerang);
+      var lbl = r.rec.tier.toUpperCase();
+      doc.setFontSize(7.5); var lw = doc.getTextWidth(lbl) + 16;
+      doc.roundedRect(M + 22, iy - 9, lw, 14, 7, 7, 'F');
+      set('bold', 7.5, [42,31,8]);
+      doc.text(lbl, M + 22 + lw / 2, iy + 0.5, { align:'center' });
+      set('bold', 10.5, PDF.gading);
+      doc.text(String(r.rec.service), M + 30 + lw, iy + 1);
+      iy += 26;
 
-      // Kaki halaman di setiap halaman
+      bl.forEach(function(lines){
+        // Digambar dengan dua garis: font standar PDF tidak memuat U+2713,
+        // yang sebelumnya keluar sebagai tanda petik.
+        garis(PDF.emasTerang); doc.setLineWidth(1.3); doc.setLineCap('round');
+        doc.line(M + 24, iy - 3.2, M + 26.6, iy - 0.6);
+        doc.line(M + 26.6, iy - 0.6, M + 31, iy - 6.4);
+        set('normal', 9, [206,222,215]);
+        doc.text(lines, M + 40, iy);
+        iy += lines.length * 12 + 8;
+      });
+      y = py + tinggiPanel + 26;
+
+      /* ---------- Ajakan terakhir ---------- */
+      muat(46);
+      set('normal', 9.3, PDF.lembut);
+      doc.text(potong('Ingin membahas hasil ini? Hubungi kami di WhatsApp ' +
+        CONSULTANT_WA_NUMBER.replace(/^62/, '0') + ' atau balas email yang mengantarkan laporan ini.', 9.3, KOL), M, y);
+
+      /* ---------- Kaki di setiap halaman ---------- */
       var total = doc.internal.getNumberOfPages();
-      for(var i = 1; i <= total; i++){
-        doc.setPage(i);
-        var H = doc.internal.pageSize.getHeight();
-        doc.setDrawColor(224, 220, 200).setLineWidth(0.6).line(M, H - 46, W - M, H - 46);
-        doc.setFont('helvetica', 'normal').setFontSize(6.8).setTextColor(140, 140, 128);
-        doc.text(doc.splitTextToSize(
-          'Halal Readiness Score adalah hasil self-assessment berdasarkan informasi yang Anda berikan: bukan audit, bukan penetapan status halal, bukan fatwa, dan bukan jaminan sertifikasi. Proses resmi tetap mengikuti ketentuan BPJPH/LPH yang berlaku.',
-          W - M * 2 - 40), M, H - 36);
-        doc.text(i + '/' + total, W - M, H - 20, { align: 'right' });
+      for(var pg = 1; pg <= total; pg++){
+        doc.setPage(pg);
+        garis(PDF.garis); doc.setLineWidth(0.7); doc.line(M, H - 58, W - M, H - 58);
+        set('normal', 6.6, [150,150,138]);
+        doc.text(potong('Halal Readiness Score adalah hasil self-assessment berdasarkan informasi yang Anda berikan: bukan audit, bukan penetapan status halal, bukan fatwa, dan bukan jaminan sertifikasi. Proses resmi tetap mengikuti ketentuan BPJPH/LPH yang berlaku.', 6.6, KOL - 46), M, H - 46);
+        set('bold', 7, PDF.emasTeks);
+        doc.text('GoHalal', M, H - 20);
+        set('normal', 7, [150,150,138]);
+        doc.text(pg + ' / ' + total, W - M, H - 20, { align:'right' });
       }
 
       return doc;
@@ -1968,15 +2086,20 @@
     return 'GoHalal-Hasil-' + (nama || 'assessment') + '.pdf';
   }
 
-  // Kirim PDF ke email pengunjung lewat Edge Function. Gagal diam-diam supaya
-  // alur quiz tidak pernah terganggu oleh urusan email.
+  // Pengiriman email hasil. Dimulai saat form kontak disubmit, lalu layar hasil
+  // menempel ke promise yang sama supaya statusnya mencerminkan kejadian
+  // sebenarnya, bukan tebakan.
+  var kirimPromise = null;
+
   function kirimHasilKeEmail(r){
-    if(!KIRIM_HASIL_URL || !state.lead.email) return;
-    buildResultPdf(r).then(function(doc){
+    if(!state.lead.email){ kirimPromise = Promise.reject(new Error('tanpa-email')); return kirimPromise; }
+    if(!KIRIM_HASIL_URL){ kirimPromise = Promise.reject(new Error('belum-dikonfigurasi')); return kirimPromise; }
+
+    kirimPromise = buildResultPdf(r).then(function(doc){
       var b64 = doc.output('datauristring').split(',')[1];
       return fetch(KIRIM_HASIL_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        method:'POST',
+        headers:{ 'Content-Type':'application/json' },
         body: JSON.stringify({
           email: state.lead.email,
           nama: state.lead.name,
@@ -1989,9 +2112,59 @@
         })
       });
     }).then(function(res){
-      if(res && !res.ok) console.warn('Kirim email gagal:', res.status);
-    }).catch(function(err){
+      if(!res.ok) throw new Error('HTTP ' + res.status);
+      return true;
+    });
+
+    // Ditangkap di sini juga supaya kegagalan tidak pernah muncul sebagai
+    // unhandled rejection; layar hasil tetap menampilkannya lewat promise ini.
+    kirimPromise.catch(function(err){
       console.warn('Kirim email gagal:', err && err.message ? err.message : err);
+    });
+    return kirimPromise;
+  }
+
+  function unduhCadangan(r, el){
+    el.textContent = 'Menyiapkan berkas...';
+    buildResultPdf(r).then(function(doc){
+      doc.save(namaFilePdf());
+      el.textContent = 'Berkas diunduh.';
+    }).catch(function(){
+      el.textContent = 'Gagal. Hubungi kami lewat WhatsApp untuk minta hasilnya.';
+    });
+  }
+
+  function pasangStatusKirim(box, r){
+    if(!box) return;
+    var email = state.lead.email || '';
+
+    function gagal(pesan){
+      box.className = 'kirim-status is-gagal';
+      box.innerHTML = '<strong>' + esc(pesan) + '</strong>';
+      var a = document.createElement('span');
+      a.className = 'tautan'; a.setAttribute('role','button'); a.tabIndex = 0;
+      a.textContent = 'Unduh hasil sekarang';
+      function jalan(){ unduhCadangan(r, box.appendChild(document.createElement('p'))); }
+      a.addEventListener('click', jalan);
+      a.addEventListener('keydown', function(e){ if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); jalan(); } });
+      box.appendChild(document.createElement('br'));
+      box.appendChild(a);
+    }
+
+    if(!kirimPromise){ gagal('Hasil belum terkirim.'); return; }
+
+    box.className = 'kirim-status';
+    box.textContent = 'Mengirim hasil lengkap ke ' + email + '...';
+
+    kirimPromise.then(function(){
+      box.className = 'kirim-status is-ok';
+      box.innerHTML = 'Hasil lengkap sudah dikirim ke <strong>' + esc(email) + '</strong>.' +
+        '<br>Cek inbox Anda, dan lihat folder spam kalau belum terlihat dalam beberapa menit.';
+    }).catch(function(err){
+      var m = err && err.message ? err.message : '';
+      gagal(m === 'belum-dikonfigurasi'
+        ? 'Pengiriman email belum aktif.'
+        : 'Email gagal dikirim ke ' + email + '.');
     });
   }
 
@@ -2784,6 +2957,7 @@
           '<h4>' + esc(r.rec.headline) + '</h4>' +
           '<p class="cta-hook">' + esc(r.rec.hook) + '</p>' +
           (r.rec.urgensi ? '<p class="cta-urgensi">' + esc(r.rec.urgensi) + '</p>' : '') +
+          '<p class="cta-pengantar">Dari enam layanan kami, ini yang paling pas untuk kondisi Anda sekarang:</p>' +
           '<div class="cta-service">' +
             '<span class="cta-service-tier">' + esc(r.rec.tier) + '</span>' +
             '<span class="cta-service-name">' + esc(r.rec.service) + '</span>' +
@@ -2795,10 +2969,9 @@
           '<p class="cta-note">Ngobrol dulu, bukan langsung ditawari. Kalau ternyata belum butuh, kami bilang belum butuh.</p>' +
         '</div>' +
       '</div>' +
+      '<div class="kirim-status" id="kirimStatus" role="status" aria-live="polite"></div>' +
       '<div class="restart-row">' +
-        '<button type="button" class="btn secondary" id="btnPdf">Unduh Hasil (PDF)</button> ' +
         '<button type="button" class="btn secondary" id="btnRestart">Ulangi Cek dari Awal</button>' +
-        '<p class="pdf-status" id="pdfStatus" role="status"></p>' +
       '</div>';
 
     document.getElementById('btnRestart').addEventListener('click', function(){
@@ -2807,21 +2980,10 @@
       render();
     });
 
-    var pdfBtn = document.getElementById('btnPdf');
-    var pdfStatus = document.getElementById('pdfStatus');
-    pdfBtn.addEventListener('click', function(){
-      pdfBtn.disabled = true;
-      pdfStatus.textContent = 'Menyiapkan PDF...';
-      buildResultPdf(r).then(function(doc){
-        doc.save(namaFilePdf());
-        pdfStatus.textContent = '';
-        pdfBtn.disabled = false;
-      }).catch(function(err){
-        console.warn('Gagal membuat PDF:', err && err.message ? err.message : err);
-        pdfStatus.textContent = 'PDF gagal dibuat. Coba lagi, atau minta hasilnya lewat WhatsApp.';
-        pdfBtn.disabled = false;
-      });
-    });
+    // Status pengiriman email. Sengaja tidak pernah mengaku "terkirim" sebelum
+    // servernya benar-benar menjawab berhasil, dan kalau gagal pengunjung
+    // tetap diberi jalan keluar, bukan dibiarkan pulang dengan tangan kosong.
+    pasangStatusKirim(document.getElementById('kirimStatus'), r);
   }
 
   render();

@@ -1,10 +1,12 @@
 # Kirim PDF hasil quiz ke email pengunjung
 
-Tombol **Unduh Hasil (PDF)** di layar hasil sudah jalan sekarang, tanpa setup apa pun.
-
-Yang butuh setup adalah **pengiriman otomatis ke email pengunjung**. Selama belum
-di-setup, bagian itu dilewati diam-diam: quiz tetap normal, data tetap masuk
-Supabase, tombol unduh tetap berfungsi. Tidak ada error yang terlihat pengunjung.
+> **Wajib di-setup.** Email sekarang satu-satunya cara pengunjung menerima laporan
+> hasil. Tombol unduh sudah dihapus dari layar hasil.
+>
+> Selama Edge Function belum di-deploy, layar hasil menampilkan
+> *"Pengiriman email belum aktif"* beserta satu tautan unduh darurat, supaya
+> pengunjung tidak pulang dengan tangan kosong. Itu jaring pengaman, bukan
+> kondisi yang layak dibiarkan jalan terus.
 
 Alurnya: browser membuat PDF-nya sendiri, lalu mengirimnya ke sebuah Edge Function
 di Supabase, dan fungsi itu yang mengirim email. Kunci API email disimpan di
@@ -66,14 +68,19 @@ Ini yang mencegah situs lain memakai fungsi (dan kuota email) Anda.
 
 ## Kalau email tidak sampai
 
-Cek berurutan:
+Layar hasil sendiri sudah memberi tahu statusnya, jadi mulai dari situ:
 
-1. **Console browser** saat menyelesaikan quiz. Kalau ada `Kirim email gagal: 500`,
-   berarti secret-nya belum ter-set. Kalau `502`, penyedia emailnya yang menolak.
+- *"Pengiriman email belum aktif"* → `KIRIM_HASIL_URL` di `index.html` masih kosong.
+- *"Email gagal dikirim ke ..."* → permintaannya terkirim tapi ditolak. Lanjut ke bawah.
+
+Lalu cek berurutan:
+
+1. **Console browser** saat menyelesaikan quiz. `HTTP 500` berarti secret-nya belum
+   ter-set di Supabase. `HTTP 502` berarti penyedia emailnya yang menolak.
+   `HTTP 403` biasanya domain pemanggil belum masuk `ASAL_DIIZINKAN`.
 2. **Log fungsi**: `supabase functions logs kirim-hasil`. Pesan error asli dari
    Resend ada di sini, sengaja tidak dikirim ke browser.
 3. **Folder spam**, dan status domain di dashboard Resend.
-4. Kalau di console tidak ada apa-apa sama sekali, `KIRIM_HASIL_URL` masih kosong.
 
 ## Batasan yang sudah dipasang
 
