@@ -880,6 +880,28 @@
     };
   }
 
+  // UUID v4. crypto.randomUUID() butuh HTTPS (atau localhost), jadi tetap ada
+  // cadangan supaya penyimpanan tidak ikut gagal di browser lama.
+  function newUuid(){
+    if(window.crypto && typeof window.crypto.randomUUID === 'function'){
+      return window.crypto.randomUUID();
+    }
+    if(window.crypto && typeof window.crypto.getRandomValues === 'function'){
+      var b = new Uint8Array(16);
+      window.crypto.getRandomValues(b);
+      b[6] = (b[6] & 0x0f) | 0x40;
+      b[8] = (b[8] & 0x3f) | 0x80;
+      var hex = [];
+      for(var i = 0; i < 16; i++){ hex.push((b[i] + 0x100).toString(16).slice(1)); }
+      return hex.slice(0,4).join('') + '-' + hex.slice(4,6).join('') + '-' +
+             hex.slice(6,8).join('') + '-' + hex.slice(8,10).join('') + '-' + hex.slice(10,16).join('');
+    }
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c){
+      var r = Math.random() * 16 | 0;
+      return (c === 'x' ? r : ((r & 0x3) | 0x8)).toString(16);
+    });
+  }
+
   // Satu titik penyimpanan saja: dipanggil sekali, setelah quiz selesai DAN lead form
   // (satu-satunya form kontak di seluruh alur) di-submit. Insert quiz_submissions lalu
   // leads. Gagal diam-diam (hanya console.warn) supaya pengalaman quiz tidak terganggu
@@ -906,9 +928,17 @@
       utm_campaign: utm.utm_campaign
     };
 
-    supabaseClient.from('quiz_submissions').insert(fullPayload).select('id').single().then(function(res){
+    // id dibuat di sini, bukan diminta balik dari database. Kalau pakai
+    // .select() setelah insert, PostgREST menambah `?select=id` yang membuat
+    // Postgres menjalankan INSERT ... RETURNING, dan RETURNING butuh policy
+    // SELECT. Kita sengaja tidak memberi izin SELECT ke publik supaya data
+    // lead tidak bisa dibaca lewat browser, jadi insert-nya ikut ditolak
+    // dengan pesan yang menyesatkan ("violates row-level security policy").
+    var submissionId = newUuid();
+    fullPayload.id = submissionId;
+
+    supabaseClient.from('quiz_submissions').insert(fullPayload).then(function(res){
       if(res.error){ console.warn('Supabase quiz_submissions insert failed:', res.error.message); return; }
-      var submissionId = res.data && res.data.id;
       supabaseClient.from('leads').insert({
         submission_id: submissionId,
         name: state.lead.name,
