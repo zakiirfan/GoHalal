@@ -383,6 +383,33 @@
 
   /* ===== Penyesuaian layar kecil, dikumpulkan supaya ritmenya konsisten ===== */
   @media (max-width: 620px){
+    /* Tepi halaman dirapatkan. Di 1440px, 20px itu 1,4% layar; di 390px jadi
+       10% dan dipotong dua kali (section + kartu). */
+    :root{ --ruang-tepi: 16px; }
+
+    /* Kartu dibuat full-bleed supaya padding kartu MENGGANTIKAN padding
+       section, bukan menumpuk di atasnya. Ini yang mengembalikan lebar baca:
+       teks yang tadinya cuma dapat 306px kini dapat ~354px. */
+    .alasan-grid, .service-ladder, .pidana, .tujuan{
+      margin-left: calc(-1 * var(--ruang-tepi));
+      margin-right: calc(-1 * var(--ruang-tepi));
+      border-radius: 0;
+    }
+    .alasan{ padding: 24px 18px; gap: 10px; }
+    .service-row{ padding: 20px 18px; border-radius: 0; }
+    .pidana{ padding: 22px 18px; border-radius: 0; border-left: none; border-right: none; }
+    .tujuan{ padding: 24px 18px; }
+    .quiz-card{ padding: 24px 16px; }
+
+
+    /* Napas antar-blok ditambah. Kolom yang lebih lebar saja belum cukup kalau
+       blok-bloknya tetap berdempetan. */
+    .alasan-grid{ gap: 2px; }
+    .service-ladder{ gap: 8px; }
+    .tingkat{ padding: 26px 0; }
+    .article-row{ padding: 22px 0; gap: 14px; }
+    .faq-q{ padding: 20px 0; }
+
     h2.section-title{ line-height: 1.25; }
     p.section-lead{ font-size: var(--t-body); margin-bottom: 32px; }
 
@@ -396,7 +423,6 @@
 
     .kenapa-head{ margin-bottom: 32px; }
     .kenapa-lead{ font-size: var(--t-body); }
-    .alasan{ padding: 24px 20px; gap: 9px; }
     .alasan h3{ font-size: var(--t-h3); }
     .alasan p{ font-size: var(--t-kecil); }
     .kenapa-tutup{ margin-top: 32px; padding-top: 26px; }
@@ -406,17 +432,14 @@
 
     .layanan-head{ margin-bottom: 26px; }
     .layanan-head p{ font-size: var(--t-body); }
-    .service-row{ padding: 18px 20px; }
     .service-row h3{ font-size: var(--t-h3); }
 
     .artikel-head{ margin-bottom: 24px; gap: 12px; }
-    .article-row{ padding: 18px 0; gap: 14px; }
 
     .faq-head{ margin-bottom: 26px; }
-    .faq-q{ font-size: 0.97rem; padding: 18px 0; gap: 14px; }
+    .faq-q{ font-size: 0.97rem; gap: 14px; }
     .faq-a p{ font-size: var(--t-kecil); }
 
-    .quiz-card{ padding: 22px 18px; }
     .quiz-card h3{ font-size: 1.05rem; }
     .option-card{ padding: 13px 14px; }
     .quiz-nav{ flex-direction: column-reverse; }
@@ -560,7 +583,7 @@
     color: var(--gading);
     padding: 0;
   }
-  .site-footer .footer-inner{ max-width: 880px; margin:0 auto; padding: 72px 20px; }
+  .site-footer .footer-inner{ max-width: 880px; margin:0 auto; padding: 72px var(--ruang-tepi); }
   .about-block{
     display:flex; gap:18px; align-items:flex-start;
     background: rgba(255,253,247,0.06); border:1px solid rgba(255,253,247,0.16);
@@ -594,7 +617,15 @@
   }
   @media (max-width: 640px){
     .footer-grid{ grid-template-columns: 1fr; }
-    .about-block{ flex-direction:column; }
+    /* Ikon ditumpuk di atas teks: berdampingan ia memakan 70px dari lebar baca
+       yang di HP sudah sempit. Padding juga dirapatkan, dan blok dibuat
+       full-bleed supaya tidak menumpuk dengan padding footer. */
+    .about-block{
+      flex-direction:column; gap:14px; padding:26px 18px;
+      margin-left: calc(-1 * var(--ruang-tepi));
+      margin-right: calc(-1 * var(--ruang-tepi));
+      border-left:none; border-right:none; border-radius:0;
+    }
   }
 
   /* ===== Quiz section ===== */
@@ -899,7 +930,7 @@
     .tingkat .angka{ padding-top:0; }
     .tingkat h3, .tingkat:nth-of-type(3) h3{ font-size:var(--t-h3); }
     .tingkat p{ font-size:var(--t-kecil); }
-    .pidana{ padding:22px 20px; margin-top:30px; }
+    .pidana{ margin-top:30px; }
     .pidana p{ font-size:var(--t-kecil); }
     .sanksi-tutup{ margin-top:32px; }
     .sanksi-tutup p{ font-size:var(--t-body); }
