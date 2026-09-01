@@ -32,6 +32,18 @@ alter table quiz_submissions add column if not exists business_name text;
 alter table quiz_submissions add column if not exists email text;
 alter table quiz_submissions add column if not exists completed boolean not null default false;
 
+-- Kolom untuk mesin asesmen 5 kriteria SJPH.
+--   alur        : 'A' (produsen / jasa boga) atau 'B' (logistik) -- set pertanyaannya beda
+--   cert_status : status sertifikasi yang dipilih di profil usaha
+--   red_flag    : ada kondisi mendasar (bahan terlarang, percampuran babi, identitas produk)
+--                 yang membuat skor persentase sengaja tidak ditampilkan
+--   tidak_tahu  : berapa kali responden menjawab "tidak tahu"; angka tinggi itu sendiri temuan
+-- overall_score boleh NULL sekarang, yaitu saat red_flag true.
+alter table quiz_submissions add column if not exists alur text;
+alter table quiz_submissions add column if not exists cert_status text;
+alter table quiz_submissions add column if not exists red_flag boolean;
+alter table quiz_submissions add column if not exists tidak_tahu integer;
+
 -- Data kontak yang diisi untuk membuka hasil lengkap (lead capture)
 create table if not exists leads (
   id uuid primary key default gen_random_uuid(),
@@ -54,6 +66,12 @@ alter table leads add column if not exists email text;
 -- Nomor WhatsApp tidak lagi diminta di form (kontak lewat email), jadi kolomnya
 -- dibuat opsional. Aman dijalankan ulang.
 alter table leads alter column whatsapp drop not null;
+
+-- Gerbang hasil sekarang hanya meminta email; nama personal tidak diminta sama
+-- sekali dan nama usaha sifatnya opsional. Keduanya dibuat boleh kosong supaya
+-- insert dari website tidak ditolak. Aman dijalankan ulang.
+alter table leads alter column name drop not null;
+alter table leads alter column business_name drop not null;
 
 alter table quiz_submissions enable row level security;
 alter table leads enable row level security;

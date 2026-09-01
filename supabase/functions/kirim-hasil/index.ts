@@ -76,37 +76,38 @@ Deno.serve(async (req) => {
 
   const nama = bersih(body.nama) || "Bapak/Ibu";
   const namaUsaha = bersih(body.namaUsaha);
-  const skor = Number(body.skor);
+  // skor bisa null saat red flag: persentase sengaja tidak dikirim.
+  const skor = body.skor === null || body.skor === undefined ? NaN : Number(body.skor);
   const kategori = bersih(body.kategori, 40);
   const layanan = bersih(body.layanan, 80);
   const namaFile = bersih(body.namaFile, 80).replace(/[^\w.-]/g, "") || "hasil.pdf";
 
   const html = `
 <div style="font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;max-width:560px;margin:0 auto;color:#2a2a24">
-  <div style="background:#12463b;padding:28px 30px;border-radius:12px 12px 0 0">
-    <div style="color:#fffdf7;font-size:20px;font-weight:800">GoHalal</div>
-    <div style="color:#d4af6a;font-size:13px;margin-top:4px">Hasil Halal Readiness Check</div>
+  <div style="background:#1E3932;padding:28px 30px;border-radius:12px 12px 0 0">
+    <div style="color:#ffffff;font-size:20px;font-weight:800">GoHalal</div>
+    <div style="color:#dfc49d;font-size:13px;margin-top:4px">Hasil Cek Kesiapan Halal</div>
   </div>
-  <div style="border:1px solid #e3dcc8;border-top:none;border-radius:0 0 12px 12px;padding:28px 30px">
+  <div style="border:1px solid #e0ddd6;border-top:none;border-radius:0 0 12px 12px;padding:28px 30px">
     <p style="margin:0 0 16px;font-size:15px">Halo ${nama},</p>
-    <p style="margin:0 0 20px;font-size:14px;line-height:1.65;color:#5a5a4f">
-      Terima kasih sudah menyelesaikan Halal Readiness Check. Hasil lengkap
+    <p style="margin:0 0 20px;font-size:14px;line-height:1.65;color:#6b6b6b">
+      Terima kasih sudah menyelesaikan Cek Kesiapan Halal. Hasil lengkapnya
       ${namaUsaha ? `untuk <strong>${namaUsaha}</strong> ` : ""}kami lampirkan dalam bentuk PDF di email ini.
     </p>
-    <div style="background:#faf6ec;border-radius:10px;padding:20px 22px;margin-bottom:20px">
-      <div style="font-size:32px;font-weight:800;color:#12463b;line-height:1">
-        ${Number.isFinite(skor) ? skor : "-"}<span style="font-size:14px;font-weight:400;color:#5a5a4f"> / 100</span>
-      </div>
-      ${kategori ? `<div style="font-size:13px;font-weight:700;color:#9a7628;margin-top:6px">${kategori}</div>` : ""}
-      ${layanan ? `<div style="font-size:13px;color:#5a5a4f;margin-top:10px">Langkah yang kami sarankan: <strong style="color:#12463b">${layanan}</strong></div>` : ""}
+    <div style="background:#f2f0eb;border-radius:10px;padding:20px 22px;margin-bottom:20px">
+      ${Number.isFinite(skor)
+        ? `<div style="font-size:32px;font-weight:800;color:#1E3932;line-height:1">${skor}<span style="font-size:14px;font-weight:400;color:#6b6b6b"> / 100</span></div>`
+        : `<div style="font-size:15px;font-weight:800;color:#c82014;line-height:1.4">Skor ditahan &mdash; ada kondisi mendasar yang perlu diselesaikan lebih dulu</div>`}
+      ${kategori ? `<div style="font-size:13px;font-weight:700;color:#8a6a2f;margin-top:6px">${kategori}</div>` : ""}
+      ${layanan ? `<div style="font-size:13px;color:#6b6b6b;margin-top:10px">Langkah yang kami sarankan: <strong style="color:#1E3932">${layanan}</strong></div>` : ""}
     </div>
-    <p style="margin:0 0 6px;font-size:14px;line-height:1.65;color:#5a5a4f">
+    <p style="margin:0 0 6px;font-size:14px;line-height:1.65;color:#6b6b6b">
       Kalau mau membahas hasilnya, balas email ini atau hubungi kami di WhatsApp
-      <a href="https://wa.me/6287712644343" style="color:#12463b;font-weight:700">0877-1264-4343</a>.
+      <a href="https://wa.me/6287712644343" style="color:#00754A;font-weight:700">0877-1264-4343</a>.
       Ngobrol dulu, bukan langsung ditawari.
     </p>
-    <p style="margin:22px 0 0;font-size:11px;line-height:1.6;color:#8c8c80;border-top:1px solid #e3dcc8;padding-top:16px">
-      Halal Readiness Score adalah hasil self-assessment berdasarkan informasi yang Anda berikan:
+    <p style="margin:22px 0 0;font-size:11px;line-height:1.6;color:#8c8c80;border-top:1px solid #e0ddd6;padding-top:16px">
+      Hasil Cek Kesiapan Halal adalah pemetaan awal berdasarkan informasi yang Anda berikan:
       bukan audit, bukan penetapan status halal, bukan fatwa, dan bukan jaminan sertifikasi.
       Proses resmi tetap mengikuti ketentuan BPJPH/LPH yang berlaku.
     </p>
@@ -119,7 +120,7 @@ Deno.serve(async (req) => {
     body: JSON.stringify({
       from: PENGIRIM,
       to: [body.email],
-      subject: `Hasil Halal Readiness Check${namaUsaha ? ` - ${namaUsaha}` : ""}`,
+      subject: `Hasil Cek Kesiapan Halal${namaUsaha ? ` - ${namaUsaha}` : ""}`,
       html,
       attachments: [{ filename: namaFile, content: pdf }],
     }),
