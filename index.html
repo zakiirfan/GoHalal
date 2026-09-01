@@ -404,18 +404,11 @@
     /* Kartu dibuat full-bleed supaya padding kartu MENGGANTIKAN padding
        section, bukan menumpuk di atasnya. Ini yang mengembalikan lebar baca:
        teks yang tadinya cuma dapat 306px kini dapat ~354px. */
-    .service-ladder{
-      margin-left: calc(-1 * var(--ruang-tepi));
-      margin-right: calc(-1 * var(--ruang-tepi));
-      border-radius: 0;
-    }
-    .service-row{ padding: 20px 18px; border-radius: 0; }
     .quiz-card{ padding: 24px 16px; }
 
 
     /* Napas antar-blok ditambah. Kolom yang lebih lebar saja belum cukup kalau
        blok-bloknya tetap berdempetan. */
-    .service-ladder{ gap: 8px; }
     .article-row{ padding: 22px 0; gap: 14px; }
     .faq-q{ padding: 20px 0; }
 
@@ -433,7 +426,7 @@
 
     .layanan-head{ margin-bottom: 26px; }
     .layanan-head p{ font-size: var(--t-body); }
-    .service-row h3{ font-size: var(--t-h3); }
+    .jalur h3{ font-size: var(--t-h3); }
 
     .artikel-head{ margin-bottom: 24px; gap: 12px; }
 
@@ -532,27 +525,79 @@
   .layanan-head{ margin-bottom:32px; }
   .layanan-head h2{ text-align:left; font-size: var(--t-h2); color: var(--hijau-tua); margin:0 0 12px; }
   .layanan-head p{ text-align:left; color:var(--teks-lembut); font-size:1.02rem; line-height:1.6; max-width:560px; margin:0; }
-  .service-ladder{ display:flex; flex-direction:column; gap:10px; }
-  .service-row{
-    position:relative; display:flex; align-items:center; gap:20px;
-    padding: 18px 26px; border-radius: 999px 14px 14px 999px;
-    background: linear-gradient(90deg, rgba(30,57,50,0.08), rgba(30,57,50,0.08) var(--fill,50%), transparent var(--fill,50%));
-    border:1px solid var(--garis);
+  /* Tiga jalur melanjutkan, sama persis dengan tiga cabang yang keluar di akhir
+     asesmen: panduan mandiri, pendampingan, dan konsultasi awal untuk sembelihan. */
+  .jalur-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:18px; align-items:stretch; }
+  .jalur{
+    display:flex; flex-direction:column; background:var(--gading);
+    border:1px solid var(--garis); border-radius:var(--radius); padding:28px 24px 26px;
+    position:relative;
   }
-  .service-row .service-idx{
-    flex-shrink:0; width:38px; height:38px; border-radius:50%;
-    background:var(--hijau-tua); color:var(--gading); display:flex; align-items:center; justify-content:center;
-    font-weight:800; font-size:0.92rem;
+  .jalur.utama{ border-color:var(--hijau-muda); border-width:1.5px; box-shadow:var(--shadow); }
+  .jalur.utama::before{
+    content:"Untuk Mikro & Kecil"; position:absolute; top:-11px; left:24px;
+    font-size:0.66rem; font-weight:800; letter-spacing:0.5px; text-transform:uppercase;
+    color:#ffffff; background:var(--hijau-muda); padding:4px 12px; border-radius:999px;
   }
-  .service-row .service-body{ flex:1; min-width:0; }
-  .service-row .service-level{
-    display:block; font-size:0.68rem; font-weight:800; letter-spacing:0.4px; text-transform:uppercase;
-    color: var(--emas-teks); margin-bottom:4px;
+  /* Ikon menggambarkan CARA didampingi, bukan kriteria SJPH -- kriteria sudah
+     punya ikonnya sendiri di hero, kalau dipakai lagi di sini malah rancu. */
+  .jalur-ikon{
+    width:48px; height:48px; border-radius:13px; background:var(--krem-tua);
+    display:flex; align-items:center; justify-content:center; margin-bottom:16px;
   }
-  .service-row h3{ margin:0 0 4px; font-size:1rem; color:var(--hijau-tua); }
-  .service-row p{ margin:0; font-size:0.87rem; color:var(--teks-lembut); line-height:1.5; }
-  @media (max-width: 700px){
-    .service-row{ flex-direction:column; align-items:flex-start; gap:10px; border-radius:14px; }
+  .jalur.utama .jalur-ikon{ background:var(--hijau-pucat); }
+  .jalur-ikon svg{
+    width:25px; height:25px; stroke:var(--hijau-tua); fill:none;
+    stroke-width:1.75; stroke-linecap:round; stroke-linejoin:round;
+  }
+  .jalur-ikon svg .titik{ fill:var(--hijau-tua); stroke:none; }
+  .jalur-badge{
+    display:block; font-size:0.68rem; font-weight:800; letter-spacing:0.5px;
+    text-transform:uppercase; color:var(--emas-teks); margin-bottom:7px;
+  }
+  .jalur h3{ margin:0 0 10px; font-size:var(--t-h3); color:var(--hijau-tua); line-height:1.4; }
+  .jalur-harga{ font-size:1.5rem; font-weight:800; color:var(--hijau); letter-spacing:-0.5px; margin-bottom:4px; }
+  .jalur-harga small{ display:block; font-size:0.76rem; font-weight:500; color:var(--teks-lembut); letter-spacing:0; margin-top:3px; }
+  .jalur-harga.kondisional{ font-size:1.05rem; color:var(--hijau-tua); }
+  .jalur > p{ margin:12px 0 18px; font-size:0.9rem; line-height:1.62; color:var(--teks-lembut); }
+  .jalur-isi{ list-style:none; padding:0; margin:0 0 22px; display:flex; flex-direction:column; gap:9px; }
+  .jalur-isi li{ position:relative; padding-left:24px; font-size:0.86rem; line-height:1.5; color:var(--teks); }
+  .jalur-isi li::before{
+    content:""; position:absolute; left:2px; top:6px; width:11px; height:6px;
+    border-left:2px solid var(--hijau-muda); border-bottom:2px solid var(--hijau-muda); transform:rotate(-45deg);
+  }
+  /* margin-top:auto menahan tombol di dasar kartu supaya ketiganya sejajar
+     meski panjang teks di atasnya berbeda. */
+  .jalur-kaki{ margin-top:auto; }
+  /* Padding tombol dikecilkan dari 28px: di lebar kartu tiga kolom, label
+     terpanjang ("Hubungi via WhatsApp") pecah jadi dua baris dan tombolnya
+     jadi 18px lebih tinggi dari dua kartu lain. */
+  .jalur-kaki .btn{ width:100%; padding-left:16px; padding-right:16px; }
+  /* min-height = dua baris. Keterangannya ada yang satu baris dan ada yang dua,
+     dan karena .jalur-kaki menempel ke dasar kartu, selisih itu membuat tombol
+     ketiga kartu tidak sejajar (beda sampai 37px). */
+  .jalur-untuk{
+    margin:12px 0 0; font-size:0.79rem; line-height:1.5;
+    color:var(--teks-lembut); min-height:3em;
+  }
+  .jalur-untuk b{ color:var(--hijau-tua); font-weight:700; }
+  .layanan-kaki{ margin-top:26px; font-size:0.87rem; line-height:1.6; color:var(--teks-lembut); max-width:640px; }
+  .layanan-kaki a{ color:var(--hijau-muda); font-weight:700; }
+  @media (max-width: 900px){ .jalur-grid{ grid-template-columns:1fr; gap:16px; } }
+  /* Kartu dibuat full-bleed di layar sempit: padding kartu MENGGANTIKAN padding
+     section, bukan menumpuk di atasnya, jadi lebar bacanya kembali.
+     Blok ini harus berada SESUDAH definisi .jalur di atas -- media query tidak
+     menambah specificity, jadi kalau ditaruh lebih awal aturan border-radius
+     dan border di .jalur yang menang dan full-bleed-nya tidak jadi. */
+  @media (max-width: 620px){
+    .jalur-grid{
+      margin-left: calc(-1 * var(--ruang-tepi));
+      margin-right: calc(-1 * var(--ruang-tepi));
+      gap: 10px;
+    }
+    .jalur{ padding: 24px 18px 22px; border-radius: 0; border-left:none; border-right:none; }
+    .jalur.utama{ border-left:none; border-right:none; }
+    .jalur.utama::before{ left: 18px; }
   }
 
   /* ===== Artikel: editorial divided list (no cards) ===== */
@@ -1157,59 +1202,66 @@
 <section id="layanan" class="layanan" aria-label="Layanan">
   <div class="wrap">
     <div class="layanan-head reveal">
-      <h2>Kalau Mau Lanjut, Ini Pilihannya</h2>
-      <p>Setelah tahu skor dan titik lemah Anda, tinggal pilih mau dibantu sampai mana. Tidak harus ambil yang paling besar. Mulai dari mana pun yang pas sama kebutuhan dan kantong Anda.</p>
+      <h2>Layanan Kami</h2>
+      <p>Setelah tahu skor dan titik lemah Anda, pilih layanan yang sesuai dengan kebutuhan Anda.</p>
     </div>
-    <div class="service-ladder">
-      <div class="service-row reveal" style="--fill:20%; --d:0.0s">
-        <span class="service-idx">1</span>
-        <div class="service-body">
-          <span class="service-level">Free</span>
-          <h3>Halal Readiness Check</h3>
-          <p>Gratis. Anda tahu posisi bisnis Anda sekarang, sebelum keluar duit sepeser pun.</p>
+
+    <div class="jalur-grid">
+      <div class="jalur utama reveal" style="--d:0.0s">
+        <span class="jalur-ikon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 7.4C10.4 6.1 8.4 5.5 5.9 5.5c-.9 0-1.7.1-2.4.2v12.6c.7-.1 1.5-.2 2.4-.2 2.5 0 4.5.6 6.1 1.9"/><path d="M12 7.4c1.6-1.3 3.6-1.9 6.1-1.9.9 0 1.7.1 2.4.2v7.4"/><path d="M12 7.4V20"/><circle cx="18.2" cy="17.7" r="3.5"/><path d="M16.8 17.7l.9 1 1.8-2"/></svg></span>
+        <span class="jalur-badge">Urus mandiri</span>
+        <h3>Panduan Lengkap Persiapan &amp; Pengajuan Sertifikat Halal</h3>
+        <div class="jalur-harga">Rp299.000<small>sekali bayar, akses selamanya</small></div>
+        <p>Untuk usaha mikro dan kecil, sebagian besar pekerjaannya bisa Anda kerjakan sendiri. Yang biasanya menghambat bukan biayanya, tapi tidak tahu harus mulai dari mana.</p>
+        <ul class="jalur-isi">
+          <li>Panduan digital langkah demi langkah</li>
+          <li>Seluruh template dokumen yang diminta</li>
+          <li>Contoh pengisian untuk usaha mikro &amp; kecil</li>
+        </ul>
+        <div class="jalur-kaki">
+          <!-- href diarahkan ke PRODUCT_URL lewat script quiz begitu diisi;
+               selama masih kosong, tombolnya jatuh ke WhatsApp seperti di sini. -->
+          <a class="btn primary" id="tautanPanduan" href="https://wa.me/6287712644343?text=Saya%20ingin%20mengetahui%20Panduan%20Lengkap%20Persiapan%20%26%20Pengajuan%20Sertifikat%20Halal%20%28Rp299.000%29.%20Mohon%20informasinya." target="_blank" rel="noopener">Lihat Panduan</a>
+          <p class="jalur-untuk">Muncul kalau skala Anda <b>Mikro</b> atau <b>Kecil</b>.</p>
         </div>
       </div>
-      <div class="service-row reveal" style="--fill:34%; --d:0.05s">
-        <span class="service-idx">2</span>
-        <div class="service-body">
-          <span class="service-level">Entry</span>
-          <h3>Halal Readiness Review</h3>
-          <p>Skor Anda sudah tinggi? Tenaga ahli bersertifikat cek ulang sebentar, biar Anda tidak tersandung hal kecil pas pengajuan.</p>
+
+      <div class="jalur reveal" style="--d:0.06s">
+        <span class="jalur-ikon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="9.2" cy="7.9" r="3.3"/><path d="M3.4 20v-1.3a4.9 4.9 0 0 1 4.9-4.9h1.8a4.9 4.9 0 0 1 4.9 4.9V20"/><path d="M16.4 5.1a3.3 3.3 0 0 1 0 5.6"/><path d="M18.1 14.2a4.9 4.9 0 0 1 2.5 4.5V20"/></svg></span>
+        <span class="jalur-badge">Dibantu sepenuhnya</span>
+        <h3>Jasa Pendampingan Sertifikasi Halal</h3>
+        <div class="jalur-harga kondisional">Sesuai ruang lingkup<small>ditentukan setelah pemetaan awal</small></div>
+        <p>Setiap usaha punya produk, fasilitas, bahan, dan proses yang berbeda. Kami petakan ruang lingkupnya dulu, baru pendampingannya disusun mengikuti kondisi Anda.</p>
+        <ul class="jalur-isi">
+          <li>Pemetaan produk, fasilitas, bahan, proses</li>
+          <li>Penyusunan dokumen SJPH beserta buktinya</li>
+          <li>Didampingi sampai audit dan pengajuan selesai</li>
+        </ul>
+        <div class="jalur-kaki">
+          <a class="btn secondary" href="https://wa.me/6287712644343?text=Saya%20ingin%20berkonsultasi%20tentang%20jasa%20pendampingan%20sertifikasi%20halal%20untuk%20usaha%20saya." target="_blank" rel="noopener">Diskusikan Kebutuhan</a>
+          <p class="jalur-untuk">Terbuka untuk <b>semua skala</b>.</p>
         </div>
       </div>
-      <div class="service-row reveal" style="--fill:48%; --d:0.1s">
-        <span class="service-idx">3</span>
-        <div class="service-body">
-          <span class="service-level">Diagnostic</span>
-          <h3>Halal Gap Assessment</h3>
-          <p>Temuannya tersebar dan bingung mulai dari mana? Kami petakan akar masalahnya, lalu urutkan mana yang paling mendesak.</p>
-        </div>
-      </div>
-      <div class="service-row reveal" style="--fill:64%; --d:0.15s">
-        <span class="service-idx">4</span>
-        <div class="service-body">
-          <span class="service-level">Implementation</span>
-          <h3>Halal Readiness Program</h3>
-          <p>Sudah tahu masalahnya tapi tim belum jalan? Kami ubah jadi rencana kerja dan dampingi sampai tim Anda bisa sendiri.</p>
-        </div>
-      </div>
-      <div class="service-row reveal" style="--fill:82%; --d:0.2s">
-        <span class="service-idx">5</span>
-        <div class="service-body">
-          <span class="service-level">Comprehensive</span>
-          <h3>Halal Foundation / Certification Preparation</h3>
-          <p>Produk banyak, cabang banyak, dan mulai dari nol? Kami bangun sistem halal Anda dari dasar sampai layak diajukan.</p>
-        </div>
-      </div>
-      <div class="service-row reveal" style="--fill:100%; --d:0.25s">
-        <span class="service-idx">6</span>
-        <div class="service-body">
-          <span class="service-level">Recurring</span>
-          <h3>Compliance Monitoring</h3>
-          <p>Sudah bersertifikat? Kami bantu jaga supaya tetap sah, bukan cuma rapi pas mau perpanjang.</p>
+
+      <div class="jalur reveal" style="--d:0.12s">
+        <span class="jalur-ikon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M20.6 12.1c0 3.9-3.9 7.1-8.6 7.1-1.1 0-2.2-.2-3.2-.5l-5 1.8 1.6-3.8c-1.5-1.2-2.1-2.9-2.1-4.6 0-3.9 3.9-7.1 8.7-7.1s8.6 3.2 8.6 7.1Z"/><circle class="titik" cx="8.4" cy="12.1" r="1"/><circle class="titik" cx="12" cy="12.1" r="1"/><circle class="titik" cx="15.6" cy="12.1" r="1"/></svg></span>
+        <span class="jalur-badge">Konsultasi awal</span>
+        <h3>Usaha Sembelihan &amp; Rumah Potong Hewan</h3>
+        <div class="jalur-harga kondisional">Gratis<small>tanpa biaya, tanpa kewajiban lanjut</small></div>
+        <p>Titik kritis penyembelihan menuntut kualifikasi tersendiri dan tidak cukup dipetakan lewat asesmen mandiri. Karena itu jalurnya kami mulai dari mengobrol dulu.</p>
+        <ul class="jalur-isi">
+          <li>Peninjauan proses penyembelihan</li>
+          <li>Kebutuhan kompetensi juru sembelih halal</li>
+          <li>Urutan pembenahan sebelum pengajuan</li>
+        </ul>
+        <div class="jalur-kaki">
+          <a class="btn secondary" href="https://wa.me/6287712644343?text=Saya%20bergerak%20di%20bidang%20sembelihan/RPH%20dan%20ingin%20konsultasi%20awal." target="_blank" rel="noopener">Hubungi via WhatsApp</a>
+          <p class="jalur-untuk">Muncul kalau kategori Anda <b>produk sembelihan</b>.</p>
         </div>
       </div>
     </div>
+
+    <p class="layanan-kaki reveal">Belum tahu mana yang cocok? <a href="#quiz">Ikuti Cek Kesiapan Halal</a> dulu &mdash; gratis, di bawah 10 menit, dan di akhir hasilnya langsung menunjukkan jalur mana yang paling pas untuk kondisi Anda.</p>
   </div>
 </section>
 
@@ -2169,9 +2221,16 @@
     });
   }
 
-  // Tautan produk panduan mandiri. Selama masih kosong, tombolnya jatuh ke
-  // WhatsApp supaya pengunjung tetap punya jalan bertanya.
+  // Tautan produk panduan mandiri. Satu-satunya tempat yang perlu diisi:
+  // dipakai oleh CTA hasil asesmen DAN tombol di section Layanan. Selama masih
+  // kosong, keduanya jatuh ke WhatsApp supaya pengunjung tetap punya jalan
+  // bertanya, bukan tombol mati.
   var PRODUCT_URL = '';
+
+  if(PRODUCT_URL){
+    var tautanPanduan = document.getElementById('tautanPanduan');
+    if(tautanPanduan) tautanPanduan.href = PRODUCT_URL;
+  }
 
   /* ================================================================
      Mesin asesmen: porting dari cek-kesiapan-halal-wordpress-v6.html
