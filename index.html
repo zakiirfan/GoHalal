@@ -718,7 +718,10 @@
     color:rgba(255,255,255,0.5); max-width:400px; margin-left:auto; margin-right:auto;
   }
   /* ===== FAQ (accordion, satu kolom lebar baca) ===== */
-  .faq{ background: var(--gading); }
+  .faq{ background: var(--krem-tua); }
+  /* Di atas latar Ceramic, --garis (#e0ddd6) hampir lenyap dan batas antar
+     pertanyaan ikut hilang. Garis pemisah akordeon dinaikkan kontrasnya. */
+  .faq .faq-list, .faq .faq-item{ border-color: rgba(0,0,0,0.13); }
   .faq-head{ max-width: 640px; margin-bottom: 34px; }
   .faq-head h2{
     font-size: var(--t-h2); color: var(--hijau-tua); margin:0 0 12px; text-wrap:balance;
